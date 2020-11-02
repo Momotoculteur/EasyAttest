@@ -5,9 +5,9 @@
         "description": "Application Android & iOS permettant la génération d'attestation de sortie durant le confinement de la pandémie mondiale COVID-19.",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./src/assets/icon.png",
         "splash": {
-            "image": "./assets/splash.png",
+            "image": "./src/assets/splash.png",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },
@@ -25,7 +25,7 @@
         "android": {
             "package": "com.momotoculteur.easycovid",
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
+                "foregroundImage": "./src/assets/adaptive-icon.png",
                 "backgroundColor": "#FFFFFF"
             },
             "versionCode": 1
