@@ -1,5 +1,5 @@
 # EasyCovid
-![logo](./hs/icon_template.png)
+<img src="./hs/icon_template.png" width="400"/>
 
 ## Description
 
