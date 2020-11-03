@@ -1,20 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
 import MainTabNav from './src/navigation/tabNavigator'
 
 export default function App() {
-  return (
-    <MainTabNav />
-  );
+    return (
+        <View style={styles.container}>
+            <MainTabNav />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight
+    },
 });

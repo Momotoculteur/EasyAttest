@@ -1,11 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Profile() {
+export default function AllAttestion() {
     return (
       <View style={styles.container}>
-        <Text>Profile</Text>
+        <Text>AllAttestion</Text>
       </View>
     );
   }
