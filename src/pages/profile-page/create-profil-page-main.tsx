@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Button, Alert } from 'react-native';
+import { View, Button, Alert, TouchableOpacity, Text } from 'react-native';
 import { styles } from './styles'
 
-export default function ProfilePage({navigation}) {
+export default function ProfilePage({ navigation }) {
 
     return (
         <View style={styles.global}>
@@ -11,17 +11,26 @@ export default function ProfilePage({navigation}) {
             </View>
 
             <View style={styles.viewButtonSection}>
-                <Button
-                    title="Créer profil"
+                <TouchableOpacity
                     onPress={() => navigation.navigate('createProfil')}
-                    color='#e50d54'
-                />
+                    style={styles.buttonStyle}
+                    activeOpacity={0.7}>
+                    <Text style={styles.textStyle}>Créer profil</Text>
 
-                <Button
-                    title="Changer profil"
+                </TouchableOpacity>
+
+
+
+                <TouchableOpacity
                     onPress={() => Alert.alert('Button with adjusted color pressed')}
-                    color='#e50d54'
-                />
+
+                    style={styles.buttonStyle}
+                    activeOpacity={0.7}>
+                    <Text style={styles.textStyle}>Changer profil</Text>
+
+
+                </TouchableOpacity>
+
 
             </View>
 

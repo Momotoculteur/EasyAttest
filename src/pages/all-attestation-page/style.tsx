@@ -23,5 +23,16 @@ export const styles = StyleSheet.create({
 
         flex: 5
     },
+    buttonStyle: {
+        borderRadius: 20,
+        backgroundColor: '#e50d54',
+        padding: 10
+    },
+    textStyle: {
+        color: "white",
+        textAlign: "center",
+        fontWeight: 'bold',
+        fontFamily: 'arial'
+    }
     //
 });
