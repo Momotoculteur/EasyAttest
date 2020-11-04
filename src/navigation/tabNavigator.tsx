@@ -1,50 +1,55 @@
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Platform, Switch } from 'react-native'
+import { Platform, Switch, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-
-import Profile from '../pages/profile-page'
-import AllAttestation from '../pages/all-attestation-page'
-import CreateAttestation from '../pages/create-attestation-page'
+import ProfilStackNavigator from '../navigation/stackNavigatorProfil'
+import StackNavigatorAllAttestation from '../navigation/stackNavigatorAllAttestation'
 import { ROUTE_CONSTANT } from './route'
+import StackNavigatorCreateAttestation from './stackNavigatorCreateAttestation'
 
 const Tab = createBottomTabNavigator()
 
 export default function MainTabNavigator() {
     return (
         <NavigationContainer>
-            <Tab.Navigator 
+            <Tab.Navigator
                 tabBarOptions={
                     {
                         activeTintColor: '#e50d54',
                         inactiveTintColor: 'gray',
-                        labelPosition: 'below-icon'
+                        labelPosition: 'below-icon',
+                        showLabel: true
                     }
                 }
+                initialRouteName={ROUTE_CONSTANT.CREATE_ATTESTATION_MAIN_TAB}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName: string = "";
-                        const {routeID}  = route.params;
                         // Definit le type d icones selon la platforme
                         if (Platform.OS === "android") {
                             iconName += "md-";
                         } else if (Platform.OS === "ios") {
                             iconName += "ios-";
                         }
-                        
+
+                        if (focused) {
+                            size = size + 4;
+
+                        }
+
                         // assigne l icone
-                        switch (routeID) {
-                            case ROUTE_CONSTANT.MY_PROFILE: {
-                                iconName += "home";
+                        switch (route.name) {
+                            case ROUTE_CONSTANT.MY_PROFILE_MAIN_TAB: {
+                                iconName += "people";
                                 break;
                             }
-                            case ROUTE_CONSTANT.CREATE_ATTESTATION: {
+                            case ROUTE_CONSTANT.CREATE_ATTESTATION_MAIN_TAB: {
                                 iconName += "create";
                                 break;
                             }
-                            case ROUTE_CONSTANT.ALL_ATTESTATIONS: {
+                            case ROUTE_CONSTANT.ALL_ATTESTATIONS_MAIN_TAB: {
                                 iconName += "folder";
                                 break;
                             }
@@ -52,29 +57,27 @@ export default function MainTabNavigator() {
                                 break;
                             }
                         }
-                        return <Ionicons name={iconName} size={size} color={color} />;
+
+                        return (<Ionicons name={iconName} size={size} color={color} />)
                     }
                 })
                 }
 
             >
                 <Tab.Screen
-                    name='Mon profil'
-                    component={Profile}
-                    initialParams={{routeID: ROUTE_CONSTANT.MY_PROFILE}}
-                
+                    name={ROUTE_CONSTANT.MY_PROFILE_MAIN_TAB}
+                    component={ProfilStackNavigator}
+
                 />
 
                 <Tab.Screen
-                    name='Créer attestation'
-                    component={CreateAttestation}
-                    initialParams={{routeID: ROUTE_CONSTANT.CREATE_ATTESTATION}}
+                    name={ROUTE_CONSTANT.CREATE_ATTESTATION_MAIN_TAB}
+                    component={StackNavigatorCreateAttestation}
                 />
 
                 <Tab.Screen
-                    name='Mes attestations'
-                    component={AllAttestation}
-                    initialParams={{routeID: ROUTE_CONSTANT.ALL_ATTESTATIONS}}
+                    name={ROUTE_CONSTANT.ALL_ATTESTATIONS_MAIN_TAB}
+                    component={StackNavigatorAllAttestation}
                 />
             </Tab.Navigator>
         </NavigationContainer>

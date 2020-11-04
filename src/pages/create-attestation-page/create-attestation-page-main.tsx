@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import { styles } from './style'
 
-export default function CreateAttestion() {
+export default function CreateAttestionPage({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.viewCreateAttestation}>

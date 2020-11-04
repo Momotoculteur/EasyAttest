@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Button, Text, View } from 'react-native';
 import { styles } from './style'
 
-export default function AllAttestion() {
+export default function AllAttestionPage() {
     return (
         <View style={styles.container}>
             <View style={styles.viewAllAttestation}>
