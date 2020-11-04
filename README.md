@@ -13,6 +13,6 @@ Article complet sur l'intégration disponible sur mon blog :
 ## Génerer build 
 1. Lancez la commance :  
 `$ bash ./scripts/buildApk.sh`
-2. Récuperez votre fichier .apk & .ipa dans le dossier racine du projet
+2. Récuperez votre fichier .apk dans le dossier racine du projet
 
 
