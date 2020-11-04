@@ -1,19 +1,19 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import MainTabNav from './src/navigation/tabNavigator'
 
 export default function App() {
     return (
-        <View style={styles.container}>
+        <SafeAreaView  style={styles.container}>
             <MainTabNav />
-        </View>
+        </SafeAreaView >
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight
-    },
+        marginTop: Platform.OS ==="android" ? StatusBar.currentHeight :0
+    }
 });
