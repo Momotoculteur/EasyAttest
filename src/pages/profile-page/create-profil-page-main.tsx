@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { View, Button, Alert } from 'react-native';
 import { styles } from './styles'
 
 export default function ProfilePage({navigation}) {
