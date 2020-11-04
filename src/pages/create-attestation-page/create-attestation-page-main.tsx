@@ -39,19 +39,13 @@ export default class CreateAttestionPage extends React.Component {
             ALL_ATTESTATIONS_TYPE.map((item: IAttestationType) => {
                 return (
                     <View style={styles.viewCreateAttestationContener} key={item.id}>
-                        <View style={{flex: 1, flexDirection:'column', justifyContent:'center'}}>
-                        <MomotoculteurCheckbox />
-                            </View>
-                        <View style={{flex: 5, flexDirection:'column', justifyContent:'center'}}>
-                              <Text onPress={() => {console.log('click')}}>
-                                  
-                            {item.shortDescription}
-                        </Text>
+                        <View style={{ flex: 5}}>
+                            <MomotoculteurCheckbox/>
                         </View>
-                      <View style={{flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'flex-end', paddingRight:10}}>
-                      <Ionicons name="md-information-circle-outline" size={15} color='#e50d54' />
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-end', paddingRight: 10 }}>
+                            <Ionicons name="md-information-circle-outline" size={15} color='#e50d54' />
 
-                      </View>
+                        </View>
 
                     </View>
                 )
