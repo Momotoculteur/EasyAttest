@@ -20,8 +20,13 @@ export const styles = StyleSheet.create({
     viewCreateAttestation: {
         flexDirection: 'column',
         justifyContent: 'space-around',
-
-        flex: 5
+        flex: 5,
     },
+    viewCreateAttestationContener:{
+        flex: 1,
+        flexDirection: 'row',
+        
+        
+    }
     //
 });
