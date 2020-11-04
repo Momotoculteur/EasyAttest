@@ -2,20 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { styles } from './styles'
 
-export default function Profile() {
+export default function ProfilePage({navigation}) {
 
     return (
         <View style={styles.global}>
             <View style={styles.viewProfilSection}>
-                <Text style={styles.textHeader}>Profil séléctionné</Text>
-                <Text>Bastien maurice</Text>
 
             </View>
 
             <View style={styles.viewButtonSection}>
                 <Button
-                    title="Ajouter profil"
-                    onPress={() => Alert.alert('Button with adjusted color pressed')}
+                    title="Créer profil"
+                    onPress={() => navigation.navigate('createProfil')}
                     color='#e50d54'
                 />
 
