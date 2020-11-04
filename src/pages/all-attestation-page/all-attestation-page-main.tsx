@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, Button, Text, View, TouchableOpacity } from 'react-native';
 import { styles } from './style'
 
 
@@ -13,11 +13,13 @@ export default class AllAttestionPage extends React.Component {
                 </View>
 
                 <View style={styles.viewButtonSection}>
-                    <Button
-                        title="Tout supprimer"
+                    <TouchableOpacity
+                    activeOpacity={0.7}
                         onPress={() => Alert.alert('Button with adjusted color pressed')}
-                        color='#e50d54'
-                    />
+                        style={styles.buttonStyle}>
+                        <Text style={styles.textStyle}>Tout supprimer</Text>
+
+                        </TouchableOpacity>
                 </View>
 
             </View>

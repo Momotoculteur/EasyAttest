@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { styles } from './style'
 import * as React from 'react'
 import MomotoculteurTextInput from "../../../components/atoms/momotoculteur-text-input/momotoculteurTextInput";
@@ -9,7 +9,7 @@ export default function CreateProfilePage({ navigation }) {
     return (
         <View style={styles.global}>
             <View style={styles.viewFormGlobal}>
-                <ScrollView 
+                <ScrollView
                     style={{ flex: 1 }}
                     keyboardShouldPersistTaps="handled">
                     <MomotoculteurTextInput placeholder="Prénom" />
@@ -21,12 +21,13 @@ export default function CreateProfilePage({ navigation }) {
                 </ScrollView>
             </View>
             <View style={styles.viewButtonSection}>
-                <Button
-                    title="Valider"
-                    color='#e50d54'
+                <TouchableOpacity 
+                style={styles.buttonStyle}
                     onPress={() => navigation.navigate('createProfil')}
+                    activeOpacity={0.7}>
+                    <Text style={styles.textStyle}>Valider</Text>
 
-                />
+                    </TouchableOpacity>
             </View>
         </View>
 
