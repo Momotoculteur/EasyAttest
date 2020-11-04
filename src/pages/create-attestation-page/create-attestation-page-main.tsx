@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, Button, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, Platform } from 'react-native';
 import { styles } from './style'
 import { ALL_ATTESTATIONS_TYPE } from '../../components/shared/constant/CAttestationType';
 import { IAttestationType } from '../../components/shared/IAttestationType';
@@ -27,16 +27,17 @@ export default class CreateAttestionPage extends React.Component {
                     <TouchableOpacity activeOpacity={0.7}
                         onPress={() => Alert.alert('Button with adjusted color pressed')}
                         style={styles.buttonStyle}>
-                             <Text style={styles.textStyle}>Générer attestation</Text>
-                        </TouchableOpacity>
-                       
-                    
+                        <Text style={styles.textStyle}>Générer attestation</Text>
+                    </TouchableOpacity>
+
+
                 </View>
             </View>
         );
     }
     //                             <Ionicons name="md-information-circle-outline" size={15} color='#e50d54' onPress={() => Alert.alert('lolol')} />
     //                     <Text style={styles.textStyle}>Show Modal</Text>
+    // <MomotoculteurModal description={item.description} />
 
     renderCheckboxList() {
 
@@ -47,8 +48,8 @@ export default class CreateAttestionPage extends React.Component {
                         <View style={{ flex: 5 }}>
                             <MomotoculteurCheckbox label={item.shortDescription} />
                         </View>
-                        <View style={{ flex: 1}}>
-                            <MomotoculteurModal description={item.description}/>
+                        <View style={{ flex: 1 }}>
+                           <MomotoculteurModal description={item.description} />
 
                         </View>
 
