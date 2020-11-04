@@ -1,5 +1,7 @@
 import * as SQLite from 'expo-sqlite';
-import React from 'react';
+import * as Font from 'expo-font';
+
+import React, { useEffect } from 'react';
 import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import MainTabNav from './src/navigation/tabNavigator'
 

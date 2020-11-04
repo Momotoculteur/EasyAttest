@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
-import { Alert, Modal, TouchableHighlight, View, Text, Platform } from 'react-native';
+import { Alert, Modal, TouchableHighlight, View, Text, Platform, TouchableOpacity } from 'react-native';
 
 import { styles } from './style'
 
@@ -25,7 +25,7 @@ export default class MomotoculteurModal extends React.Component<IProps> {
     render() {
         const { modalVisible } = this.state;
         return (
-            <View style={styles.centeredView}>
+            <View style={{flex: 1}}>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -38,7 +38,7 @@ export default class MomotoculteurModal extends React.Component<IProps> {
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>{this.props.description}</Text>
 
-                            <TouchableHighlight
+                            <TouchableOpacity
                                 style={{ ...styles.openButton, backgroundColor: '#e50d54' }}
                                 onPress={() => {
                                     this.setModalVisible(!modalVisible);
@@ -47,21 +47,18 @@ export default class MomotoculteurModal extends React.Component<IProps> {
                                 <Text style={styles.textStyle} textBreakStrategy='simple'>
                                     Retour
                                 </Text>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
 
-                <View style={{flex: 1}}>
-                    <TouchableHighlight
-                        onPress={() => {
-                            this.setModalVisible(true);
-                        }}
-                    >
-                        <Ionicons name={Platform.OS === 'ios' ? "ios-information-circle-outline" : 'md-information-circle-outline'} size={20} color='#e50d54' />
+                <TouchableOpacity style={{ flex: 1}}
+                                onPress={() => this.setModalVisible(true)}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Ionicons name={Platform.OS === 'ios' ? "ios-information-circle-outline" : 'md-information-circle-outline'} size={20} color='#e50d54' />
+                                </View>
 
-                    </TouchableHighlight>
-                </View>
+                            </TouchableOpacity>
 
 
             </View>
