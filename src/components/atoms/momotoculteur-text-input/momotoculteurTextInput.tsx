@@ -1,53 +1,46 @@
 import * as React from "react";
 import {
-  NativeSyntheticEvent,
-  StyleSheet,
-  TextInput,
-  TextInputFocusEventData,
-  TextInputProps
+    NativeSyntheticEvent,
+    StyleSheet,
+    TextInputFocusEventData,
+    TextInputProps
 } from "react-native";
-import {styles} from './style'
+import { TextInput } from 'react-native-paper';
+import { styles } from './style'
 
-interface State {
-  isFocused: boolean;
+interface IProps {
+    mode: string;
+    label: string
 }
-const BLUE = "#e50d54";
-const LIGHT_GRAY = "#D3D3D3";
 
+export default class MomotoculteurTextInput extends React.Component<IProps> {
 
-export default class MomotoculteurTextInput extends React.Component<TextInputProps, State> {
     state = {
-      isFocused: false
-    };
-  
-    handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      this.setState({ isFocused: true });
-      if (this.props.onFocus) {
-        this.props.onFocus(e);
-      }
-    };
-  
-    handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      this.setState({ isFocused: false });
-      if (this.props.onBlur) {
-        this.props.onBlur(e);
-      }
-    };
-  
-    render() {
-      const { isFocused } = this.state;
-      const { onFocus, onBlur, placeholder } = this.props;
-      return (
-        <TextInput
-          selectionColor={BLUE}
-          underlineColorAndroid={isFocused ? BLUE : LIGHT_GRAY}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          style={styles.textInput}
-          placeholder={placeholder}
-        />
-      );
+        inputTextValue: ''
     }
-  }
-  
+    
+
+    constructor(props: any) {
+        super(props);
+    }
+
+    render() {
+        const { inputTextValue } = this.state;
+
+        return (
+            <TextInput
+                label={this.props.label}
+                value={inputTextValue}
+                onChangeText={(updatedInputValue: string) => {
+                    this.setState({inputTextValue: updatedInputValue})
+                }}
+                //underlineColor={this.props.color}
+                theme={{colors: {primary: 'red', placeholder:'gray', background:'white', text:'black'}}}
+                mode={this.props.mode}
+            />
+        );
+    }
+
+}
+
 
