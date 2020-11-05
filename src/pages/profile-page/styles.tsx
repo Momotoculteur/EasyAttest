@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
         fontWeight: 'bold',
-        fontFamily: 'arial'
+        fontFamily: 'Arial'
     }
 
 });
