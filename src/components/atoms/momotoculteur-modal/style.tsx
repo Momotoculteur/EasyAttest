@@ -30,7 +30,8 @@ export const styles = StyleSheet.create({
       textStyle: {
         color: "white",
         textAlign: "center",
-        alignSelf: 'stretch'
+        alignSelf: 'stretch',
+        fontWeight: 'bold'
       },
       modalText: {
         marginBottom: 15,

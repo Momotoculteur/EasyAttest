@@ -1,14 +1,21 @@
 import * as SQLite from 'expo-sqlite';
 import * as Font from 'expo-font';
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import MainTabNav from './src/navigation/tabNavigator'
+import { AppLoading } from 'expo';
+import { useFonts } from 'expo-font';
+
 
 const db = SQLite.openDatabase("easy_covid.db");
 
+
 export default function App() {
 
+    let [fontsLoaded] = useFonts({
+        'Arial': require('./src/assets/fonts/arial.ttf'),
+      });
 
     db.transaction(tx => {
         tx.executeSql(
@@ -45,7 +52,7 @@ export default function App() {
                     foreign key (user_id) references user(user_id)\
             );"
         );
-                
+
         /*
         tx.executeSql("insert into motif (intitule, description) values ('coucou', 'slt bg cm tu vq')");
         tx.executeSql("select * from motif", [], (_, { rows }) =>
@@ -56,13 +63,20 @@ export default function App() {
     );
 
 
+    if (!fontsLoaded) {
+        return <AppLoading />;
+      } else {
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <MainTabNav />
-        </SafeAreaView >
+        return (
+            <SafeAreaView style={styles.container}>
+                <MainTabNav />
+            </SafeAreaView >
+        )
+      }
 
-    );
+
+
+
 }
 
 const styles = StyleSheet.create({
