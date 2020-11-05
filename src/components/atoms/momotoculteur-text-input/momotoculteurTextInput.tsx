@@ -10,7 +10,8 @@ import { styles } from './style'
 
 interface IProps {
     mode: string;
-    label: string
+    label: string;
+    getData: any
 }
 
 export default class MomotoculteurTextInput extends React.Component<IProps> {
@@ -18,11 +19,19 @@ export default class MomotoculteurTextInput extends React.Component<IProps> {
     state = {
         inputTextValue: ''
     }
-    
+
 
     constructor(props: any) {
         super(props);
+        this.updateUi = this.updateUi.bind(this)
     }
+
+    updateUi(updatedInputValue: string) {
+        this.setState({ inputTextValue: updatedInputValue });
+        this.props.getData(updatedInputValue)
+    }
+
+
 
     render() {
         const { inputTextValue } = this.state;
@@ -31,11 +40,9 @@ export default class MomotoculteurTextInput extends React.Component<IProps> {
             <TextInput
                 label={this.props.label}
                 value={inputTextValue}
-                onChangeText={(updatedInputValue: string) => {
-                    this.setState({inputTextValue: updatedInputValue})
-                }}
+                onChangeText={this.updateUi}
                 //underlineColor={this.props.color}
-                theme={{colors: {primary: 'red', placeholder:'gray', background:'white', text:'black'}}}
+                theme={{ colors: { primary: 'red', placeholder: 'gray', background: 'white', text: 'black' } }}
                 mode={this.props.mode}
             />
         );
