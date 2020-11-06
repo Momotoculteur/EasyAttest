@@ -2,6 +2,7 @@ import { styles } from './style'
 import * as React from 'react'
 import { View, Text, Switch } from 'react-native';
 import { Checkbox } from 'react-native-paper';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 interface iState {
     checkboxAutoDate: boolean;
@@ -50,7 +51,13 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                                 color='#e50d54'
                                 uncheckedColor='gray'
                             />
-                            <Text style={{}}>Remplissage auto Date</Text>
+                            <TouchableOpacity style={{ flex: 1 }} onPress={() => {
+                                this.setState({ checkboxAutoDate: !this.state.checkboxAutoDate });
+                            }}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Text style={{}}>Remplissage auto Date</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
 
 
@@ -64,36 +71,50 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                                 color='#e50d54'
                                 uncheckedColor='gray'
                             />
-                            <Text style={{}}>Remplissage auto Heure</Text>
+                            <TouchableOpacity style={{ flex: 1 }} onPress={() => {
+                                this.setState({ checkboxAutoHour: !this.state.checkboxAutoHour });
+                            }}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Text>Remplissage auto Heure</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
 
 
+                    <View>
                         <View>
                             <View>
-                                <View>
-                                    <Text style={{ fontWeight: 'bold' }}>Interface</Text>
-                                    <View style={{ borderBottomColor: '#e50d54', borderBottomWidth: 3, width: '20%', paddingTop: 5 }}></View>
-                                </View>
+                                <Text style={{ fontWeight: 'bold' }}>Interface</Text>
+                                <View style={{ borderBottomColor: '#e50d54', borderBottomWidth: 3, width: '20%', paddingTop: 5 }}></View>
+                            </View>
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
 
-                                    <Switch
-                                        value={this.state.toggleDarkTheme}
-                                        trackColor={{ true: '#e50d54' }}
-                                        ios_backgroundColor="gray"
-                                        onValueChange={
-                                            () => {
-                                                this.setState({ toggleDarkTheme: !this.state.toggleDarkTheme })
-                                            }}
-                                    />
-                                    <Text style={{}}>Theme sombre</Text>
-                                </View>
+                                <Switch
+                                    value={this.state.toggleDarkTheme}
+                                    trackColor={{ true: '#e50d54' }}
+                                    ios_backgroundColor="gray"
+                                    onValueChange={
+                                        () => {
+                                            this.setState({ toggleDarkTheme: !this.state.toggleDarkTheme })
+                                        }}
+                                />
+                                <TouchableOpacity style={{ flex: 1 }} onPress={() => {
+                                    this.setState({ toggleDarkTheme: !this.state.toggleDarkTheme });
+                                }}>
+                                    <View style={{ flex: 1, paddingLeft: 10, flexDirection: 'column', justifyContent: 'center' }}>
+                                        <Text>Theme sombre</Text>
+
+                                    </View>
+
+                                </TouchableOpacity>
                             </View>
                         </View>
+                    </View>
 
-                    
+
 
 
 

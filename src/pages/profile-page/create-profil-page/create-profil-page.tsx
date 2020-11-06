@@ -24,7 +24,7 @@ export default class CreateProfilePage extends React.Component {
             city: '',
             birthdate: '',
             birthplace: '',
-            postalCode: ''
+            postalCode: '',
         }
 
     }

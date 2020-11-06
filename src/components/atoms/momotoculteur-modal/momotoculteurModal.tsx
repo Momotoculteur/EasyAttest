@@ -25,7 +25,7 @@ export default class MomotoculteurModal extends React.Component<IProps> {
     render() {
         const { modalVisible } = this.state;
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -52,13 +52,13 @@ export default class MomotoculteurModal extends React.Component<IProps> {
                     </View>
                 </Modal>
 
-                <TouchableOpacity style={{ flex: 1}}
-                                onPress={() => this.setModalVisible(true)}>
-                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Ionicons name={Platform.OS === 'ios' ? "ios-information-circle-outline" : 'md-information-circle-outline'} size={20} color='#e50d54' />
-                                </View>
+                <TouchableOpacity style={{ flex: 1 }}
+                    onPress={() => this.setModalVisible(true)}>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Ionicons name={Platform.OS === 'ios' ? "ios-information-circle-outline" : 'md-information-circle-outline'} size={20} color='#e50d54' />
+                    </View>
 
-                            </TouchableOpacity>
+                </TouchableOpacity>
 
 
             </View>

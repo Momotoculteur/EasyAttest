@@ -6,4 +6,5 @@ export interface IUser {
     adress: string;
     city: string;
     postalCode: string;
+    id?: number;
 }

@@ -110,7 +110,8 @@ export default class DatabaseManager {
                 birthdate: item.date_naissance,
                 postalCode: item.code_postal,
                 city: item.ville,
-                adress: item.adresse
+                adress: item.adresse,
+                id: item.user_id
             } as IUser);
         }
 
