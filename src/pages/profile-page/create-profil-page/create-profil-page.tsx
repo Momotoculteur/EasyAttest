@@ -6,94 +6,96 @@ import MomotoculteurTextInput from "../../../components/atoms/momotoculteur-text
 import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import MomotoculteurCreateProfilForm from "../../../components/molecules/momotoculteur-create-profil-form/momotoculteurCreateProfilForm";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { IUser } from "../../../components/shared/interface/IUser";
+import DatabaseManager from "../../../database/DatabaseManager";
+import { useNavigation } from "@react-navigation/native";
+
 
 
 export default class CreateProfilePage extends React.Component {
 
-
-    private firstName: string;
-    private lastName: string;
-    private birthdate: string;
-    private birthplace: string;
-    private adress: string;
-    private city: string
-    private postalCode: string;
-
-
+    private user: IUser;
     constructor(props: any) {
         super(props);
-        this.firstName = '';
-        this.lastName = '';
-        this.birthdate = '';
-        this.birthplace = '';
-        this.adress = '';
-        this.city = '';
-        this.postalCode = '';
+        this.user = {
+            firstName: '',
+            lastName: '',
+            adress: '',
+            city: '',
+            birthdate: '',
+            birthplace: '',
+            postalCode: ''
+        }
+
     }
 
     getFirstname(newName: string): void {
-        this.firstName = newName;
+        this.user.firstName = newName;
     }
-    getLastname(newLastname: string):void {
-        this.lastName = newLastname;
+    getLastname(newLastname: string): void {
+        this.user.lastName = newLastname;
     }
-    getBirthdate(newBirthday: string):void {
-        this.birthdate = newBirthday;
+    getBirthdate(newBirthday: string): void {
+        this.user.birthdate = newBirthday;
     }
     getBirthplace(newBirthplace: string): void {
-        this.birthplace = newBirthplace;
+        this.user.birthplace = newBirthplace;
     }
     getAdress(newAdress: string): void {
-        this.adress = newAdress;
+        this.user.adress = newAdress;
     }
-    getCity(newCity: string):void {
-        this.city = newCity;
+    getCity(newCity: string): void {
+        this.user.city = newCity;
     }
     getPostalcode(newPostalcode: string): void {
-        this.postalCode = newPostalcode;
+        this.user.postalCode = newPostalcode;
     }
 
-    createUser() :void {
-
+    validate(): void {
+        this.createUser();
+        this.props.navigation.goBack();
     }
 
-    
-    render(){
-    return (
-        <View style={styles.global}>
-            <View style={styles.viewFormGlobal}>
-                <KeyboardAwareScrollView style={{ flex: 1 }}>
-                    <ScrollView
-                        style={{ flexGrow: 1 }}
-                        keyboardShouldPersistTaps="handled">
-                        <View style={{ flex: 1, flexDirection: 'column', padding: '5%' }}>
-                            <MomotoculteurTextInput getData={this.getFirstname} label="Prénom" mode="outlined" />
-                            <MomotoculteurTextInput getData={this.getLastname} label="Nom" mode="outlined" />
-                            <MomotoculteurTextInput getData={this.getBirthdate} label="Date de naissance" mode="outlined" />
-                            <MomotoculteurTextInput getData={this.getBirthplace} label="Lieu de naissance" mode="outlined" />
-                            <MomotoculteurTextInput getData={this.getAdress} label="Adresse" mode="outlined" />
-                            <MomotoculteurTextInput getData={this.getCity} label="Ville" mode="outlined" />
-                            <MomotoculteurTextInput getData={this.getPostalcode} label="Code postal" mode="outlined" />
+    createUser(): void {
+        console.log( "user " + this.user)
+        DatabaseManager.insertUser(this.user);
+    }
 
-                        </View>
 
-                    </ScrollView>
-                </KeyboardAwareScrollView  >
+    render() {
+        return (
+            <View style={styles.global}>
+                <View style={styles.viewFormGlobal}>
+                    <KeyboardAwareScrollView style={{ flex: 1 }}>
+                        <ScrollView
+                            style={{ flexGrow: 1 }}
+                            keyboardShouldPersistTaps="handled">
+                            <View style={{ flex: 1, flexDirection: 'column', padding: '5%' }}>
+                                <MomotoculteurTextInput getData={this.getFirstname.bind(this)} label="Prénom" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getLastname.bind(this)} label="Nom" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getBirthdate.bind(this)} label="Date de naissance" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getBirthplace.bind(this)} label="Lieu de naissance" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getAdress.bind(this)} label="Adresse" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getCity.bind(this)} label="Ville" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getPostalcode.bind(this)} label="Code postal" mode="outlined" />
 
+                            </View>
+
+                        </ScrollView>
+                    </KeyboardAwareScrollView  >
+
+                </View>
+                <View style={styles.viewButtonSection}>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        onPress={this.validate.bind(this)}
+                        activeOpacity={0.7}>
+                        <Text style={styles.textStyle}>Valider</Text>
+
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.viewButtonSection}>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    onPress={() => {
-                        this.props.navigation.goBack();
-                    }}
-                    activeOpacity={0.7}>
-                    <Text style={styles.textStyle}>Valider</Text>
 
-                </TouchableOpacity>
-            </View>
-        </View>
-
-    );
-}
+        );
+    }
 }
