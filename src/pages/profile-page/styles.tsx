@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
 
         flex: 5
     },
-    
     textHeader: {
         fontSize: 30,
         flex: 1,
