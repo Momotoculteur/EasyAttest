@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Alert, Button, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, Platform } from 'react-native';
 import { styles } from './style'
 import { ALL_ATTESTATIONS_TYPE } from '../../components/shared/constant/CAttestationType';
-import { IAttestationType } from '../../components/shared/IAttestationType';
+import { IAttestationType } from '../../components/shared/interface/IAttestationType';
 import { Ionicons } from '@expo/vector-icons'
 import { Checkbox } from 'react-native-paper';
 import MomotoculteurCheckbox from '../../components/atoms/momotoculteur-checkbox/momotoculteurCheckbox';

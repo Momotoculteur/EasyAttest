@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
-      },
-      modalView: {
+    },
+    modalView: {
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
@@ -15,26 +15,27 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5
-      },
-      openButton: {
+    },
+    openButton: {
         borderRadius: 20,
         padding: 10,
         elevation: 2,
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: "white",
         textAlign: "center",
         alignSelf: 'stretch',
-        fontWeight: 'bold'
-      },
-      modalText: {
+        fontWeight: 'bold',
+        fontFamily: 'Arial'
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: "center"
-      }
+    }
 });
