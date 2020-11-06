@@ -3,7 +3,7 @@ import { Alert, Button, Text, View, TouchableOpacity } from 'react-native';
 import { styles } from './style'
 
 
-export default class AllAttestionPage extends React.Component {
+export default class MyAttestionPage extends React.Component {
 
     render() {
         return (

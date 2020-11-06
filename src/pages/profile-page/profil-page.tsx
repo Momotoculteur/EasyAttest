@@ -8,11 +8,10 @@ import { styles } from './styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isEqualIcon } from 'react-native-paper/lib/typescript/src/components/Icon';
 import { Ionicons } from '@expo/vector-icons';
-import { ROUTE_CONSTANT } from '../../navigation/route';
+import { ROUTE } from '../../navigation/route';
 
 
 interface iState {
-    listAllUsers: IUser[],
     connectedUser?: IUser
 }
 interface IProps {
@@ -24,21 +23,11 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     constructor(props: IProps) {
         super(props)
         this.state = {
-            listAllUsers: []
+            connectedUser: undefined
         }
-        /*
-        const unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.updateListUsers();
-            this.state.listAllUsers.forEach((item) => {
-                console.log("ETAT : " + item.firstName);
-
-            })
-
-        });*/
     }
 
     componentDidMount() {
-        this.updateListUsers();
         this.initializeConnectedUser();
         //console.log(this.listAllUsers)
 
@@ -46,28 +35,13 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     }
 
     async initializeConnectedUser() {
-
-        /*
-        try {
-            const jsonValue = JSON.stringify({
-                firstName: 'result.firstName',
-                    lastName: 'result.lastName',
-                    adress: 'result.adress',
-                    city: 'result.city',
-                    birthdate: 'result.birthdate',
-                    birthplace: 'result.birthdate',
-                    postalCode: 'result.postalCode'
-            })
-            await AsyncStorage.setItem('@connectedUser', jsonValue)
-          } catch (e) {
-            // saving error
-          }*/
-
         try {
             const jsonValue = await AsyncStorage.getItem('@connectedUser')
             //return jsonValue != null ? JSON.parse(jsonValue) : null;
             if (jsonValue != null) {
                 this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
+            } else {
+                this.setState({connectedUser: undefined});
             }
         } catch (e) {
             console.log("ERROR: + " + e)
@@ -76,18 +50,11 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
 
 
-    updateListUsers() {
-        DatabaseManager.getAllUser().then((result) => this.setState({ listAllUsers: result }));
-    }
+
 
     /*
     LISTER TOUT LES USERS
-     <ScrollView style={{flex: 1}}>
-        {this.state.listAllUsers.map((item, index) => {
-            return(<Text>{item.firstName}</Text>)
-        })
-        }
-    </ScrollView>
+
     */
 
     render(): JSX.Element {
@@ -101,7 +68,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                     <View style={{ flex: 3 }}>
 
                         {(() => {
-                            if (this.state.connectedUser !== null && this.state.connectedUser !== undefined) {
+                            if (this.state.connectedUser !== undefined) {
                                 return (this.renderProfilSectionWhenUserSelected());
                             } else {
                                 return (this.renderProfilSectionWhenUserNotSelected());
@@ -113,7 +80,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                         <View style={{ width: 40, height: 40 }}>
                             <TouchableOpacity style={{ flex: 1, borderRadius: 20 }}
-                                onPress={() => this.props.navigation.navigate(ROUTE_CONSTANT.SETTINGS)}>
+                                onPress={() => this.props.navigation.navigate(ROUTE.PROFILE_TAB.SETTINGS)}>
                                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                     <Ionicons name={Platform.OS === 'ios' ? "ios-settings" : 'md-settings'} size={30} color='gray' />
 
@@ -132,7 +99,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
                 <View style={styles.viewButtonSection}>
                     <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate(ROUTE_CONSTANT.CREATE_PROFIL)}
+                        onPress={() => this.props.navigation.navigate(ROUTE.PROFILE_TAB.CREATE_PROFIL)}
                         style={styles.buttonStyle}
                         activeOpacity={0.7}>
                         <Text style={styles.textStyle}>Créer profil</Text>
@@ -142,8 +109,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
 
                     <TouchableOpacity
-                        onPress={() => DatabaseManager.getAllUser()}
-
+                        onPress={() => this.props.navigation.navigate(ROUTE.PROFILE_TAB.SWITCH_PROFILE)}
                         style={styles.buttonStyle}
                         activeOpacity={0.7}>
                         <Text style={styles.textStyle}>Changer profil</Text>
