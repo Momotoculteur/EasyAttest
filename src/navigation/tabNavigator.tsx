@@ -5,9 +5,9 @@ import { Platform, Switch, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 import ProfilStackNavigator from '../navigation/stackNavigatorProfil'
-import StackNavigatorAllAttestation from '../navigation/stackNavigatorAllAttestation'
-import { ROUTE_CONSTANT } from './route'
+import { ROUTE } from './route'
 import StackNavigatorCreateAttestation from './stackNavigatorCreateAttestation'
+import StackNavigatorMyAttestation from './stackNavigatorMyAttestation'
 
 const Tab = createBottomTabNavigator()
 
@@ -23,7 +23,7 @@ export default function MainTabNavigator() {
                         showLabel: true
                     }
                 }
-                initialRouteName={ROUTE_CONSTANT.CREATE_ATTESTATION_MAIN_TAB}
+                initialRouteName={ROUTE.CREATE_ATTESTAION_TAB.MAIN}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName: string = "";
@@ -41,15 +41,15 @@ export default function MainTabNavigator() {
 
                         // assigne l icone
                         switch (route.name) {
-                            case ROUTE_CONSTANT.MY_PROFILE_MAIN_TAB: {
+                            case ROUTE.PROFILE_TAB.MAIN: {
                                 iconName += "people";
                                 break;
                             }
-                            case ROUTE_CONSTANT.CREATE_ATTESTATION_MAIN_TAB: {
+                            case ROUTE.CREATE_ATTESTAION_TAB.MAIN: {
                                 iconName += "create";
                                 break;
                             }
-                            case ROUTE_CONSTANT.ALL_ATTESTATIONS_MAIN_TAB: {
+                            case ROUTE.MY_ATTESTATION_TAB.MAIN: {
                                 iconName += "folder";
                                 break;
                             }
@@ -65,19 +65,19 @@ export default function MainTabNavigator() {
 
             >
                 <Tab.Screen
-                    name={ROUTE_CONSTANT.MY_PROFILE_MAIN_TAB}
+                    name={ROUTE.PROFILE_TAB.MAIN}
                     component={ProfilStackNavigator}
 
                 />
 
                 <Tab.Screen
-                    name={ROUTE_CONSTANT.CREATE_ATTESTATION_MAIN_TAB}
+                    name={ROUTE.CREATE_ATTESTAION_TAB.MAIN}
                     component={StackNavigatorCreateAttestation}
                 />
 
                 <Tab.Screen
-                    name={ROUTE_CONSTANT.ALL_ATTESTATIONS_MAIN_TAB}
-                    component={StackNavigatorAllAttestation}
+                    name={ROUTE.MY_ATTESTATION_TAB.MAIN}
+                    component={StackNavigatorMyAttestation}
                 />
             </Tab.Navigator>
         </NavigationContainer>

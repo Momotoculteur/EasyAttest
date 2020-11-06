@@ -1,9 +1,14 @@
-export const ROUTE_CONSTANT = {
-    MY_PROFILE_MAIN_TAB : "Mes profils",
-    ALL_ATTESTATIONS_MAIN_TAB : "Mes Attestations",
-    CREATE_ATTESTATION_MAIN_TAB : "Créer attestation",
-    ACTIVE_PROFIL: "Profil Actif",
-    CREATE_PROFIL: "Créer Profil",
-    SETTINGS: "Paramètres",
-
+export const ROUTE = {
+    PROFILE_TAB : {
+        MAIN: "Mes profils",
+        CREATE_PROFIL: "Créer Profil",
+        SWITCH_PROFILE: "Changer Profil",
+        SETTINGS: "Paramètres"
+    },
+    CREATE_ATTESTAION_TAB: {
+        MAIN: "Créer attestation"
+    },
+    MY_ATTESTATION_TAB: {
+        MAIN: "Mes Attestations"
+    }
 };
