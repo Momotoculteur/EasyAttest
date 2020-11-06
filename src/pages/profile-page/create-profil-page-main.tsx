@@ -64,7 +64,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
           }*/
 
         try {
-            const jsonValue = await AsyncStorage.getItem('@connectedUsessr')
+            const jsonValue = await AsyncStorage.getItem('@connectedUser')
             //return jsonValue != null ? JSON.parse(jsonValue) : null;
             if (jsonValue != null) {
                 this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
@@ -90,7 +90,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     </ScrollView>
     */
 
-    render() {
+    render(): JSX.Element {
         //                    {this.state.connectedUser ? <Text>CONNECTED : {this.state.connectedUser.firstName}</Text> : <Text>Aucun</Text>}
 
         return (
@@ -98,51 +98,16 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
                 <View style={styles.viewProfilSection}>
 
-                    <View style={{ flex: 3, flexDirection: 'column', margin: 10, justifyContent: 'space-evenly' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
-                                <Ionicons name={Platform.OS === 'ios' ? "ios-person" : 'md-person'} size={30} color='#e50d54' />
-                            </View>
-                            <Text>
-                                {this.state.connectedUser?.firstName}{" "}{this.state.connectedUser?.lastName.toUpperCase()}
-                            </Text>
-                        </View>
+                    <View style={{ flex: 3 }}>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
+                        {(() => {
+                            if (this.state.connectedUser !== null && this.state.connectedUser !== undefined) {
+                                return (this.renderProfilSectionWhenUserSelected());
+                            } else {
+                                return (this.renderProfilSectionWhenUserNotSelected());
+                            }
 
-                                <Ionicons name={Platform.OS === 'ios' ? "ios-home" : 'md-home'} size={30} color='#e50d54' />
-                            </View>
-                            <View>
-                                <Text>
-                                    {this.state.connectedUser?.adress}
-                                </Text>
-                                <Text>
-                                    {this.state.connectedUser?.postalCode}{" "}{this.state.connectedUser?.city.toUpperCase()}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
-
-                                <Ionicons name={Platform.OS === 'ios' ? "ios-calendar" : 'md-calendar'} size={30} color='#e50d54' />
-                            </View>
-                            <Text>
-                                {this.state.connectedUser?.birthdate}
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
-
-                                <Ionicons name={Platform.OS === 'ios' ? "ios-pin" : 'md-pin'} size={30} color='#e50d54' />
-                            </View>
-                            <Text>
-                                {this.state.connectedUser?.birthplace.toUpperCase()}
-                            </Text>
-                        </View>
-
+                        })()}
 
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
@@ -160,7 +125,6 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
                     </View>
 
-                    <Text>dddd</Text>
 
 
                 </View>
@@ -190,6 +154,67 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
                 </View>
 
+            </View>
+        );
+    }
+
+
+    renderProfilSectionWhenUserSelected() {
+        return (
+            <View style={{ flex: 1, flexDirection: 'column', margin: 10, justifyContent: 'space-evenly', }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
+                        <Ionicons name={Platform.OS === 'ios' ? "ios-person" : 'md-person'} size={30} color='#e50d54' />
+                    </View>
+                    <Text>
+                        {this.state.connectedUser?.firstName}{" "}{this.state.connectedUser?.lastName.toUpperCase()}
+                    </Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
+
+                        <Ionicons name={Platform.OS === 'ios' ? "ios-home" : 'md-home'} size={30} color='#e50d54' />
+                    </View>
+                    <View>
+                        <Text>
+                            {this.state.connectedUser?.adress}
+                        </Text>
+                        <Text>
+                            {this.state.connectedUser?.postalCode}{" "}{this.state.connectedUser?.city.toUpperCase()}
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
+
+                        <Ionicons name={Platform.OS === 'ios' ? "ios-calendar" : 'md-calendar'} size={30} color='#e50d54' />
+                    </View>
+                    <Text>
+                        {this.state.connectedUser?.birthdate}
+                    </Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
+
+                        <Ionicons name={Platform.OS === 'ios' ? "ios-pin" : 'md-pin'} size={30} color='#e50d54' />
+                    </View>
+                    <Text>
+                        {this.state.connectedUser?.birthplace.toUpperCase()}
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderProfilSectionWhenUserNotSelected() {
+        return (
+            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <View>
+                    <Text>Aucun profil sélectionné</Text>
+                </View>
             </View>
         );
     }
