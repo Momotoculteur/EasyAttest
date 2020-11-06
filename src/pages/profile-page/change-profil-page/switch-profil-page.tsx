@@ -31,11 +31,26 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         return (
 
             <ScrollView style={{ flex: 1 }}>
-                
+
                 {this.state.listAllUsers.map((item, index) => {
-                    return (<Text>{item.firstName}</Text>)
-                })
-                }
+                    return (
+                        <View key={item.id}>
+                            <Text>
+                                {item.firstName}{" "}{item.lastName.toUpperCase()}
+                            </Text>
+                            <Text>
+                                {item.adress}
+                            </Text>
+                            <Text>
+                                {item.postalCode}{" "}{item.city.toUpperCase()}
+                            </Text>
+                            <Text>
+                                {item.birthdate}{" "}{item.birthplace.toUpperCase()}
+                            </Text>
+                        </View>
+                    )
+                })}
+
             </ScrollView>
 
         );

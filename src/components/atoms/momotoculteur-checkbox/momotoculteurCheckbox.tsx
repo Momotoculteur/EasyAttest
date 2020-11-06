@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import { Checkbox } from 'react-native-paper';
 import { color } from 'react-native-reanimated';
 import { ECheckboxState } from '../../shared/enum/ECheckboxState';
@@ -38,12 +39,17 @@ export default class MomotoculteurCheckbox extends React.Component<IProps> {
                     />
                 </View>
                 <View style={{ flex: 5, flexDirection: 'column', justifyContent: 'center' }}>
-                    
-                    <Text onPress={() => {
+
+                    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => {
                         this.setState({ checked: !checked });
                     }}>
-                        {this.props.label}
-                    </Text>
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                            <Text>
+                                {this.props.label}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
                 </View>
 
             </View >
