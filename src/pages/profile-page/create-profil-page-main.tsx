@@ -21,7 +21,7 @@ interface IProps {
 export default class ProfilePage extends React.Component<IProps, iState> {
 
 
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props)
         this.state = {
             listAllUsers: []
@@ -64,7 +64,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
           }*/
 
         try {
-            const jsonValue = await AsyncStorage.getItem('@connectedUser')
+            const jsonValue = await AsyncStorage.getItem('@connectedUsessr')
             //return jsonValue != null ? JSON.parse(jsonValue) : null;
             if (jsonValue != null) {
                 this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
@@ -99,7 +99,6 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                 <View style={styles.viewProfilSection}>
 
                     <View style={{ flex: 3, flexDirection: 'column', margin: 10, justifyContent: 'space-evenly' }}>
-
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 40 }}>
                                 <Ionicons name={Platform.OS === 'ios' ? "ios-person" : 'md-person'} size={30} color='#e50d54' />
@@ -149,7 +148,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                         <View style={{ width: 40, height: 40 }}>
                             <TouchableOpacity style={{ flex: 1, borderRadius: 20 }}
-                                onPress={() => Alert.alert('lol')}>
+                                onPress={() => this.props.navigation.navigate(ROUTE_CONSTANT.SETTINGS)}>
                                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                     <Ionicons name={Platform.OS === 'ios' ? "ios-settings" : 'md-settings'} size={30} color='gray' />
 
@@ -160,6 +159,9 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
 
                     </View>
+
+                    <Text>dddd</Text>
+
 
                 </View>
 

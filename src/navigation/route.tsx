@@ -3,5 +3,7 @@ export const ROUTE_CONSTANT = {
     ALL_ATTESTATIONS_MAIN_TAB : "Mes Attestations",
     CREATE_ATTESTATION_MAIN_TAB : "Créer attestation",
     ACTIVE_PROFIL: "Profil Actif",
-    CREATE_PROFIL: "Créer Profil"
+    CREATE_PROFIL: "Créer Profil",
+    SETTINGS: "Paramètres",
+
 };
