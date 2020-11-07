@@ -17,7 +17,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         super(props);
         this.state = {
             listAllUsers: [],
-            idCurrentUser: ''
+            idCurrentUser: '0'
         }
     }
 
@@ -27,23 +27,27 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
 
     updateListUsers(): void {
-        DatabaseManager.getAllUser().then((result) => this.setState({ listAllUsers: result }));
+        DatabaseManager.getAllUser().then((result) => {this.setState({ listAllUsers: result }); console.log(result); });
     }
 
     render(): JSX.Element {
         return (
 
             <ScrollView style={{ flex: 1 }}>
-                <RadioButton.Group onValueChange={(userId: string) => { this.setState({ idCurrentUser: userId }) }} value={this.state.idCurrentUser}>
+                <RadioButton.Group onValueChange={(userId: string) => { this.setState({ idCurrentUser: userId }); console.log('userId + ' + userId); }} value={this.state.idCurrentUser}>
                     {this.state.listAllUsers.map((item, index) => {
-                        return (
-                            <View key={item.id} style={{ flex: 1, flexDirection: 'row' }}>
 
-                                <View style={{ flex: 5, flexDirection: 'row', justifyContent: "center" }}>
-                                    <View>
-                                        <RadioButton color='#e50d54' value={item.id ? item.id?.toString() : ''} />
+                        return (
+                            <View key={item.id} style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', paddingBottom: (this.state.listAllUsers.length-1) === index ? 10 : 0, paddingTop: 10}}>
+
+                                <View style={{ flex: 5, flexDirection: 'row'}}>
+                                    <View style={{ alignContent: 'center' }}>
+                                        <View >
+                                            <RadioButton.Android color='#e50d54' value={item.id ? item.id?.toString() : ''} />
+
+                                        </View>
                                     </View>
-                                    <View style={{ backgroundColor: 'red', flex: 1, flexDirection: 'column' }}>
+                                    <View style={{ flex: 1, flexDirection: 'column', borderWidth: 1, borderRadius: 5, borderColor: 'gray' }}>
                                         <View>
                                             <Text>
                                                 {item.firstName}{" "}{item.lastName.toUpperCase()}
@@ -73,11 +77,11 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                                 </View>
 
 
-                                <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <TouchableOpacity style={{ flex: 1, borderRadius: 20 }}
                                     >
                                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Ionicons name={Platform.OS === 'ios' ? "ios-options" : 'md-options'} size={30} color='gray' />
+                                            <Ionicons name={Platform.OS === 'ios' ? "ios-options" : 'md-options'} size={20} color='gray' />
 
                                         </View>
 
@@ -87,7 +91,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                                     <TouchableOpacity style={{ flex: 1, borderRadius: 20 }}
                                     >
                                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={30} color='gray' />
+                                            <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={20} color='gray' />
 
                                         </View>
 
