@@ -1,4 +1,4 @@
-import { View, Text, Button, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { View, Text, Button, TouchableOpacity, KeyboardAvoidingView, Alert } from "react-native";
 import { styles } from './style'
 import * as React from 'react'
 import { TextInput } from 'react-native-paper';
@@ -9,6 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { IUser } from "../../../components/shared/interface/IUser";
 import DatabaseManager from "../../../database/DatabaseManager";
 import { useNavigation } from "@react-navigation/native";
+import { validateCreateProfilFormService } from "../../../services/validateCreateProfilFormService";
 
 
 interface iState {
@@ -17,6 +18,8 @@ interface iState {
 interface IProps {
 }
 export default class CreateProfilePage extends React.Component<IProps, iState> {
+
+
 
     constructor(props: any) {
         super(props);
@@ -31,6 +34,7 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                 postalCode: ''
             }
         }
+
 
     }
 
@@ -56,13 +60,78 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
         this.state.user.postalCode = newPostalcode;
     }
 
-    validate(): void {
-        this.createUser();
-        this.props.navigation.goBack();
+    validateForm(): void {
+
+        if (this.state.user.firstName !== "" &&
+            this.state.user.lastName !== "" &&
+            this.state.user.adress !== "" &&
+            this.state.user.city !== "" &&
+            this.state.user.postalCode !== "" &&
+            this.state.user.birthplace !== "" &&
+            this.state.user.birthdate !== "") {
+            this.createUser();
+            this.props.navigation.goBack();
+        } else {
+
+            validateCreateProfilFormService.notifie();
+
+            let errorListItem: string[] = [];
+            let errorMessage: string = "";
+
+            if (this.state.user.firstName === "") {
+                errorListItem.push("Prénom");
+            }
+            if (this.state.user.lastName === "") {
+                errorListItem.push("Nom");
+            }
+            if (this.state.user.birthdate === "") {
+                errorListItem.push("Date de naissance")
+            }
+            if (this.state.user.birthplace === "") {
+                errorListItem.push("Lieu de naissance");
+            }
+            if (this.state.user.adress === "") {
+                errorListItem.push("Adresse");
+            }
+            if (this.state.user.postalCode === "") {
+                errorListItem.push("Code postal");
+            }
+            if (this.state.user.city === "") {
+                errorListItem.push("Ville");
+            }
+
+            errorListItem.forEach((err: string, index) => {
+                errorMessage += err;
+                if (index < errorListItem.length - 1) {
+
+                    errorMessage += ", ";
+                }
+                if (index === errorListItem.length - 1) {
+                    errorMessage += ".";
+                }
+            });
+
+
+            Alert.alert(
+                "Erreur champs requis",
+                errorMessage,
+                [
+                    {
+                        text: "Retour",
+                        style: "cancel"
+                    }
+                ]
+            )
+
+
+
+
+        }
+
+
     }
 
     createUser(): void {
-        console.log("user " + this.state.user.adress)
         DatabaseManager.insertUser(this.state.user);
     }
 
@@ -84,6 +153,8 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                                 <MomotoculteurTextInput getData={this.getPostalcode.bind(this)} label="Code postal" mode="outlined" />
                                 <MomotoculteurTextInput getData={this.getCity.bind(this)} label="Ville" mode="outlined" />
 
+
+
                             </View>
 
                         </ScrollView>
@@ -93,7 +164,7 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                 <View style={styles.viewButtonSection}>
                     <TouchableOpacity
                         style={styles.buttonStyle}
-                        onPress={this.validate.bind(this)}
+                        onPress={this.validateForm.bind(this)}
                         activeOpacity={0.7}>
                         <Text style={styles.textStyle}>Valider</Text>
 
