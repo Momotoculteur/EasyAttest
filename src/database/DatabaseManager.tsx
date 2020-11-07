@@ -102,7 +102,6 @@ export default class DatabaseManager {
         var rows = selectQuery.rows;
         for (let i = 0; i < rows.length; i++) {
             var item = rows.item(i);
-            console.log(item)
             result.push({
                 firstName: item.prenom,
                 lastName: item.nom,
