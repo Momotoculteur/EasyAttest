@@ -111,7 +111,7 @@ export default class DatabaseManager {
                 postalCode: item.code_postal,
                 city: item.ville,
                 adress: item.adresse,
-                id: item.id
+                id: item.user_id
             } as IUser);
         }
 
