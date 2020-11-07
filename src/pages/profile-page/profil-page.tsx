@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { View, Button, Alert, TouchableOpacity, Text, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { IUser } from '../../components/shared/interface/IUser';
@@ -11,6 +11,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { ROUTE } from '../../navigation/route';
 
 
+
+
 interface iState {
     connectedUser?: IUser
 }
@@ -18,7 +20,6 @@ interface IProps {
 
 }
 export default class ProfilePage extends React.Component<IProps, iState> {
-
 
     constructor(props: IProps) {
         super(props)
@@ -29,9 +30,12 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
     componentDidMount() {
         this.initializeConnectedUser();
-        //console.log(this.listAllUsers)
 
 
+    }
+
+    componentDidUpdate(){
+        console.log("XD")
     }
 
     async initializeConnectedUser() {
