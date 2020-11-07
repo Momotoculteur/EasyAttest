@@ -36,7 +36,8 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
     async initializeConnectedUser() {
         try {
-            const jsonValue = await AsyncStorage.getItem('@connectedUser1')
+             //AsyncStorage.clear()
+            const jsonValue = await AsyncStorage.getItem('@connectedUser')
             //return jsonValue != null ? JSON.parse(jsonValue) : null;
             if (jsonValue != null) {
                 this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
