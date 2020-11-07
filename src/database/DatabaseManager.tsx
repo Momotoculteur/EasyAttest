@@ -117,6 +117,10 @@ export default class DatabaseManager {
         return result;
     }
 
+    static async deleteUserWithId(id: number) {
+        await this.ExecuteQuery("DELETE FROM user WHERE user_id=?", [id]);
+    }
+
 
 
 

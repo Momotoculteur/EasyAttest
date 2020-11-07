@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
-import { Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { RadioButton } from 'react-native-paper';
 import { IUser } from "../../../components/shared/interface/IUser";
 import DatabaseManager from "../../../database/DatabaseManager";
@@ -45,6 +45,39 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         }
     }
 
+    openDeleteConfirmAlert(item: IUser): void {
+        console.log('clickeed')
+        console.log(item)
+
+        const title = item.firstName + " " + item.lastName.toUpperCase();
+        const test =
+            item.adress +
+            "\n" +
+            item.postalCode + " " + item.city.toUpperCase() +
+            "\n" +
+            item.birthdate + " " + item.birthplace.toUpperCase();
+
+        Alert.alert(
+            title,
+            test,
+            [
+                {
+                    text: "Retour",
+                    style: "cancel"
+                },
+                {
+                    text: "Supprimer",
+                    onPress: () => {
+                        DatabaseManager.deleteUserWithId(item.id);
+                        this.updateListUsers();
+                    }
+                }
+            ],
+            { cancelable: false }
+        )
+
+    }
+
     async initializeCurrentProfil() {
         try {
             const jsonValue = await AsyncStorage.getItem('@connectedUser')
@@ -62,21 +95,34 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         DatabaseManager.getAllUser().then((result) => { this.setState({ listAllUsers: result }) });
     }
 
-    render(): JSX.Element {
+    renderEmptyProfilList() {
         return (
+            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', fontFamily: 'Arial', }}>Vous n'avez pas de profil</Text>
+                    <View style={{ borderBottomColor: '#e50d54', borderBottomWidth: 3, width: '20%', paddingTop: 5 }} ></View>
+                </View>
 
+            </View>
+        )
+    }
+
+    renderProfilList() {
+        return (
             <ScrollView style={{ flex: 1 }}>
+
                 <RadioButton.Group onValueChange={(userId: string) => { this.updateCurrentProfil(userId) }} value={this.state.idCurrentUser}>
                     {this.state.listAllUsers.map((item, index) => {
 
                         return (
+
                             <View key={item.id} style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', paddingBottom: (this.state.listAllUsers.length - 1) === index ? 10 : 0, paddingTop: 10 }}>
 
                                 <View style={{ flex: 5, flexDirection: 'row' }}>
                                     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                                         <RadioButton.Android color='#e50d54' value={item.id ? item.id?.toString() : ''} />
                                     </View>
-                                    
+
                                     <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                                         <View>
                                             <Text>
@@ -120,17 +166,11 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
 
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <TouchableOpacity style={{ flex: 1, borderRadius: 20 }}
-                                    >
-                                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Ionicons name={Platform.OS === 'ios' ? "ios-options" : 'md-options'} size={20} color='gray' />
 
-                                        </View>
+                                    <TouchableOpacity
+                                        style={{ flex: 1, borderRadius: 20 }}
+                                        onPress={() => this.openDeleteConfirmAlert(item)}
 
-                                    </TouchableOpacity>
-
-
-                                    <TouchableOpacity style={{ flex: 1, borderRadius: 20 }}
                                     >
                                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                             <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={20} color='gray' />
@@ -146,9 +186,28 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                     })
                     }
                 </RadioButton.Group >
-
-
             </ScrollView >
+
+        )
+    }
+
+    render(): JSX.Element {
+        return (
+            <View style={{ flex: 1 }}>
+                {(() => {
+                    if (this.state.listAllUsers.length === 0) {
+                        return (this.renderEmptyProfilList());
+                    } else {
+                        return (this.renderProfilList());
+                    }
+                })()}
+            </View>
+
+
+
+
+
+
 
         );
     }

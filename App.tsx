@@ -10,7 +10,7 @@ import DatabaseManager from './src/database/DatabaseManager'
 
 
 export default function App() {
-
+    
     let [fontsLoaded] = useFonts({
         'Arial': require('./src/assets/fonts/arial.ttf'),
     });
@@ -22,9 +22,10 @@ export default function App() {
     } else {
 
         return (
-            <SafeAreaView style={styles.container}>
+          <SafeAreaView style={styles.container}>
                 <MainTabNav />
             </SafeAreaView >
+  
         )
     }
 
