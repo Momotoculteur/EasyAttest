@@ -31,22 +31,28 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     componentDidMount() {
         this.initializeConnectedUser();
 
+        this.props.navigation.addListener('focus', () => {
+            this.initializeConnectedUser();
+
+        });
+
 
     }
 
-    componentDidUpdate(){
-        console.log("XD")
-    }
+    componentWillUnmount() {
+        this.initializeConnectedUser();
+      }
+
 
     async initializeConnectedUser() {
         try {
-             //AsyncStorage.clear()
+            //AsyncStorage.clear()
             const jsonValue = await AsyncStorage.getItem('@connectedUser')
             //return jsonValue != null ? JSON.parse(jsonValue) : null;
             if (jsonValue != null) {
                 this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
             } else {
-                this.setState({ connectedUser: undefined });
+                this.setState({connectedUser: undefined});
             }
         } catch (e) {
             console.log("ERROR: + " + e)
@@ -55,12 +61,6 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
 
 
-
-
-    /*
-    LISTER TOUT LES USERS
-
-    */
 
     render(): JSX.Element {
         //                    {this.state.connectedUser ? <Text>CONNECTED : {this.state.connectedUser.firstName}</Text> : <Text>Aucun</Text>}

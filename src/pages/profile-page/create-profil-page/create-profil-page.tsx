@@ -81,8 +81,8 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                                 <MomotoculteurTextInput getData={this.getBirthdate.bind(this)} label="Date de naissance" mode="outlined" />
                                 <MomotoculteurTextInput getData={this.getBirthplace.bind(this)} label="Lieu de naissance" mode="outlined" />
                                 <MomotoculteurTextInput getData={this.getAdress.bind(this)} label="Adresse" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getCity.bind(this)} label="Ville" mode="outlined" />
                                 <MomotoculteurTextInput getData={this.getPostalcode.bind(this)} label="Code postal" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getCity.bind(this)} label="Ville" mode="outlined" />
 
                             </View>
 
