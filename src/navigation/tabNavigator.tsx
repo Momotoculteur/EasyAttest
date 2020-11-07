@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 import ProfilStackNavigator from '../navigation/stackNavigatorProfil'
 import { ROUTE } from './route'
 import StackNavigatorCreateAttestation from './stackNavigatorCreateAttestation'
-import StackNavigatorMyAttestation from './stackNavigatorMyAttestation'
+import StackNavigatorAttestation from './stackNavigatorAttestation'
 
 const Tab = createBottomTabNavigator()
 
@@ -42,14 +42,14 @@ export default function MainTabNavigator() {
                         // assigne l icone
                         switch (route.name) {
                             case ROUTE.PROFILE_TAB.MAIN: {
-                                iconName += "people";
+                                iconName += "person";
                                 break;
                             }
                             case ROUTE.CREATE_ATTESTAION_TAB.MAIN: {
                                 iconName += "create";
                                 break;
                             }
-                            case ROUTE.MY_ATTESTATION_TAB.MAIN: {
+                            case ROUTE.ATTESTATION_TAB.MAIN: {
                                 iconName += "folder";
                                 break;
                             }
@@ -76,8 +76,8 @@ export default function MainTabNavigator() {
                 />
 
                 <Tab.Screen
-                    name={ROUTE.MY_ATTESTATION_TAB.MAIN}
-                    component={StackNavigatorMyAttestation}
+                    name={ROUTE.ATTESTATION_TAB.MAIN}
+                    component={StackNavigatorAttestation}
                 />
             </Tab.Navigator>
         </NavigationContainer>

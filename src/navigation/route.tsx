@@ -1,6 +1,6 @@
 export const ROUTE = {
     PROFILE_TAB : {
-        MAIN: "Mes profils",
+        MAIN: "Profil",
         CREATE_PROFIL: "Créer Profil",
         SWITCH_PROFILE: "Changer Profil",
         SETTINGS: "Paramètres"
@@ -8,7 +8,7 @@ export const ROUTE = {
     CREATE_ATTESTAION_TAB: {
         MAIN: "Créer attestation"
     },
-    MY_ATTESTATION_TAB: {
+    ATTESTATION_TAB: {
         MAIN: "Mes Attestations"
     }
 };

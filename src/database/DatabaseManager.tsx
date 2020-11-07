@@ -100,9 +100,9 @@ export default class DatabaseManager {
         let result: IUser[] = [];
         let selectQuery = await this.ExecuteQuery("SELECT * FROM user",[]);
         var rows = selectQuery.rows;
-
         for (let i = 0; i < rows.length; i++) {
             var item = rows.item(i);
+            console.log(item)
             result.push({
                 firstName: item.prenom,
                 lastName: item.nom,
@@ -111,7 +111,7 @@ export default class DatabaseManager {
                 postalCode: item.code_postal,
                 city: item.ville,
                 adress: item.adresse,
-                id: item.user_id
+                id: item.id
             } as IUser);
         }
 
