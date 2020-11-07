@@ -82,8 +82,6 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
     async initializeCurrentProfil() {
         try {
             const jsonValue = await AsyncStorage.getItem('@connectedUser')
-            console.log("ON TENTE DOUVRIR")
-            console.log(jsonValue)
             if (jsonValue != null) {
                 this.setState({ idCurrentUser: JSON.parse(jsonValue).id.toString() });
             } else {
