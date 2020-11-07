@@ -46,9 +46,6 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
     }
 
     openDeleteConfirmAlert(item: IUser): void {
-        console.log('clickeed')
-        console.log(item)
-
         const title = item.firstName + " " + item.lastName.toUpperCase();
         const test =
             item.adress +
@@ -70,17 +67,23 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                     onPress: () => {
                         DatabaseManager.deleteUserWithId(item.id);
                         this.updateListUsers();
+                        if(item.id.toString() === this.state.idCurrentUser){
+                            AsyncStorage.removeItem('@connectedUser');
+                        }
                     }
                 }
             ],
             { cancelable: false }
         )
-
     }
+
+
 
     async initializeCurrentProfil() {
         try {
             const jsonValue = await AsyncStorage.getItem('@connectedUser')
+            console.log("ON TENTE DOUVRIR")
+            console.log(jsonValue)
             if (jsonValue != null) {
                 this.setState({ idCurrentUser: JSON.parse(jsonValue).id.toString() });
             } else {
