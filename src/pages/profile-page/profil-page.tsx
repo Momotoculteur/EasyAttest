@@ -36,12 +36,12 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
     async initializeConnectedUser() {
         try {
-            const jsonValue = await AsyncStorage.getItem('@connectedUser')
+            const jsonValue = await AsyncStorage.getItem('@connectedUser1')
             //return jsonValue != null ? JSON.parse(jsonValue) : null;
             if (jsonValue != null) {
                 this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
             } else {
-                this.setState({connectedUser: undefined});
+                this.setState({ connectedUser: undefined });
             }
         } catch (e) {
             console.log("ERROR: + " + e)
@@ -178,9 +178,8 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     renderProfilSectionWhenUserNotSelected() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <View>
-                    <Text>Aucun profil sélectionné</Text>
-                </View>
+                <Text style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>Sélectionnez un profil</Text>
+                <View style={{ borderBottomColor: '#e50d54', borderBottomWidth: 3, width: '20%', paddingTop: 5 }} ></View>
             </View>
         );
     }

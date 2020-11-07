@@ -11,44 +11,49 @@ import DatabaseManager from "../../../database/DatabaseManager";
 import { useNavigation } from "@react-navigation/native";
 
 
+interface iState {
+    user: IUser;
+}
+interface IProps {
+}
+export default class CreateProfilePage extends React.Component<IProps, iState> {
 
-export default class CreateProfilePage extends React.Component {
-
-    private user: IUser;
     constructor(props: any) {
         super(props);
-        this.user = {
-            firstName: '',
-            lastName: '',
-            adress: '',
-            city: '',
-            birthdate: '',
-            birthplace: '',
-            postalCode: '',
+        this.state = {
+            user: {
+                firstName: '',
+                lastName: '',
+                adress: '',
+                city: '',
+                birthdate: '',
+                birthplace: '',
+                postalCode: ''
+            }
         }
 
     }
 
     getFirstname(newName: string): void {
-        this.user.firstName = newName;
+        this.state.user.firstName = newName;
     }
     getLastname(newLastname: string): void {
-        this.user.lastName = newLastname;
+        this.state.user.lastName = newLastname;
     }
     getBirthdate(newBirthday: string): void {
-        this.user.birthdate = newBirthday;
+        this.state.user.birthdate = newBirthday;
     }
     getBirthplace(newBirthplace: string): void {
-        this.user.birthplace = newBirthplace;
+        this.state.user.birthplace = newBirthplace;
     }
     getAdress(newAdress: string): void {
-        this.user.adress = newAdress;
+        this.state.user.adress = newAdress;
     }
     getCity(newCity: string): void {
-        this.user.city = newCity;
+        this.state.user.city = newCity;
     }
     getPostalcode(newPostalcode: string): void {
-        this.user.postalCode = newPostalcode;
+        this.state.user.postalCode = newPostalcode;
     }
 
     validate(): void {
@@ -57,8 +62,8 @@ export default class CreateProfilePage extends React.Component {
     }
 
     createUser(): void {
-        console.log( "user " + this.user)
-        DatabaseManager.insertUser(this.user);
+        console.log("user " + this.state.user.adress)
+        DatabaseManager.insertUser(this.state.user);
     }
 
 
