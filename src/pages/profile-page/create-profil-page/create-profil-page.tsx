@@ -1,15 +1,13 @@
 import { View, Text, Button, TouchableOpacity, KeyboardAvoidingView, Alert } from "react-native";
 import { styles } from './style'
 import * as React from 'react'
-import { TextInput } from 'react-native-paper';
 import MomotoculteurTextInput from "../../../components/atoms/momotoculteur-text-input/momotoculteurTextInput";
-import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
-import MomotoculteurCreateProfilForm from "../../../components/molecules/momotoculteur-create-profil-form/momotoculteurCreateProfilForm";
+import { ScrollView } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { IUser } from "../../../components/shared/interface/IUser";
 import DatabaseManager from "../../../database/DatabaseManager";
-import { useNavigation } from "@react-navigation/native";
 import { validateCreateProfilFormService } from "../../../services/validateCreateProfilFormService";
+import NumberFormat from "react-number-format";
 
 
 interface iState {
@@ -69,6 +67,7 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
             this.state.user.postalCode !== "" &&
             this.state.user.birthplace !== "" &&
             this.state.user.birthdate !== "") {
+
             this.createUser();
             this.props.navigation.goBack();
         } else {
@@ -170,6 +169,7 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
 
                     </TouchableOpacity>
                 </View>
+
             </View>
 
         );

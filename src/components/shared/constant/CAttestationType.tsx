@@ -7,7 +7,7 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
         label: "DEPLACEMENT_PRO",
         shortDescription: "Déplacement professionel",
         description: "Déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle ou un établissement\
-        d’enseignement ou de formation, déplacements professionnels ne pouvant être différés, déplacements pour un concours ou un examen"
+        d’enseignement ou de formation, déplacements professionnels ne pouvant être différés, déplacements pour un concours ou un examen."
     },
     {
         id: 2,
@@ -15,26 +15,26 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
         shortDescription: "Déplacement nourriture",
         description : "Déplacements pour effectuer des achats de fournitures nécessaires à l'activité professionnelle,\
         des achats de première nécessité dans des établissements dont les activités demeurent autorisées, le retrait de\
-        commande et les livraisons à domicile"
+        commande et les livraisons à domicile."
     },
     {
         id: 3,
         label: "DEPLACEMENT_MEDICAL",
         shortDescription: "Déplacement médical",
-        description : "Consultations, examens et soins ne pouvant être assurés à distance et l’achat de médicaments"
+        description : "Consultations, examens et soins ne pouvant être assurés à distance et l’achat de médicaments."
     },
     {
         id: 4,
         label: "DEPLACEMENT_FAMILIAL",
         shortDescription: "Déplacement familial",
         description : "Déplacements pour motif familial impérieux, pour l'assistance aux personnes vulnérables et \
-            précaires ou la garde d'enfants"
+            précaires ou la garde d'enfants."
     },
     {
         id: 5,
         label: "DEPLACEMENT_HANDICAP",
         shortDescription: "Déplacement handicap",
-        description : "Déplacement des personnes en situation de handicap et leur accompagnant"
+        description : "Déplacement des personnes en situation de handicap et leur accompagnant."
     },
     {
         id: 6,
@@ -43,24 +43,24 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
         description : "Déplacements brefs, dans la limite d'une heure quotidienne et dans un rayon maximal d'un kilomètre\
         autour du domicile, liés soit à l'activité physique individuelle des personnes, à l'exclusion de toute pratique sportive \
         collective et de toute proximité avec d'autres personnes, soit à la promenade avec les seules personnes regroupées dans un \
-        même domicile, soit aux besoins des animaux de compagnie"
+        même domicile, soit aux besoins des animaux de compagnie."
     },
     {
         id: 7,
         label: "DEPLACEMENT_JUDICIAIRE",
         shortDescription: "Déplacement judiciaire",
-        description : "Convocation judiciaire ou administrative et pour se rendre dans un service public"
+        description : "Convocation judiciaire ou administrative et pour se rendre dans un service public."
     },
     {
         id: 8,
         label: "DEPLACEMENT_MISSION_INTERET_GENERAL",
         shortDescription: "Déplacement mission d'intérêt général",
-        description : "Participation à des missions d'intérêt général sur demande de l'autorité administrative"
+        description : "Participation à des missions d'intérêt général sur demande de l'autorité administrative."
     },
     {
         id: 9,
         label: "DEPLACEMENT_ENFANTS",
         shortDescription: "Déplacement enfants",
-        description : "Déplacement pour chercher les enfants à l’école et à l’occasion de leurs activités périscolaires"
+        description : "Déplacement pour chercher les enfants à l’école et à l’occasion de leurs activités périscolaires."
     },
 ];

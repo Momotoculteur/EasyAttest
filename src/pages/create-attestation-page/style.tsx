@@ -30,7 +30,6 @@ export const styles = StyleSheet.create({
     },
     buttonStyle: {
         borderRadius: 20,
-        backgroundColor: '#e50d54',
         padding: 10
     },
     textStyle: {
