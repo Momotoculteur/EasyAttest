@@ -1,21 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useContext } from 'react';
 import { View, Button, Alert, TouchableOpacity, Text, Platform } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { IUser } from '../../components/shared/interface/IUser';
-import DatabaseManager from '../../database/DatabaseManager';
+import { IUserObject } from '../../components/shared/interface/object/IUserObject';
 import { styles } from './styles'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { isEqualIcon } from 'react-native-paper/lib/typescript/src/components/Icon';
 import { Ionicons } from '@expo/vector-icons';
 import { ROUTE } from '../../navigation/route';
-import { Snackbar } from 'react-native-paper';
 
 import { getCurrentUser } from '../../services/storage/userAsyncStorage'
 
 
 interface iState {
-    connectedUser?: IUser,
+    connectedUser?: IUserObject,
 }
 interface IProps {
 
@@ -31,8 +25,19 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
     componentDidMount() {
         // Init l'user courrant
+        getCurrentUser().then((user) => {
+            if (user !== undefined) {
+                this.setState({ connectedUser: user });
+            } else {
+                this.setState({ connectedUser: undefined });
+            }
+        });
         this.props.navigation.addListener('focus', () => {
-            getCurrentUser().then(result => this.setState({ connectedUser: result }));
+            getCurrentUser().then((user) => {
+                if (user !== undefined) {
+                    this.setState({ connectedUser: user });
+                } else {this.setState({ connectedUser: undefined });}
+            });
         });
 
 

@@ -1,6 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import { Item } from 'react-native-paper/lib/typescript/src/components/List/List';
-import { IUser } from '../components/shared/interface/IUser';
+import { IAttestation, IAttestationType } from '../components/shared/interface/object/IAttestationObject';
+import { IUserObject } from '../components/shared/interface/object/IUserObject';
 
 const db = SQLite.openDatabase("easy_covid.db");
 
@@ -9,17 +10,26 @@ export default class DatabaseManager {
 
     static ExecuteQuery = (sql, params = []) => new Promise((resolve, reject) => {
         db.transaction((trans) => {
-          trans.executeSql(sql, params, (trans, results) => {
-            resolve(results);
-          },
-            (error) => {
-              reject(error);
-            });
+            trans.executeSql(sql, params, (trans, results) => {
+                resolve(results);
+            },
+                (error) => {
+                    reject(error);
+                });
         });
-      });
+    });
 
     static initializeDatabase(): void {
         db.transaction(tx => {
+
+            // Supprimer une table
+            //tx.executeSql("DROP TABLE attestation");
+            //tx.executeSql("DROP TABLE user");
+
+
+
+
+
             tx.executeSql(
                 "create table if not exists\
                     user (\
@@ -34,6 +44,7 @@ export default class DatabaseManager {
                 );"
             );
 
+            /*
             tx.executeSql(
                 "create table if not exists\
                 motif (\
@@ -42,6 +53,7 @@ export default class DatabaseManager {
                     description text not null\
                 )"
             );
+            */
 
             tx.executeSql(
                 "create table if not exists\
@@ -50,11 +62,14 @@ export default class DatabaseManager {
                         date_sortie text not null,\
                         heure_sortie text not null,\
                         user_id int not null,\
-                        motif_id int not null,\
-                        foreign key (motif_id) references motif(motif_id),\
+                        motifListId string not null,\
                         foreign key (user_id) references user(user_id)\
                     );"
             );
+
+            //foreign key (motif_id) references motif(motif_id),\
+            //                        motif_id int not null,\
+
 
             /*
             tx.executeSql("insert into motif (intitule, description) values ('coucou', 'slt bg cm tu vq')");
@@ -68,8 +83,8 @@ export default class DatabaseManager {
     }
 
     /*
-    static getAllUser(): IUser[] {
-        let result: IUser[] = [];
+    static getAllUser(): IUserObject[] {
+        let result: IUserObject[] = [];
         db.transaction(
             tx => {
                 tx.executeSql("select * from user", [], (err, { rows }) => {
@@ -83,7 +98,7 @@ export default class DatabaseManager {
                             postalCode: item.code_postal,
                             city: item.ville,
                             adress: item.adresse
-                        } as IUser);
+                        } as IUserObject);
 
                     }
                     return result;
@@ -95,10 +110,10 @@ export default class DatabaseManager {
 
     }*/
 
-    
+
     static async getAllUser() {
-        let result: IUser[] = [];
-        let selectQuery = await this.ExecuteQuery("SELECT * FROM user",[]);
+        let result: IUserObject[] = [];
+        let selectQuery = await this.ExecuteQuery("SELECT * FROM user", []);
         var rows = selectQuery.rows;
         for (let i = 0; i < rows.length; i++) {
             var item = rows.item(i);
@@ -111,7 +126,7 @@ export default class DatabaseManager {
                 city: item.ville,
                 adress: item.adresse,
                 id: item.user_id
-            } as IUser);
+            } as IUserObject);
         }
 
         return result;
@@ -121,10 +136,42 @@ export default class DatabaseManager {
         await this.ExecuteQuery("DELETE FROM user WHERE user_id=?", [id]);
     }
 
+    static async createAttestation(date: string, hours: string, userId: number, motifListId: string) {
+        await this.ExecuteQuery("INSERT INTO attestation(\
+                                                date_sortie,\
+                                                heure_sortie,\
+                                                user_id,\
+                                                motifListId)\
+                                                values(\
+                                                    ?,\
+                                                    ?,\
+                                                    ?,\
+                                                    ?)", [date, hours, userId, motifListId]);
+
+    }
+
+    static async getAllAttestationByUserId(id: number) {
+        let result: IAttestation[] = [];
+        let selectQuery = await this.ExecuteQuery("SELECT * FROM attestation WHERE user_id=?", [id]);
+        var rows = selectQuery.rows;
+        for (let i = 0; i < rows.length; i++) {
+            var item = rows.item(i);
+            result.push({
+                id: item.user_id,
+                date: item.heure_sortie,
+                time: item.lieu_naissance,
+                reasons: item.motifListId,
+                pathAttestation: '',
+            } as IAttestation);
+        }
+
+        return result;
+    }
 
 
 
-    static insertUser(user: IUser): void {
+
+    static insertUser(user: IUserObject): void {
         db.transaction(
             tx => {
                 tx.executeSql(
@@ -161,4 +208,6 @@ export default class DatabaseManager {
             () => { console.log("OK + ") }
         )
     }
+
+    
 }

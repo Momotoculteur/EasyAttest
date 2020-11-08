@@ -3,10 +3,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react'
 
 import Profile from '../pages/profile-page/profil-page'
-import CreateProfilePage from '../pages/profile-page/create-profil-page/create-profil-page'
 import SettingsPage from "../pages/profile-page/settings-page/settings-page";
 import { ROUTE } from "./route";
-import SwitchProfilePage from "../pages/profile-page/change-profil-page/switch-profil-page";
+import SwitchProfilePage from "../pages/profile-page/switch-profil-page/switch-profil-page";
+import CreateProfilePage from "../pages/profile-page/create-profil-page/create-profil-page";
 
 const Stack = createStackNavigator();
 

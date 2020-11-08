@@ -1,5 +1,4 @@
-import { IAttestationType } from "../interface/IAttestationType"
-
+import { IAttestationType } from "../interface/general/IAttestationType";
 
 export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
     {

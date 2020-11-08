@@ -9,6 +9,7 @@ import { useFonts } from 'expo-font';
 import DatabaseManager from './src/database/DatabaseManager'
 import { initializeAllAsyncStorage } from './src/services/storage/initializeAsyncStorage';
 import {genPdf} from './src/services/generatePdfFile'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
     
@@ -19,9 +20,8 @@ export default function App() {
 
 
     genPdf();
-
     initializeAllAsyncStorage();
-
+    //AsyncStorage.clear();
     DatabaseManager.initializeDatabase();
 
     if (!fontsLoaded) {

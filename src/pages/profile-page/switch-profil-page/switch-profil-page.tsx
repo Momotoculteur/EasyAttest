@@ -2,13 +2,14 @@ import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
 import { Alert, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { RadioButton } from 'react-native-paper';
-import { IUser } from "../../../components/shared/interface/IUser";
 import DatabaseManager from "../../../database/DatabaseManager";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getCurrentUser } from "../../../services/storage/userAsyncStorage";
+import { IUserObject } from "../../../components/shared/interface/object/IUserObject";
 
 
 interface iState {
-    listAllUsers: IUser[],
+    listAllUsers: IUserObject[],
     idCurrentUser: string
 }
 interface IProps {
@@ -24,8 +25,9 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
     }
 
     componentDidMount(): void {
+        console.log('mount')
         this.updateListUsers();
-        this.initializeCurrentProfil();
+        this.initializeAndProvideCurrentUser();
     }
 
     updateCurrentProfil(userId: string) {
@@ -36,16 +38,17 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
     async saveCurrentProfil(userId: string) {
         try {
-            const userToSave: IUser = this.state.listAllUsers.find((user: IUser) => {
-                return user.id?.toString() === userId;
+            const userToSave: IUserObject = this.state.listAllUsers.find((user: IUserObject) => {
+                return user.id.toString() === userId;
             })
+            console.log(JSON.stringify(userToSave))
             await AsyncStorage.setItem('@connectedUser', JSON.stringify(userToSave))
         } catch (e) {
             console.log("ERROR: + " + e)
         }
     }
 
-    openDeleteConfirmAlert(item: IUser): void {
+    openDeleteConfirmAlert(item: IUserObject): void {
         const title = item.firstName + " " + item.lastName.toUpperCase();
         const test =
             item.adress +
@@ -67,8 +70,11 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                     onPress: () => {
                         DatabaseManager.deleteUserWithId(item.id);
                         this.updateListUsers();
+                        console.log(item.id.toString())
+                        console.log(this.state.idCurrentUser)
                         if (item.id.toString() === this.state.idCurrentUser) {
                             AsyncStorage.removeItem('@connectedUser');
+                            console.log("SUPRIMEEE")
                         }
                     }
                 }
@@ -78,18 +84,20 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
     }
 
 
-
-    async initializeCurrentProfil() {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@connectedUser')
-            if (jsonValue != null) {
-                this.setState({ idCurrentUser: JSON.parse(jsonValue).id.toString() });
-            } else {
-                this.setState({ idCurrentUser: '' });
+    initializeAndProvideCurrentUser(): void {
+        getCurrentUser().then((user) => {
+            if (user !== undefined) {
+                this.setState({ idCurrentUser: user.id.toString() });
             }
-        } catch (e) {
-            console.log("ERROR: + " + e)
-        }
+        });
+
+        this.props.navigation.addListener('focus', () => {
+            getCurrentUser().then((user) => {
+                if (user !== undefined) {
+                    this.setState({ idCurrentUser: user.id.toString() });
+                }
+            });
+        });
     }
 
     updateListUsers(): void {
@@ -128,7 +136,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                                         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
 
                                             <View>
-                                                <Text>
+                                                <Text style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>
                                                     {item.firstName}{" "}{item.lastName.toUpperCase()}
                                                 </Text>
                                             </View>
