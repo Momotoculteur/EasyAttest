@@ -1,12 +1,14 @@
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { Alert, Platform } from "react-native";
-import { IAttestationType } from "../components/shared/interface/IAttestationType";
-import { IUser } from "../components/shared/interface/IUser";
+import { IAttestationType } from "../components/shared/interface/general/IAttestationType";
 import {ALL_ATTESTATIONS_TYPE} from '../components/shared/constant/CAttestationType'
-export async function genPdf(user?: IUser, attestationsTypes?: IAttestationType[]) {
+import { IUserObject } from '../components/shared/interface/object/IUserObject';
 
-    const maurice: IUser = {
+
+export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestationType[]) {
+
+    const maurice: IUserObject = {
         firstName: "Bastien",
         lastName: "MAURICE",
         birthdate: "10/12/1993",
@@ -104,20 +106,22 @@ export async function genPdf(user?: IUser, attestationsTypes?: IAttestationType[
     </table>`;
 
 
-    const { uri } = await Print.printToFileAsync({ html });
+    //const { uri } = await Print.printToFileAsync({ html });
 
+    /*
 
     const promise = await Print.printAsync({
         orientation: Print.Orientation.portrait,
         // markupFormatterIOS: `
         html: html,
     });
+    
+    */
 
 
-    console.log(uri)
+    //console.log(uri)
     //    Sharing.shareAsync(uri);
 
-    console.log("GEN")
 }
 
 

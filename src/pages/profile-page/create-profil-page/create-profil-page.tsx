@@ -4,14 +4,14 @@ import * as React from 'react'
 import MomotoculteurTextInput from "../../../components/atoms/momotoculteur-text-input/momotoculteurTextInput";
 import { ScrollView } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { IUser } from "../../../components/shared/interface/IUser";
+import { IUserObject } from "../../../components/shared/interface/object/IUserObject";
 import DatabaseManager from "../../../database/DatabaseManager";
 import { validateCreateProfilFormService } from "../../../services/validateCreateProfilFormService";
 import NumberFormat from "react-number-format";
 
 
 interface iState {
-    user: IUser;
+    user: IUserObject;
 }
 interface IProps {
 }
@@ -29,7 +29,8 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                 city: '',
                 birthdate: '',
                 birthplace: '',
-                postalCode: ''
+                postalCode: '',
+                id: 0
             }
         }
 

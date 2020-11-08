@@ -4,7 +4,6 @@ export async function initializeAllAsyncStorage() {
     try {
 
         // USER
-        //await AsyncStorage.setItem('@connectedUser', JSON.stringify(undefined))
 
         // SETTINGS
         await AsyncStorage.setItem('@settings_AutoDate', JSON.stringify(true))
