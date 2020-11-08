@@ -7,13 +7,20 @@ import { AppLoading } from 'expo';
 import { useFonts } from 'expo-font';
 
 import DatabaseManager from './src/database/DatabaseManager'
-
+import { initializeAllAsyncStorage } from './src/services/storage/initializeAsyncStorage';
+import {genPdf} from './src/services/generatePdfFile'
 
 export default function App() {
     
     let [fontsLoaded] = useFonts({
         'Arial': require('./src/assets/fonts/arial.ttf'),
     });
+
+
+
+    genPdf();
+
+    initializeAllAsyncStorage();
 
     DatabaseManager.initializeDatabase();
 

@@ -5,9 +5,11 @@ import { Checkbox } from 'react-native-paper';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 interface iState {
-    checkboxAutoDate: boolean;
-    checkboxAutoHour: boolean;
+    toggleAutoDate: boolean;
+    toggleAutoHour: boolean;
     toggleDarkTheme: boolean;
+    toggleAutoTitle: boolean
+
 }
 interface IProps {
 }
@@ -16,9 +18,10 @@ export default class SettingsPage extends React.Component<IProps, iState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            checkboxAutoDate: true,
-            checkboxAutoHour: true,
-            toggleDarkTheme: false
+            toggleAutoDate: true,
+            toggleAutoHour: true,
+            toggleDarkTheme: false,
+            toggleAutoTitle: true
         }
     }
 
@@ -43,16 +46,15 @@ export default class SettingsPage extends React.Component<IProps, iState> {
 
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-                            <Checkbox.Android
-                                status={this.state.checkboxAutoDate ? 'checked' : 'unchecked'}
-                                onPress={() => {
-                                    this.setState({ checkboxAutoDate: !this.state.checkboxAutoDate });
+                            <Switch
+                                value={this.state.toggleAutoDate}
+                                onValueChange={() => {
+                                    this.setState({ toggleAutoDate: !this.state.toggleAutoDate });
                                 }}
-                                color='#e50d54'
-                                uncheckedColor='gray'
-                            />
+                                trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
+                                ios_backgroundColor="gray" />
                             <TouchableOpacity style={{ flex: 1 }} onPress={() => {
-                                this.setState({ checkboxAutoDate: !this.state.checkboxAutoDate });
+                                this.setState({ toggleAutoDate: !this.state.toggleAutoDate });
                             }}>
                                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                                     <Text style={{}}>Remplissage auto Date</Text>
@@ -61,21 +63,41 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                         </View>
 
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
 
-                            <Checkbox.Android
-                                status={this.state.checkboxAutoHour ? 'checked' : 'unchecked'}
-                                onPress={() => {
-                                    this.setState({ checkboxAutoHour: !this.state.checkboxAutoHour });
+                            <Switch
+                                value={this.state.toggleAutoHour}
+                                onValueChange={() => {
+                                    this.setState({ toggleAutoHour: !this.state.toggleAutoHour });
                                 }}
-                                color='#e50d54'
-                                uncheckedColor='gray'
+                                trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
+                                ios_backgroundColor="gray"
                             />
                             <TouchableOpacity style={{ flex: 1 }} onPress={() => {
-                                this.setState({ checkboxAutoHour: !this.state.checkboxAutoHour });
+                                this.setState({ toggleAutoHour: !this.state.toggleAutoHour });
                             }}>
                                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                                     <Text>Remplissage auto Heure</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
+
+                            <Switch
+                                value={this.state.toggleAutoTitle}
+                                onValueChange={() => {
+                                    this.setState({ toggleAutoTitle: !this.state.toggleAutoTitle });
+                                }}
+                                trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
+                                ios_backgroundColor="gray"
+                            />
+                            <TouchableOpacity style={{ flex: 1 }} onPress={() => {
+                                this.setState({ toggleAutoTitle: !this.state.toggleAutoTitle });
+                            }}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Text>Remplissage titre attestation</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -94,7 +116,7 @@ export default class SettingsPage extends React.Component<IProps, iState> {
 
                                 <Switch
                                     value={this.state.toggleDarkTheme}
-                                    trackColor={{ true: '#e50d54' }}
+                                    trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
                                     ios_backgroundColor="gray"
                                     onValueChange={
                                         () => {

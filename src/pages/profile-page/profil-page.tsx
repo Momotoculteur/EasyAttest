@@ -9,12 +9,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isEqualIcon } from 'react-native-paper/lib/typescript/src/components/Icon';
 import { Ionicons } from '@expo/vector-icons';
 import { ROUTE } from '../../navigation/route';
+import { Snackbar } from 'react-native-paper';
 
-
+import { getCurrentUser } from '../../services/storage/userAsyncStorage'
 
 
 interface iState {
-    connectedUser?: IUser
+    connectedUser?: IUser,
 }
 interface IProps {
 
@@ -24,42 +25,21 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     constructor(props: IProps) {
         super(props)
         this.state = {
-            connectedUser: undefined
+            connectedUser: undefined,
         }
     }
 
     componentDidMount() {
-        this.initializeConnectedUser();
-
+        // Init l'user courrant
         this.props.navigation.addListener('focus', () => {
-            this.initializeConnectedUser();
-
+            getCurrentUser().then(result => this.setState({ connectedUser: result }));
         });
 
 
     }
 
     componentWillUnmount() {
-        this.initializeConnectedUser();
-      }
-
-
-    async initializeConnectedUser() {
-        try {
-            //AsyncStorage.clear()
-            const jsonValue = await AsyncStorage.getItem('@connectedUser')
-            //return jsonValue != null ? JSON.parse(jsonValue) : null;
-            if (jsonValue != null) {
-                this.setState({ connectedUser: JSON.parse(jsonValue) as IUser });
-            } else {
-                this.setState({connectedUser: undefined});
-            }
-        } catch (e) {
-            console.log("ERROR: + " + e)
-        }
     }
-
-
 
 
     render(): JSX.Element {
@@ -102,7 +82,9 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                 </View>
 
 
+
                 <View style={styles.viewButtonSection}>
+
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate(ROUTE.PROFILE_TAB.CREATE_PROFIL)}
                         style={styles.buttonStyle}
@@ -121,7 +103,6 @@ export default class ProfilePage extends React.Component<IProps, iState> {
 
 
                     </TouchableOpacity>
-
 
                 </View>
 

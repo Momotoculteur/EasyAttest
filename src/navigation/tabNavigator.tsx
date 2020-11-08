@@ -20,9 +20,10 @@ export default function MainTabNavigator() {
                         activeTintColor: '#e50d54',
                         inactiveTintColor: 'gray',
                         labelPosition: 'below-icon',
-                        showLabel: true
+                        showLabel: true,
                     }
                 }
+                
                 initialRouteName={ROUTE.CREATE_ATTESTAION_TAB.MAIN}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {

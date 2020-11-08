@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
-import { Alert, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { RadioButton } from 'react-native-paper';
 import { IUser } from "../../../components/shared/interface/IUser";
 import DatabaseManager from "../../../database/DatabaseManager";
@@ -67,7 +67,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                     onPress: () => {
                         DatabaseManager.deleteUserWithId(item.id);
                         this.updateListUsers();
-                        if(item.id.toString() === this.state.idCurrentUser){
+                        if (item.id.toString() === this.state.idCurrentUser) {
                             AsyncStorage.removeItem('@connectedUser');
                         }
                     }
@@ -85,7 +85,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
             if (jsonValue != null) {
                 this.setState({ idCurrentUser: JSON.parse(jsonValue).id.toString() });
             } else {
-                //this.setState({ idCurrentUser: '' });
+                this.setState({ idCurrentUser: '' });
             }
         } catch (e) {
             console.log("ERROR: + " + e)
@@ -98,7 +98,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
     renderEmptyProfilList() {
         return (
-            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontWeight: 'bold', fontFamily: 'Arial', }}>Vous n'avez pas de profil</Text>
                     <View style={{ borderBottomColor: '#e50d54', borderBottomWidth: 3, width: '20%', paddingTop: 5 }} ></View>
@@ -121,47 +121,50 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
                                 <View style={{ flex: 5, flexDirection: 'row' }}>
                                     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
-                                        <RadioButton.Android color='#e50d54' value={item.id ? item.id?.toString() : ''} />
+                                        <RadioButton.Android color='#e50d54' value={item.id.toString()} />
                                     </View>
 
-                                    <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                        <View>
-                                            <Text>
-                                                {item.firstName}{" "}{item.lastName.toUpperCase()}
-                                            </Text>
+                                    <TouchableWithoutFeedback onPress={() => { this.updateCurrentProfil(item.id.toString()) }} style={{ flex: 1 }}>
+                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+
+                                            <View>
+                                                <Text>
+                                                    {item.firstName}{" "}{item.lastName.toUpperCase()}
+                                                </Text>
+                                            </View>
+                                            <View>
+                                                <Text>
+                                                    {item.adress}
+                                                </Text>
+                                            </View>
+                                            <View>
+                                                <Text>
+                                                    {item.postalCode}{" "}{item.city.toUpperCase()}
+                                                </Text>
+                                            </View>
+                                            <View>
+
+                                                <Text>
+                                                    {item.birthdate}{" "}{item.birthplace.toUpperCase()}
+                                                </Text>
+
+                                            </View>
+                                            {(() => {
+                                                if ((this.state.listAllUsers.length - 1) !== index) {
+                                                    return (
+                                                        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10 }}>
+                                                            <View style={{ borderBottomWidth: 3, borderBottomColor: '#e50d54', width: '30%' }}>
+
+                                                            </View>
+                                                        </View>)
+                                                }
+
+                                            })()}
+
+
                                         </View>
-                                        <View>
-                                            <Text>
-                                                {item.adress}
-                                            </Text>
-                                        </View>
-                                        <View>
-                                            <Text>
-                                                {item.postalCode}{" "}{item.city.toUpperCase()}
-                                            </Text>
-                                        </View>
-                                        <View>
 
-                                            <Text>
-                                                {item.birthdate}{" "}{item.birthplace.toUpperCase()}
-                                            </Text>
-
-                                        </View>
-                                        {(() => {
-                                            if ((this.state.listAllUsers.length - 1) !== index) {
-                                                return (
-                                                    <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10 }}>
-                                                        <View style={{ borderBottomWidth: 3, borderBottomColor: '#e50d54', width: '30%' }}>
-
-                                                        </View>
-                                                    </View>)
-                                            }
-
-                                        })()}
-
-
-
-                                    </View>
+                                    </TouchableWithoutFeedback>
 
                                 </View>
 
