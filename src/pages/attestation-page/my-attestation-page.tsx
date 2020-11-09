@@ -1,6 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Alert, Button, Text, View, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import { ALL_ATTESTATIONS_TYPE } from '../../components/shared/constant/CAttestationType';
 import { IAttestationType } from '../../components/shared/interface/general/IAttestationType';
 import { IAttestationObject } from '../../components/shared/interface/object/IAttestationObject';
 import { IUserObject } from '../../components/shared/interface/object/IUserObject';
@@ -43,7 +44,7 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
     }
 
     canDelete(): boolean {
-        return (this.state.connectedUser === undefined) || (this.state.myAttestionList.length === 0 )
+        return (this.state.connectedUser === undefined) || (this.state.myAttestionList.length === 0)
     }
 
 
@@ -67,7 +68,26 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
 
     deleteAllCurrentAttestations(): void {
         DatabaseManager.deleteAllAttestionWithCurrendUserId(this.state.connectedUser.id);
-        this.setState({myAttestionList: []});
+        this.setState({ myAttestionList: [] });
+    }
+
+    getFullLabelReason(rawReasonsList: string): string {
+        const rawReasonsListCleaned: string[] = rawReasonsList.split(";").filter(Boolean);
+        let result: string = '';
+        rawReasonsListCleaned.forEach((reason: string, index) => {
+            result += ALL_ATTESTATIONS_TYPE.find((item) => item.id === Number(reason))?.shortLabel;
+            if(index === rawReasonsListCleaned.length-1) {
+                result += "";
+            } else {
+                result += ", "
+            }
+        });
+
+        console.log(result)
+
+
+
+        return result;
     }
 
     renderEmptyAttestationsList() {
@@ -81,29 +101,88 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
         )
     }
 
+
+
     renderAttestationsList() {
         return (
-            <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
-                {this.state.myAttestionList.map((item, index) => {
-                    return (
+            <View style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 10 }}>
+                    {this.state.myAttestionList.map((item, index) => {
+                        return (
+
+                            <View style={{ flexDirection: 'column', flex: 1 }} key={item.id}>
 
 
-                        <View key={item.id} style={{ flex: 1, flexDirection: 'row' }}>
-                            <View style={{ flex: 1 }}>
-                                <Ionicons name={Platform.OS === 'ios' ? "ios-share" : 'md-share'} size={20} color='gray' />
+                                <View style={{ flex: 1, flexDirection: 'row', paddingBottom: (this.state.myAttestionList.length - 1) === index ? 10 : 0, paddingTop: 10 }}>
+                                    <View style={{ flex: 4, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>{this.getFullLabelReason(item.reasons)}</Text>
+                                        <Text>{item.time}{" - "}{item.date}</Text>
+
+
+                                    </View>
+
+
+                                    <View style={{ flex: 2, flexDirection: 'row' }}>
+
+                                        <TouchableOpacity
+                                            style={{ flex: 1, borderRadius: 20 }}
+                                            onPress={() => { }}
+                                        >
+                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                <Ionicons name={Platform.OS === 'ios' ? "ios-paper" : 'md-paper'} size={30} color='gray' />
+
+                                            </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{ flex: 1, borderRadius: 20 }}
+                                            onPress={() => { }}
+
+                                        >
+                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                <Ionicons name={Platform.OS === 'ios' ? "ios-share" : 'md-share'} size={30} color='gray' />
+
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            style={{ flex: 1, borderRadius: 20 }}
+                                            onPress={() => { }}
+
+                                        >
+                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={30} color='#e50d54' />
+
+                                            </View>
+
+                                        </TouchableOpacity>
+
+                                    </View>
+
+                                </View>
+                                <View style={{ flex: 1 }}>
+
+                                    {(() => {
+                                        if ((this.state.myAttestionList.length - 1) !== index) {
+                                            return (
+                                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                                    <View style={{ flex: 4, alignItems: 'center', paddingTop: 10 }}>
+                                                        <View style={{ borderBottomWidth: 3, borderBottomColor: '#e50d54', width: '30%' }}>
+
+                                                        </View>
+                                                    </View>
+
+                                                    <View style={{ flex: 2 }}></View>
+                                                </View>)
+                                        }
+
+                                    })()}
+                                </View>
                             </View>
-                            <View style={{ flex: 1 }}>
-                                <Text>2</Text>
+                        )
+                    })}
+                </ScrollView>
+            </View>
 
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={20} color='gray' />
-
-                            </View>
-                        </View>
-                    )
-                })}
-            </ScrollView>
         )
     }
 
@@ -125,10 +204,10 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
 
                 <View style={styles.viewButtonSection}>
                     <TouchableOpacity
-                    disabled={this.canDelete()}
+                        disabled={this.canDelete()}
                         activeOpacity={0.7}
                         onPress={() => this.deleteAllCurrentAttestations()}
-                        style={{...styles.buttonStyle, backgroundColor: (this.canDelete() ? 'gray' : '#e50d54')}}>
+                        style={{ ...styles.buttonStyle, backgroundColor: (this.canDelete() ? 'gray' : '#e50d54') }}>
                         <Text style={styles.textStyle}>Tout supprimer</Text>
 
                     </TouchableOpacity>

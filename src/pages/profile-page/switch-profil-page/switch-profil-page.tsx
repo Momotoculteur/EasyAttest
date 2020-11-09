@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
-import { Alert, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from "react-native";
 import { RadioButton } from 'react-native-paper';
 import DatabaseManager from "../../../database/DatabaseManager";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -82,7 +82,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         )
     }
 
-   
+
 
 
     initializeAndProvideCurrentUser(): void {
@@ -127,31 +127,37 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                                         <RadioButton.Android color='#e50d54' value={item.id.toString()} />
                                     </View>
 
-                                    <TouchableWithoutFeedback onPress={() => { this.updateCurrentProfil(item.id.toString()) }} style={{ flex: 1 }}>
-                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                    <View style={{ flex: 1 }}>
+                                        <View style={{ flex: 1, flexDirection: 'column' }}>
+                                            <View style={{ flex: 1 }}>
 
-                                            <View>
-                                                <Text style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>
-                                                    {item.firstName}{" "}{item.lastName.toUpperCase()}
-                                                </Text>
-                                            </View>
-                                            <View>
-                                                <Text>
-                                                    {item.adress}
-                                                </Text>
-                                            </View>
-                                            <View>
-                                                <Text>
-                                                    {item.postalCode}{" "}{item.city.toUpperCase()}
-                                                </Text>
-                                            </View>
-                                            <View>
+                                                <TouchableOpacity onPress={() => { this.updateCurrentProfil(item.id.toString()) }} >
+                                                    <View style={{ alignItems: 'center' }}>
+                                                        <Text style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>
+                                                            {item.firstName}{" "}{item.lastName.toUpperCase()}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{ alignItems: 'center' }}>
+                                                        <Text>
+                                                            {item.adress}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{ alignItems: 'center' }}>
+                                                        <Text >
+                                                            {item.postalCode}{" "}{item.city.toUpperCase()}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{ alignItems: 'center' }}>
 
-                                                <Text>
-                                                    {item.birthdate}{" "}{item.birthplace.toUpperCase()}
-                                                </Text>
+                                                        <Text >
+                                                            {item.birthdate}{" "}{item.birthplace.toUpperCase()}
+                                                        </Text>
+
+                                                    </View>
+                                                </TouchableOpacity>
 
                                             </View>
+
                                             {(() => {
                                                 if ((this.state.listAllUsers.length - 1) !== index) {
                                                     return (
@@ -167,7 +173,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
                                         </View>
 
-                                    </TouchableWithoutFeedback>
+                                    </View>
 
                                 </View>
 
@@ -180,7 +186,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
                                     >
                                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={20} color='gray' />
+                                            <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={30} color='gray' />
 
                                         </View>
 

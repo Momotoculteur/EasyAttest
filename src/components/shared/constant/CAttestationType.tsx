@@ -16,7 +16,7 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
         description: "Déplacements pour effectuer des achats de fournitures nécessaires à l'activité professionnelle,\
         des achats de première nécessité dans des établissements dont les activités demeurent autorisées, le retrait de\
         commande et les livraisons à domicile.",
-        shortLabel: 'Nourriture'
+        shortLabel: 'Achats'
 
     },
     {
@@ -69,7 +69,7 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
     {
         id: 9,
         label: "DEPLACEMENT_ENFANTS",
-        shortLabel: 'Enfants',
+        shortLabel: 'Enfant',
         shortDescription: "Déplacement enfants",
         description: "Déplacement pour chercher les enfants à l’école et à l’occasion de leurs activités périscolaires."
     },

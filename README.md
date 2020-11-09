@@ -26,7 +26,13 @@ Aucune donnée ne transite hors de votre téléphone ou sur le réseau. Vos donn
 ✔ Gratuit, sans pub & Open source  
 Le code source de l’application est visible pour tous. Vous pouvez y contribuer via : 
 
+## Installation  
 
+### Android  
+
+### iOS   
+
+### Divers  
 Article complet sur l'intégration disponible sur mon blog :  
 **https://deeplylearning.fr/projets/easycovid/**  
   
