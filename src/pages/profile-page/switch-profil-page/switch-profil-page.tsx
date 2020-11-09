@@ -25,10 +25,13 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
     }
 
     componentDidMount(): void {
-        console.log('mount')
         this.updateListUsers();
         this.initializeAndProvideCurrentUser();
     }
+    componentWillUnmount() {
+    }
+
+
 
     updateCurrentProfil(userId: string) {
         this.setState({ idCurrentUser: userId });
@@ -41,7 +44,6 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
             const userToSave: IUserObject = this.state.listAllUsers.find((user: IUserObject) => {
                 return user.id.toString() === userId;
             })
-            console.log(JSON.stringify(userToSave))
             await AsyncStorage.setItem('@connectedUser', JSON.stringify(userToSave))
         } catch (e) {
             console.log("ERROR: + " + e)
@@ -70,11 +72,8 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                     onPress: () => {
                         DatabaseManager.deleteUserWithId(item.id);
                         this.updateListUsers();
-                        console.log(item.id.toString())
-                        console.log(this.state.idCurrentUser)
                         if (item.id.toString() === this.state.idCurrentUser) {
                             AsyncStorage.removeItem('@connectedUser');
-                            console.log("SUPRIMEEE")
                         }
                     }
                 }
@@ -83,14 +82,10 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         )
     }
 
+   
+
 
     initializeAndProvideCurrentUser(): void {
-        getCurrentUser().then((user) => {
-            if (user !== undefined) {
-                this.setState({ idCurrentUser: user.id.toString() });
-            }
-        });
-
         this.props.navigation.addListener('focus', () => {
             getCurrentUser().then((user) => {
                 if (user !== undefined) {
@@ -101,7 +96,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
     }
 
     updateListUsers(): void {
-        DatabaseManager.getAllUser().then((result) => { this.setState({ listAllUsers: result }) });
+        DatabaseManager.getAllUser().then((result: IUserObject[]) => { this.setState({ listAllUsers: result }) });
     }
 
     renderEmptyProfilList() {

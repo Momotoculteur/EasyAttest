@@ -47,7 +47,6 @@ export default class MomotoculteurTextInput extends React.Component<IProps, ISta
     }
 
     componentWillUnmount() {
-        this.subscription.unsubscribe();
     }
 
     updateUi(updatedInputValue: string) {

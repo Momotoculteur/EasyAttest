@@ -24,7 +24,6 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
     constructor(props: IProps) {
         super(props);
         this.state = {
-            connectedUser: undefined,
             checkboxList: [
                 { isChecked: false, attestation: ALL_ATTESTATIONS_TYPE[0] },
                 { isChecked: false, attestation: ALL_ATTESTATIONS_TYPE[1] },
@@ -44,30 +43,42 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
         this.initializeAndProvideCurrentUser();
     }
 
+    componentWillUnmount() {
+    }
+
     initializeAndProvideCurrentUser(): void {
-        getCurrentUser().then(result => this.setState({ connectedUser: result }));
         this.props.navigation.addListener('focus', () => {
             getCurrentUser().then(result => this.setState({ connectedUser: result }));
         });
     }
 
+
+
+    resetAllCheckbox(): void {
+        let temp = this.state.checkboxList;
+        temp.forEach((checkbox) => {
+            checkbox.isChecked = false;
+        })
+        this.setState({ checkboxList: temp })
+
+    }
+
     generateAttestation() {
-        console.log('GEN ATTEST')
 
         const fullDatetime = new Date();
+        const dateNow: string = new Date().toLocaleDateString('fr-FR');
+        const timeNow: string = new Date().getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
+        let reasons: string = '';
+        this.state.checkboxList.forEach((Checkbox: ICheckboxList) => {
+            if (Checkbox.isChecked) {
+                reasons += Checkbox.attestation.id + ";";
+            }
+        });
 
-        // Date DD/MM/YYY
-        //const dateNow: string = String(fullDatetime.getDate()).padStart(2, '0') + "/" + String(fullDatetime.getMonth() +1 ).padStart(2, '0') + "/" + fullDatetime.getFullYear()
-        const dateNow: string = fullDatetime.toLocaleDateString('fr-FR');
-
-        // Temps
-        const timeNow: string = fullDatetime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons);
+        this.resetAllCheckbox();
 
 
-
-
-
-        DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), "2");
 
 
         //DatabaseManager.maurice(dateNow, timeNow, Number(this.state.connectedUser?.id), "1")
@@ -109,24 +120,12 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             </View>
         );
     }
-    //                             <Ionicons name="md-information-circle-outline" size={15} color='#e50d54' onPress={() => Alert.alert('lolol')} />
-    //                     <Text style={styles.textStyle}>Show Modal</Text>
-    // <MomotoculteurModal description={item.description} />
 
-    /*
-
-    <View style={{ flex: 5 }}>
-                            <MomotoculteurCheckbox label={item.shortDescription} />
-                        </View>
-
-                        */
 
     updateCheckboxList(index: number) {
-        console.log(index)
-        //console.log(this.state.checkboxList)
         let temp = this.state.checkboxList;
         temp[index].isChecked = !temp[index].isChecked
-        this.setState({checkboxList: temp})
+        this.setState({ checkboxList: temp })
     }
 
 
