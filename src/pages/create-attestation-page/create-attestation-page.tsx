@@ -84,20 +84,8 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
         DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons)
             .then(() => {
-                let message: string = "Attestation générée pour motif : "
-                reasonLabel.forEach((currentReason: string, index) => {
-                    message += currentReason;
-                    if(index === reasonLabel.length-1) {
-                        message+= ".";
-                    } else {
-                        message+= ", ";
-                    }
-
-                }); 
-                
-                
-      
-                this.setState({ popupActive: true, popupMessage: message })
+                let message: string = "Attestation générée";
+                            this.setState({ popupActive: true, popupMessage: message })
             })
             .catch(() => {
                 const message: string = "ERREUR : " + console.error();
@@ -146,8 +134,14 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                 <Snackbar
                     visible={this.state.popupActive}
                     onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
-                    duration={1500}
-                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                    duration={2500}
+                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white'} }}
+                    action={{
+                        label: 'OK',
+                        onPress: () => {
+                            this.setState({ popupActive: !this.state.popupActive });
+                        }
+                    }}
                 >
                     {this.state.popupMessage}
                 </Snackbar>
@@ -168,7 +162,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
         return (
             this.state.checkboxList.map((item: ICheckboxList, index) => {
                 return (
-                    <View style={styles.viewCreateAttestationContener} key={item.attestation.label}>
+                    <View style={styles.viewCreateAttestationContener} key={item.attestation.id}>
                         <View style={{ flex: 5, flexDirection: 'row' }}>
                             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                                 <Checkbox.Android

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
 import { Alert, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from "react-native";
-import { RadioButton } from 'react-native-paper';
+import { RadioButton, Snackbar } from 'react-native-paper';
 import DatabaseManager from "../../../database/DatabaseManager";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getCurrentUser } from "../../../services/storage/userAsyncStorage";
@@ -10,7 +10,9 @@ import { IUserObject } from "../../../components/shared/interface/object/IUserOb
 
 interface iState {
     listAllUsers: IUserObject[],
-    idCurrentUser: string
+    idCurrentUser: string,
+    popupActive: boolean,
+    popupMessage: string
 }
 interface IProps {
 }
@@ -20,7 +22,9 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
         super(props);
         this.state = {
             listAllUsers: [],
-            idCurrentUser: ''
+            idCurrentUser: '',
+            popupActive: false,
+            popupMessage: ''
         }
     }
 
@@ -70,11 +74,20 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                 {
                     text: "Supprimer",
                     onPress: () => {
-                        DatabaseManager.deleteUserWithId(item.id);
+                        DatabaseManager.deleteUserWithId(item.id).then(() => {
+                            let message: string = "Profil supprimée";
+                            this.setState({ popupActive: true, popupMessage: message })
+                            this.updateListUsers();
+                        }).catch((err) => {
+                            let message: string = "ERREUR : " + err;
+                            this.setState({ popupActive: true, popupMessage: message })
+
+                        });
                         this.updateListUsers();
                         if (item.id.toString() === this.state.idCurrentUser) {
                             AsyncStorage.removeItem('@connectedUser');
                         }
+
                     }
                 }
             ],
@@ -186,7 +199,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
                                     >
                                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={30} color='gray' />
+                                            <Ionicons name={Platform.OS === 'ios' ? "ios-trash" : 'md-trash'} size={30} color='#e50d54' />
 
                                         </View>
 
@@ -214,6 +227,21 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
                         return (this.renderProfilList());
                     }
                 })()}
+
+                <Snackbar
+                    visible={this.state.popupActive}
+                    onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
+                    duration={2500}
+                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                    action={{
+                        label: 'OK',
+                        onPress: () => {
+                            this.setState({ popupActive: !this.state.popupActive });
+                        }
+                    }}
+                >
+                    {this.state.popupMessage}
+                </Snackbar>
             </View>
 
 

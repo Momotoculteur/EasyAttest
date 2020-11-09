@@ -135,10 +135,12 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
     createUser(): void {
         DatabaseManager.createUser(this.state.user)
             .then(() => {
+                /*
                 const message: string = this.state.user.firstName
                     + " "
                     + this.state.user.lastName.toUpperCase()
-                    + " a été crée.";
+                    + " a été crée.";*/
+                    let message: string = 'Utilisateur crée'
                 popupProfilCreatedService.sendMessageToPopup(message)
             })
             .catch((error) => {

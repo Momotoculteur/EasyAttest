@@ -140,6 +140,10 @@ export default class DatabaseManager {
 
     }
 
+    static async deleteAttestationWithId(id: number) {
+        await this.ExecuteQuery("DELETE FROM attestation WHERE attestation_id=?", [id]);
+    }
+
     static async deleteAllAttestionWithCurrendUserId(id: number) {
         await this.ExecuteQuery("DELETE FROM attestation WHERE user_id=?", [id]);
     }

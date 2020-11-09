@@ -120,8 +120,14 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                 <Snackbar
                     visible={this.state.popupActive}
                     onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
-                    duration={1500}
+                    duration={2500}
                     theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                    action={{
+                        label: 'OK',
+                        onPress: () => {
+                            this.setState({ popupActive: !this.state.popupActive });
+                        }
+                    }}
                 >
                     {this.state.popupMessage}
                 </Snackbar>
