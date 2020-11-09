@@ -25,6 +25,8 @@ export default class SettingsPage extends React.Component<IProps, iState> {
         }
     }
 
+    
+
     initializeSettings() {
 
     }

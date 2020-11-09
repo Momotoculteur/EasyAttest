@@ -8,15 +8,14 @@ import { useFonts } from 'expo-font';
 
 import DatabaseManager from './src/database/DatabaseManager'
 import { initializeAllAsyncStorage } from './src/services/storage/initializeAsyncStorage';
-import {genPdf} from './src/services/generatePdfFile'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { genPdf } from './src/services/generatePdfFile'
+
 
 export default function App() {
-    
+
     let [fontsLoaded] = useFonts({
         'Arial': require('./src/assets/fonts/arial.ttf'),
     });
-
 
 
     genPdf();
@@ -29,10 +28,11 @@ export default function App() {
     } else {
 
         return (
-          <SafeAreaView style={styles.container}>
-                <MainTabNav />
-            </SafeAreaView >
-  
+                <SafeAreaView style={styles.container}>
+                    <MainTabNav />
+                </SafeAreaView >
+
+
         )
     }
 

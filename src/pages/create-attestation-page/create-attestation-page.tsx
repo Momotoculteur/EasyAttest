@@ -9,12 +9,15 @@ import { IUserObject } from '../../components/shared/interface/object/IUserObjec
 import MomotoculteurCheckbox from '../../components/atoms/momotoculteur-checkbox/momotoculteurCheckbox';
 import DatabaseManager from '../../database/DatabaseManager';
 import { ICheckboxList } from '../../components/shared/interface/general/ICheckboxList';
-import { Checkbox } from 'react-native-paper';
+import { Checkbox, Snackbar } from 'react-native-paper';
+
 
 
 interface iState {
     connectedUser?: IUserObject,
     checkboxList: ICheckboxList[],
+    popupActive: boolean
+    popupMessage: string
 }
 interface IProps {
 
@@ -34,7 +37,9 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                 { isChecked: false, attestation: ALL_ATTESTATIONS_TYPE[6] },
                 { isChecked: false, attestation: ALL_ATTESTATIONS_TYPE[7] },
                 { isChecked: false, attestation: ALL_ATTESTATIONS_TYPE[8] }
-            ]
+            ],
+            popupActive: false,
+            popupMessage: ''
         }
     }
 
@@ -69,16 +74,36 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
         const dateNow: string = new Date().toLocaleDateString('fr-FR');
         const timeNow: string = new Date().getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
         let reasons: string = '';
-        this.state.checkboxList.forEach((Checkbox: ICheckboxList) => {
-            if (Checkbox.isChecked) {
-                reasons += Checkbox.attestation.id + ";";
+        let reasonLabel: string[] = [];
+        this.state.checkboxList.forEach((checkbox: ICheckboxList) => {
+            if (checkbox.isChecked) {
+                reasons += checkbox.attestation.id + ";";
+                reasonLabel.push(checkbox.attestation.shortLabel);
             }
         });
 
-        DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons);
+        DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons)
+            .then(() => {
+                let message: string = "Attestation générée pour motif : "
+                reasonLabel.forEach((currentReason: string, index) => {
+                    message += currentReason;
+                    if(index === reasonLabel.length-1) {
+                        message+= ".";
+                    } else {
+                        message+= ", ";
+                    }
+
+                }); 
+                
+                
+      
+                this.setState({ popupActive: true, popupMessage: message })
+            })
+            .catch(() => {
+                const message: string = "ERREUR : " + console.error();
+                this.setState({ popupActive: true, popupMessage: message })
+            });
         this.resetAllCheckbox();
-
-
 
 
         //DatabaseManager.maurice(dateNow, timeNow, Number(this.state.connectedUser?.id), "1")
@@ -97,6 +122,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
     render() {
         return (
             <View style={styles.container}>
+
                 <View style={styles.viewCreateAttestation}>
 
 
@@ -117,6 +143,14 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
 
                 </View>
+                <Snackbar
+                    visible={this.state.popupActive}
+                    onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
+                    duration={1500}
+                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                >
+                    {this.state.popupMessage}
+                </Snackbar>
             </View>
         );
     }

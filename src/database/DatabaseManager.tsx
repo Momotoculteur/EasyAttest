@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { Item } from 'react-native-paper/lib/typescript/src/components/List/List';
-import { IAttestation, IAttestationType } from '../components/shared/interface/object/IAttestationObject';
+import { IAttestationObject } from '../components/shared/interface/object/IAttestationObject';
 import { IUserObject } from '../components/shared/interface/object/IUserObject';
 
 const db = SQLite.openDatabase("easy_covid.db");
@@ -160,24 +160,58 @@ export default class DatabaseManager {
     }
 
     static async getAllAttestationByUserId(id?: number) {
-        let result: IAttestation[] = [];
+        let result: IAttestationObject[] = [];
         let selectQuery = await this.ExecuteQuery("SELECT * FROM attestation WHERE user_id=?", [id]);
         var rows = selectQuery.rows;
         for (let i = 0; i < rows.length; i++) {
             var item = rows.item(i);
             result.push({
-                id: item.user_id,
+                id: item.attestation_id,
                 date: item.date_sortie,
                 time: item.heure_sortie,
                 reasons: item.motifListId,
                 pathAttestation: '',
-            } as IAttestation);
+            } as IAttestationObject);
         }
 
         return result;
     }
 
 
+    static async createUser(user: IUserObject) {
+        await this.ExecuteQuery("insert into\
+        user(\
+            prenom,\
+            nom,\
+            date_naissance,\
+            lieu_naissance,\
+            adresse,\
+            ville,\
+            code_postal\
+            )\
+        values(\
+            ?,\
+            ?,\
+            ?,\
+            ?,\
+            ?,\
+            ?,\
+            ?)",
+            [
+                user.firstName,
+                user.lastName,
+                user.birthdate,
+                user.birthplace,
+                user.adress,
+                user.city,
+                user.postalCode
+            ]);
+    }
+
+
+    /* 
+
+    A SUPPRIMER OLD
 
 
     static insertUser(user: IUserObject): void {
@@ -217,6 +251,7 @@ export default class DatabaseManager {
             () => { console.log("OK + ") }
         )
     }
+    */
 
 
 }

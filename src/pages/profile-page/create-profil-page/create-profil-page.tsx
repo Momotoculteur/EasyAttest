@@ -8,6 +8,7 @@ import { IUserObject } from "../../../components/shared/interface/object/IUserOb
 import DatabaseManager from "../../../database/DatabaseManager";
 import { validateCreateProfilFormService } from "../../../services/validateCreateProfilFormService";
 import NumberFormat from "react-number-format";
+import { popupProfilCreatedService } from "../../../services/popupProfilCreatedService";
 
 
 interface iState {
@@ -132,7 +133,19 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
     }
 
     createUser(): void {
-        DatabaseManager.insertUser(this.state.user);
+        DatabaseManager.createUser(this.state.user)
+            .then(() => {
+                const message: string = this.state.user.firstName
+                    + " "
+                    + this.state.user.lastName.toUpperCase()
+                    + " a été crée.";
+                popupProfilCreatedService.sendMessageToPopup(message)
+            })
+            .catch((error) => {
+                const message: string = "ERREUR : " + console.error();
+                popupProfilCreatedService.sendMessageToPopup(message)
+
+            });
     }
 
 

@@ -1,33 +1,43 @@
-import React, { useCallback, useContext } from 'react';
+import React, { ReactComponentElement, useCallback, useContext } from 'react';
 import { View, Button, Alert, TouchableOpacity, Text, Platform } from 'react-native';
 import { IUserObject } from '../../components/shared/interface/object/IUserObject';
 import { styles } from './styles'
 import { Ionicons } from '@expo/vector-icons';
 import { ROUTE } from '../../navigation/route';
-
+import { popupProfilCreatedService } from '../../services/popupProfilCreatedService'
 import { getCurrentUser } from '../../services/storage/userAsyncStorage'
+import { Snackbar } from 'react-native-paper';
 
 
 interface iState {
     connectedUser?: IUserObject,
+    popupActive: boolean
+    popupMessage: string
 }
 interface IProps {
-
 }
 export default class ProfilePage extends React.Component<IProps, iState> {
+
+    subscription: any;
 
     constructor(props: IProps) {
         super(props)
         this.state = {
             connectedUser: undefined,
+            popupActive: false,
+            popupMessage: ''
         }
     }
 
     componentDidMount() {
         this.initConnectedUser();
+        this.subscription = popupProfilCreatedService.openPopup().subscribe((message: string) => {
+            this.setState({ popupActive: true, popupMessage: message })
+        })
     }
 
     componentWillUnmount() {
+        this.subscription.unsubscribe();
     }
 
     initConnectedUser(): void {
@@ -82,7 +92,6 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                 </View>
 
 
-
                 <View style={styles.viewButtonSection}>
 
                     <TouchableOpacity
@@ -92,6 +101,8 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                         <Text style={styles.textStyle}>Créer profil</Text>
 
                     </TouchableOpacity>
+
+
 
 
 
@@ -105,6 +116,15 @@ export default class ProfilePage extends React.Component<IProps, iState> {
                     </TouchableOpacity>
 
                 </View>
+
+                <Snackbar
+                    visible={this.state.popupActive}
+                    onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
+                    duration={1500}
+                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                >
+                    {this.state.popupMessage}
+                </Snackbar>
 
             </View>
         );
@@ -166,6 +186,7 @@ export default class ProfilePage extends React.Component<IProps, iState> {
             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>Sélectionnez un profil</Text>
                 <View style={{ borderBottomColor: '#e50d54', borderBottomWidth: 3, width: '20%', paddingTop: 5 }} ></View>
+
             </View>
         );
     }
