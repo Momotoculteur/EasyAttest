@@ -133,10 +133,19 @@ export default class DatabaseManager {
     }
 
     static async deleteUserWithId(id: number) {
-        await this.ExecuteQuery("DELETE FROM user WHERE user_id=?", [id]);
+        await this.ExecuteQuery("DELETE FROM attestation WHERE user_id=?", [id])
+            .then(() => {
+                this.ExecuteQuery("DELETE FROM user WHERE user_id=?", [id]);
+            });
+
     }
 
-    static async createAttestation(date: string, hours: string, userId: number, motifListId: string) {
+    static async deleteAllAttestionWithCurrendUserId(id: number) {
+        await this.ExecuteQuery("DELETE FROM attestation WHERE user_id=?", [id]);
+    }
+
+    static async createAttestation(date: string, time: string, userId: number, motifListId: string) {
+        console.log(time)
         await this.ExecuteQuery("INSERT INTO attestation(\
                                                 date_sortie,\
                                                 heure_sortie,\
@@ -146,11 +155,11 @@ export default class DatabaseManager {
                                                     ?,\
                                                     ?,\
                                                     ?,\
-                                                    ?)", [date, hours, userId, motifListId]);
+                                                    ?)", [date, time, userId, motifListId]);
 
     }
 
-    static async getAllAttestationByUserId(id: number) {
+    static async getAllAttestationByUserId(id?: number) {
         let result: IAttestation[] = [];
         let selectQuery = await this.ExecuteQuery("SELECT * FROM attestation WHERE user_id=?", [id]);
         var rows = selectQuery.rows;
@@ -158,8 +167,8 @@ export default class DatabaseManager {
             var item = rows.item(i);
             result.push({
                 id: item.user_id,
-                date: item.heure_sortie,
-                time: item.lieu_naissance,
+                date: item.date_sortie,
+                time: item.heure_sortie,
                 reasons: item.motifListId,
                 pathAttestation: '',
             } as IAttestation);
@@ -209,5 +218,5 @@ export default class DatabaseManager {
         )
     }
 
-    
+
 }

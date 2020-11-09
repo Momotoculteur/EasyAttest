@@ -24,27 +24,22 @@ export default class ProfilePage extends React.Component<IProps, iState> {
     }
 
     componentDidMount() {
-        // Init l'user courrant
-        getCurrentUser().then((user) => {
-            if (user !== undefined) {
-                this.setState({ connectedUser: user });
-            } else {
-                this.setState({ connectedUser: undefined });
-            }
-        });
-        this.props.navigation.addListener('focus', () => {
-            getCurrentUser().then((user) => {
-                if (user !== undefined) {
-                    this.setState({ connectedUser: user });
-                } else {this.setState({ connectedUser: undefined });}
-            });
-        });
-
-
+        this.initConnectedUser();
     }
 
     componentWillUnmount() {
     }
+
+    initConnectedUser(): void {
+        this.props.navigation.addListener('focus', () => {
+            getCurrentUser().then((user) => {
+                if (user !== undefined) {
+                    this.setState({ connectedUser: user });
+                } else { this.setState({ connectedUser: undefined }); }
+            });
+        });
+    }
+
 
 
     render(): JSX.Element {
