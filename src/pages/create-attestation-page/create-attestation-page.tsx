@@ -10,6 +10,7 @@ import MomotoculteurCheckbox from '../../components/atoms/momotoculteur-checkbox
 import DatabaseManager from '../../database/DatabaseManager';
 import { ICheckboxList } from '../../components/shared/interface/general/ICheckboxList';
 import { Checkbox, Snackbar } from 'react-native-paper';
+import { genPdf } from '../../services/generatePdfFile';
 
 
 
@@ -74,25 +75,33 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
         const dateNow: string = new Date().toLocaleDateString('fr-FR');
         const timeNow: string = new Date().getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
         let reasons: string = '';
-        let reasonLabel: string[] = [];
+        //let reasonLabel: string[] = [];
         this.state.checkboxList.forEach((checkbox: ICheckboxList) => {
             if (checkbox.isChecked) {
                 reasons += checkbox.attestation.id + ";";
-                reasonLabel.push(checkbox.attestation.shortLabel);
+                //reasonLabel.push(checkbox.attestation.shortLabel);
             }
         });
 
-        
-
-        DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons)
-            .then(() => {
-                let message: string = "Attestation générée";
-                            this.setState({ popupActive: true, popupMessage: message })
+        genPdf(this.state.connectedUser, undefined)
+            .then((path: string) => {
+                console.log('id' + Number(this.state.connectedUser?.id))
+                console.log('reason ' + reasons)
+                console.log('path' + path)
+                DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons, path)
+                .then(() => {
+                    let message: string = "Attestation générée";
+                                this.setState({ popupActive: true, popupMessage: message })
+                })
+                .catch(() => {
+                    const message: string = "ERREUR : " + console.error();
+                    this.setState({ popupActive: true, popupMessage: message })
+                });
             })
-            .catch(() => {
-                const message: string = "ERREUR : " + console.error();
-                this.setState({ popupActive: true, popupMessage: message })
-            });
+            .catch((err) => console.log(err))
+
+        /*
+       */
         this.resetAllCheckbox();
 
         // AJOUTER PDF CREATION GENEATION

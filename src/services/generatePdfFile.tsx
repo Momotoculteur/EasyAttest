@@ -67,16 +67,16 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     <p style="text-align: center;">En application du décret n°2020-1310 du 29 octobre 2020 prescrivant les mesures générales
     nécessaires pour faire face à l'épidémie de Covid19 dans le cadre de l'état d'urgence sanitaire</p>
     <p>Je soussigné(e),</p>
-    <p>Mme/M. : ${maurice.firstName} ${maurice.lastName}</p>
+    <p>Mme/M. : ${user.firstName} ${user.lastName}</p>
     <table style="width: 703px;">
     <tbody>
     <tr>
-    <td style="width: 360px;">Né(e) le : ${maurice.birthdate}</td>
-    <td style="width: 384px;">à : ${maurice.birthplace}</td>
+    <td style="width: 360px;">Né(e) le : ${user.birthdate}</td>
+    <td style="width: 384px;">à : ${user.birthplace}</td>
     </tr>
     </tbody>
     </table>
-    <p>Demeurant : ${maurice.adress}</p>
+    <p>Demeurant : ${user.adress}</p>
     <p>certifie que mon déplacement est lié au motif suivant (cocher la case) autorisé par le décret</br>
     n°2020-1310 du 29 octobre 2020 prescrivant les mesures générales nécessaires pour faire face à</br>
     l'épidémie de Covid19 dans le cadre de l'état d'urgence sanitaire <sup>1<sup> : </p>`;
@@ -107,12 +107,12 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     <table style="width: 386.851px;">
     <tbody>
     <tr>
-    <td style="width: 400px;">Fait à : ${maurice.city}</td>
+    <td style="width: 400px;">Fait à : ${user.city}</td>
     <td style="width: 270px;"></td>
     </tr>
     <tr>
     <td style="width: 400px;">Le : ${date}</td>
-    <td style="width: 270px;">à : ${hours}</td>
+    <td style="width: 270px;">à : ${date.hours}</td>
     </tr>
     </tbody>
     </table>
@@ -135,10 +135,7 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     </table>${qrCodeLarge}`;
 
     
-    await Print.printToFileAsync({ html })
-    .then((result) => {
-        return result.numberOfPages;
-    }).catch((err) => console.log(err));
+    return (await Print.printToFileAsync({html})).uri
 
 
     /*

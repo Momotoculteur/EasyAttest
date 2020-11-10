@@ -55,7 +55,6 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
 
 
     initializeAndProvideCurrentUser(): void {
-        console.log('FOCYS')
         this.props.navigation.addListener('focus', () => {
             getCurrentUser().then((user) => {
                 if (user !== undefined) {
@@ -88,7 +87,7 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
             }
         });
 
-        console.log(result)
+        //console.log(result)
 
 
 

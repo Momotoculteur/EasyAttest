@@ -3,5 +3,5 @@ export interface IAttestationObject {
     date: string
     time: string
     reasons: string
-    pathAttestation: string
+    path: string
 }

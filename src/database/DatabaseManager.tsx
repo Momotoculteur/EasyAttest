@@ -63,6 +63,7 @@ export default class DatabaseManager {
                         heure_sortie text not null,\
                         user_id int not null,\
                         motifListId string not null,\
+                        path string not null,\
                         foreign key (user_id) references user(user_id)\
                     );"
             );
@@ -148,18 +149,20 @@ export default class DatabaseManager {
         await this.ExecuteQuery("DELETE FROM attestation WHERE user_id=?", [id]);
     }
 
-    static async createAttestation(date: string, time: string, userId: number, motifListId: string) {
+    static async createAttestation(date: string, time: string, userId: number, motifListId: string, path: string) {
         console.log(time)
         await this.ExecuteQuery("INSERT INTO attestation(\
                                                 date_sortie,\
                                                 heure_sortie,\
                                                 user_id,\
-                                                motifListId)\
+                                                motifListId,\
+                                                path)\
                                                 values(\
                                                     ?,\
                                                     ?,\
                                                     ?,\
-                                                    ?)", [date, time, userId, motifListId]);
+                                                    ?,\
+                                                    ?)", [date, time, userId, motifListId, path]);
 
     }
 
@@ -174,7 +177,7 @@ export default class DatabaseManager {
                 date: item.date_sortie,
                 time: item.heure_sortie,
                 reasons: item.motifListId,
-                pathAttestation: '',
+                path: item.path,
             } as IAttestationObject);
         }
 
