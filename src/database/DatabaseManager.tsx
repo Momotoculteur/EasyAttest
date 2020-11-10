@@ -59,8 +59,10 @@ export default class DatabaseManager {
                 "create table if not exists\
                     attestation (\
                         attestation_id integer primary key autoincrement not null,\
-                        date_sortie text not null,\
-                        heure_sortie text not null,\
+                        created_at_date text not null,\
+                        created_at_time text not null,\
+                        leaved_at_time text not null,\
+                        leaved_at_date text not null,\
                         user_id int not null,\
                         motifListId string not null,\
                         path string not null,\
@@ -149,20 +151,32 @@ export default class DatabaseManager {
         await this.ExecuteQuery("DELETE FROM attestation WHERE user_id=?", [id]);
     }
 
-    static async createAttestation(date: string, time: string, userId: number, motifListId: string, path: string) {
-        console.log(time)
+    static async createAttestation(userId: number, motifListId: string, path: string, createdAtDate: string, createdAtTime: string, leavedAtTime: string, leavedAtDate: string) {
         await this.ExecuteQuery("INSERT INTO attestation(\
-                                                date_sortie,\
-                                                heure_sortie,\
+                                                created_at_date,\
+                                                created_at_time,\
+                                                leaved_at_time,\
+                                                leaved_at_date,\
                                                 user_id,\
                                                 motifListId,\
                                                 path)\
-                                                values(\
-                                                    ?,\
-                                                    ?,\
-                                                    ?,\
-                                                    ?,\
-                                                    ?)", [date, time, userId, motifListId, path]);
+                                                    values(\
+                                                        ?,\
+                                                        ?,\
+                                                        ?,\
+                                                        ?,\
+                                                        ?,\
+                                                        ?,\
+                                                        ?)",
+            [
+                createdAtDate,
+                createdAtTime,
+                leavedAtTime,
+                leavedAtDate,
+                userId,
+                motifListId,
+                path
+            ]);
 
     }
 
@@ -174,8 +188,14 @@ export default class DatabaseManager {
             var item = rows.item(i);
             result.push({
                 id: item.attestation_id,
-                date: item.date_sortie,
-                time: item.heure_sortie,
+                createdAt: {
+                    date: item.created_at_date,
+                    time: item.created_at_time
+                },
+                leavedAt: {
+                    date: item.leaved_at_date,
+                    time: item.leaved_at_time
+                },
                 reasons: item.motifListId,
                 path: item.path,
             } as IAttestationObject);

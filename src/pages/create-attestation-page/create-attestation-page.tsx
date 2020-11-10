@@ -10,7 +10,8 @@ import MomotoculteurCheckbox from '../../components/atoms/momotoculteur-checkbox
 import DatabaseManager from '../../database/DatabaseManager';
 import { ICheckboxList } from '../../components/shared/interface/general/ICheckboxList';
 import { Checkbox, Snackbar } from 'react-native-paper';
-import { genPdf } from '../../services/generatePdfFile';
+import { generateAttestationPdfFile } from '../../services/pdfFileGeneratorService';
+import { IAttestationObject } from '../../components/shared/interface/object/IAttestationObject';
 
 
 
@@ -74,27 +75,33 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
         const fullDatetime = new Date();
         const dateNow: string = new Date().toLocaleDateString('fr-FR');
         const timeNow: string = new Date().getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
-        let reasons: string = '';
-        //let reasonLabel: string[] = [];
+        let reasonsIds: string = '';
+        let reasonsIdsList: number[] = [];
+        let reasonsLabelsList: string[] = [];
+
         this.state.checkboxList.forEach((checkbox: ICheckboxList) => {
             if (checkbox.isChecked) {
-                reasons += checkbox.attestation.id + ";";
-                //reasonLabel.push(checkbox.attestation.shortLabel);
+                reasonsIds += checkbox.attestation.id + ";";
+                reasonsIdsList.push(checkbox.attestation.id);
+                reasonsLabelsList.push(checkbox.attestation.shortLabel)
             }
         });
+        
 
-        genPdf(this.state.connectedUser, undefined)
+        generateAttestationPdfFile(this.state.connectedUser, reasonsIdsList, reasonsLabelsList, dateNow, timeNow, dateNow, timeNow)
             .then((path: string) => {
                 console.log('id' + Number(this.state.connectedUser?.id))
-                console.log('reason ' + reasons)
+                console.log('reason ' + reasonsIds)
                 console.log('path' + path)
-                DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons, path)
+
+
+                DatabaseManager.createAttestation(Number(this.state.connectedUser?.id), reasonsIds, path, dateNow, timeNow, timeNow, dateNow)
                 .then(() => {
                     let message: string = "Attestation générée";
                                 this.setState({ popupActive: true, popupMessage: message })
                 })
-                .catch(() => {
-                    const message: string = "ERREUR : " + console.error();
+                .catch((err) => {
+                    const message: string = "ERREUR : " + err;
                     this.setState({ popupActive: true, popupMessage: message })
                 });
             })

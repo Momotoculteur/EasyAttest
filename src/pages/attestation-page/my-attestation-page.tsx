@@ -110,7 +110,7 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
 
     openDeleteConfirmAlert(attestation: IAttestationObject): void {
         const title = this.getFullLabelReason(attestation.reasons);
-        const subTitle = attestation.time + " - " + attestation.date;
+        const subTitle = attestation.leavedAt.time + " - " + attestation.leavedAt.date;
 
         Alert.alert(
             title,
@@ -158,7 +158,7 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
                                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', paddingBottom: (this.state.myAttestionList.length - 1) === index ? 10 : 0, paddingTop: 10 }}>
                                     <View style={{ flex: 3, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                         <Text style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>{this.getFullLabelReason(item.reasons)}</Text>
-                                        <Text>{item.time}{" - "}{item.date}</Text>
+                                        <Text>{item.leavedAt.time}{" - "}{item.leavedAt.date}</Text>
 
 
                                     </View>

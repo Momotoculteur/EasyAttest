@@ -8,55 +8,29 @@ import QRCode from 'qrcode';
 
 
 
-function getQRCodeData() {
+function getQRCodeData(user?: IUserObject, reasonsLabelsList: string[],  leavedAtDate: string, leavedAtTime: string, createdAtDate: string, createdAtTime: string) {
 
-    /*
+    
     return [
-      `Cree le: ${createdAt.toFormat(DATE_FMT)} a ${createdAt.toFormat(TIME_FMT)}`,
-      `Nom: ${cert.profile.lastName}`,
-      `Prenom: ${cert.profile.firstName}`,
-      `Naissance: ${DateTime.fromISO(cert.profile.dateOfBirth).toFormat(DATE_FMT)} a ${
-        cert.profile.placeOfBirth
-      }`,
-      `Adresse: ${cert.profile.address} ${cert.profile.zip} ${cert.profile.city}`,
-      `Sortie: ${leaveAt.toFormat(DATE_FMT)} a ${leaveAt.toFormat(TIME_FMT)}`,
-      `Motifs: ${cert.reasons.join(", ")}`,
+      `Cree le: ${createdAtDate} a ${createdAtTime}`,
+      `Nom: ${user?.lastName}`,
+      `Prenom: ${user?.firstName}`,
+      `Naissance: ${user?.birthdate} a ${user?.birthplace}`,
+      `Adresse: ${user?.adress} ${user?.postalCode} ${user?.city}`,
+      `Sortie: ${leavedAtDate} a ${leavedAtTime}`,
+      `Motifs: ${reasonsLabelsList.join(", ")}`,
     ].join(";\n");
-    */
+    
 }
 
 
-export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestationType[]) {
 
-    const maurice: IUserObject = {
-        firstName: "Bastien",
-        lastName: "MAURICE",
-        birthdate: "10/12/1993",
-        birthplace: "Périgueux",
-        adress: "14 Impasse de campniac",
-        postalCode: "24000",
-        city: "Périgueux",
-        id: 1
-
-    }
-
-    const date: string = "10/12/2020";
-    const time: string = "10:10"
-
-    let attestList: IAttestationType[] = [];
+export async function generateAttestationPdfFile(user?: IUserObject, reasonsIdsList: number[], reasonsLabelsList: string[], leavedAtDate: string, leavedAtTime: string, createdAtDate: string, createdAtTime: string) {
 
 
-    let qrCodeTiny: string = '';
-    let qrCodeLarge: string = '';
 
-    QRCode.toString('I am a pony!', { width: 160, color: { light: '#0000' } }, function (err, url) {
-        qrCodeTiny = url;
-    });
-
-    QRCode.toString('I am a pony!', function (err, url) {
-        qrCodeLarge = url;
-    });
-
+    const qrCodeLarge: string = await QRCode.toString(getQRCodeData(user, reasonsLabelsList, leavedAtDate, leavedAtTime, createdAtDate, createdAtTime));
+    
     let html = `<style>
     @page {
 
@@ -119,8 +93,8 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     <td style="width: 270px;"></td>
     </tr>
     <tr>
-    <td style="width: 400px;">Le : ${date}</td>
-    <td style="width: 270px;">à : ${time}</td>
+    <td style="width: 400px;">Le : ${leavedAtDate}</td>
+    <td style="width: 270px;">à : ${leavedAtTime}</td>
     </tr>
     </tbody>
     </table>
@@ -146,27 +120,6 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     return (await Print.printToFileAsync({
         html: html
     })).uri
-
-
-    /*
-    const data = await FileSystem.readAsStringAsync('file://' + uri, {
-        encoding: FileSystem.EncodingType.Base64,
-    });*/
-
-    /*
-    const promise = await Print.printAsync({
-        orientation: Print.Orientation.portrait,
-        //markupFormatterIOS: '`',
-        html: html
-    });
-    */
-
-
-
-
-
-    //console.log(uri)
-    //    Sharing.shareAsync(uri);
 
 }
 

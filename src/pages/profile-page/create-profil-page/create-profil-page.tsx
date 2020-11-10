@@ -144,7 +144,7 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                 popupProfilCreatedService.sendMessageToPopup(message)
             })
             .catch((error) => {
-                const message: string = "ERREUR : " + console.error();
+                const message: string = "ERREUR : " + error;
                 popupProfilCreatedService.sendMessageToPopup(message)
 
             });
