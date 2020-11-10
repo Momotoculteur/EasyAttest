@@ -63,11 +63,19 @@ export async function generateAttestationPdfFile(user?: IUserObject, reasonsIdsL
     html += `<table><tbody>`
 
 
+    // Checkbox
     ALL_ATTESTATIONS_TYPE.forEach((reason: IAttestationType) => {
         html += `<tr>`;
-        // Checkbox
         html += `<td style="width: 45px;">`
-        html += `<div style="height: 25px;width: 25px;border: solid 2px;"><div style="text-align:center;vertical-align:center;font-size: 1.4em">X<div/></div>`;
+
+        html += `<div style="height: 25px;width: 25px;border: solid 2px;"><div style="text-align:center;vertical-align:center;font-size: 1.4em">`
+
+        // Cocher la checkbox
+        if (reasonsIdsList.includes(reason.id)) {
+            html += `X`
+        }
+
+        html += `<div/></div>`
         html += `</td>`;
 
         //Description
