@@ -146,23 +146,23 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
                                                 <TouchableOpacity onPress={() => { this.updateCurrentProfil(item.id.toString()) }} >
                                                     <View style={{ alignItems: 'center' }}>
-                                                        <Text style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>
+                                                        <Text style={{ fontWeight: 'bold', fontFamily: 'Arial', color: this.state.listAllUsers[index].id.toString() === this.state.idCurrentUser ? 'black' : 'gray' }}>
                                                             {item.firstName}{" "}{item.lastName.toUpperCase()}
                                                         </Text>
                                                     </View>
                                                     <View style={{ alignItems: 'center' }}>
-                                                        <Text>
+                                                        <Text style={{color: this.state.listAllUsers[index].id.toString() === this.state.idCurrentUser ? 'black' : 'gray'}}>
                                                             {item.adress}
                                                         </Text>
                                                     </View>
                                                     <View style={{ alignItems: 'center' }}>
-                                                        <Text >
+                                                        <Text style={{color: this.state.listAllUsers[index].id.toString() === this.state.idCurrentUser ? 'black' : 'gray'}}>
                                                             {item.postalCode}{" "}{item.city.toUpperCase()}
                                                         </Text>
                                                     </View>
                                                     <View style={{ alignItems: 'center' }}>
 
-                                                        <Text >
+                                                        <Text style={{color: this.state.listAllUsers[index].id.toString() === this.state.idCurrentUser ? 'black' : 'gray'}}>
                                                             {item.birthdate}{" "}{item.birthplace.toUpperCase()}
                                                         </Text>
 

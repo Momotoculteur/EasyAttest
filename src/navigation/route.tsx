@@ -9,6 +9,7 @@ export const ROUTE = {
         MAIN: "Créer attestation"
     },
     ATTESTATION_TAB: {
-        MAIN: "Mes Attestations"
+        MAIN: "Mes Attestations",
+        PDF_READER: "Attestation"
     }
 };

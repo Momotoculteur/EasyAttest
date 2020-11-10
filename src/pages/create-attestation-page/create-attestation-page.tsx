@@ -188,7 +188,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                                     this.updateCheckboxList(index);
                                 }}>
                                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                                        <Text>
+                                        <Text style={{color: this.state.checkboxList[index].isChecked ? 'black' : 'gray'}}>
                                             {item.attestation.shortDescription}
                                         </Text>
                                     </View>

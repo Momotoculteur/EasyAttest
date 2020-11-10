@@ -3,7 +3,6 @@ import { Alert, Platform } from "react-native";
 import { IAttestationType } from "../components/shared/interface/general/IAttestationType";
 import { ALL_ATTESTATIONS_TYPE } from '../components/shared/constant/CAttestationType'
 import { IUserObject } from '../components/shared/interface/object/IUserObject';
-import * as FileSystem from 'expo-file-system';
 import QRCode from 'qrcode';
 
 
@@ -24,7 +23,7 @@ function getQRCodeData() {
       `Motifs: ${cert.reasons.join(", ")}`,
     ].join(";\n");
     */
-  }
+}
 
 
 export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestationType[]) {
@@ -42,7 +41,7 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     }
 
     const date: string = "10/12/2020";
-    const hours: string = "10:10"
+    const time: string = "10:10"
 
     let attestList: IAttestationType[] = [];
 
@@ -50,7 +49,7 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     let qrCodeTiny: string = '';
     let qrCodeLarge: string = '';
 
-    QRCode.toString('I am a pony!', { width: 160, color:{light: '#0000'} }, function (err, url) {
+    QRCode.toString('I am a pony!', { width: 160, color: { light: '#0000' } }, function (err, url) {
         qrCodeTiny = url;
     });
 
@@ -60,15 +59,20 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
 
     let html = `<style>
     @page {
-      margin: 25px;
+
     }
+    * {
+        fontFamily: 'Arial';
+        line-height: 1em;
+    }
+
   </style>
     <h2 style="text-align: center;">ATTESTATION DE DÉPLACEMENT DÉROGATOIRE</h2>
     <p style="text-align: center;">En application du décret n°2020-1310 du 29 octobre 2020 prescrivant les mesures générales
     nécessaires pour faire face à l'épidémie de Covid19 dans le cadre de l'état d'urgence sanitaire</p>
     <p>Je soussigné(e),</p>
     <p>Mme/M. : ${user.firstName} ${user.lastName}</p>
-    <table style="width: 703px;">
+    <table>
     <tbody>
     <tr>
     <td style="width: 360px;">Né(e) le : ${user.birthdate}</td>
@@ -82,7 +86,7 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     l'épidémie de Covid19 dans le cadre de l'état d'urgence sanitaire <sup>1<sup> : </p>`;
 
 
-    html += `<table style="width: 697px;"><tbody>`
+    html += `<table><tbody>`
 
 
     ALL_ATTESTATIONS_TYPE.forEach((reason: IAttestationType) => {
@@ -93,7 +97,7 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
         html += `</td>`;
 
         //Description
-        html += `<td style="width: 700px;">${reason.description}</td>`;
+        html += `<td>${reason.description}</td>`;
 
         html += `</tr>`;
     })
@@ -103,8 +107,12 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
 
     html += `</tbody></table>`
 
-    html += `<p style="position: absolute; left:550px; bottom: 143px;">${qrCodeTiny}</p>
-    <table style="width: 386.851px;">
+
+    // TINY QR CODE EN BASE DE PREMIERE PAGE
+    //html += `<p style="position: absolute; left:550px; bottom: 143px;">${qrCodeTiny}</p>
+
+    html += `
+    <table>
     <tbody>
     <tr>
     <td style="width: 400px;">Fait à : ${user.city}</td>
@@ -112,30 +120,32 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     </tr>
     <tr>
     <td style="width: 400px;">Le : ${date}</td>
-    <td style="width: 270px;">à : ${date.hours}</td>
+    <td style="width: 270px;">à : ${time}</td>
     </tr>
     </tbody>
     </table>
     <p>(Date et heure de début de sortie à mentionner obligatoirement)<br />Signature :</p>
-    <table style="width: 706px;">
+    <table>
     <tbody>
     <tr>
-    <td style="width: 35px; text-align: center;"><sup>1</sup></td>
-    <td style="width: 675px;">Les personnes souhaitant bénéficier de l'une de ces exceptions doivent se munir s'il y a lieu, lors de leurs déplacements hors de leur domicile, d'un document leur permettant de justifier que le déplacement considéré entre dans le champ de l'une de ces exceptions.</td>
+    <td style="width: 35px;text-align: center;"><sup>1</sup></td>
+    <td>Les personnes souhaitant bénéficier de l'une de ces exceptions doivent se munir s'il y a lieu, lors de leurs déplacements hors de leur domicile, d'un document leur permettant de justifier que le déplacement considéré entre dans le champ de l'une de ces exceptions.</td>
     </tr>
     <tr>
-    <td style="width: 35px; text-align: center;"><sup>2</sup></td>
-    <td style="width: 675px;">A utiliser par les travailleurs non-salariés, lorsqu'ils ne peuvent disposer d'un justificatif de déplacement établi par leur employeur.</td>
+    <td style="width: 35px;text-align: center;"><sup>2</sup></td>
+    <td>A utiliser par les travailleurs non-salariés, lorsqu'ils ne peuvent disposer d'un justificatif de déplacement établi par leur employeur.</td>
     </tr>
     <tr>
-    <td style="width: 35px; text-align: center;"><sup>3</sup></td>
-    <td style="width: 675px;">Y compris les acquisitions à titre gratuit (distribution de denrées alimentaires...) et les déplacements liés à la perception de prestations sociales et au retrait d'espèces.</td>
+    <td style="width: 35px;text-align: center;"><sup>3</sup></td>
+    <td>Y compris les acquisitions à titre gratuit (distribution de denrées alimentaires...) et les déplacements liés à la perception de prestations sociales et au retrait d'espèces.</td>
     </tr>
     </tbody>
     </table>${qrCodeLarge}`;
 
-    
-    return (await Print.printToFileAsync({html})).uri
+
+    return (await Print.printToFileAsync({
+        html: html
+    })).uri
 
 
     /*

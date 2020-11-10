@@ -1,5 +1,5 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import * as React from 'react';
 import { Alert, Button, Text, View, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import { ALL_ATTESTATIONS_TYPE } from '../../components/shared/constant/CAttestationType';
@@ -10,6 +10,7 @@ import DatabaseManager from '../../database/DatabaseManager';
 import { getCurrentUser } from '../../services/storage/userAsyncStorage';
 import { styles } from './style'
 import * as FileSystem from 'expo-file-system';
+import { ROUTE } from '../../navigation/route';
 
 
 interface IProps {
@@ -123,17 +124,17 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
                     text: "Supprimer",
                     onPress: () => {
                         DatabaseManager.deleteAttestationWithId(attestation.id)
-                        .then(() => {
-                            FileSystem.deleteAsync(attestation.path);
-                        })
-                        .then(() => {
-                            let message: string = "Attestation supprimée";
-                            this.setState({ popupActive: true, popupMessage: message })
-                        }).
-                        catch( (err) => {
-                            let message: string = "ERREUR : " + err;
-                            this.setState({ popupActive: true, popupMessage: message })
-                        })
+                            .then(() => {
+                                FileSystem.deleteAsync(attestation.path);
+                            })
+                            .then(() => {
+                                let message: string = "Attestation supprimée";
+                                this.setState({ popupActive: true, popupMessage: message })
+                            }).
+                            catch((err) => {
+                                let message: string = "ERREUR : " + err;
+                                this.setState({ popupActive: true, popupMessage: message })
+                            })
                         this.updateListAttestations();
                     }
                 }
@@ -167,7 +168,9 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
 
                                         <TouchableOpacity
                                             style={{ flex: 1, borderRadius: 20 }}
-                                            onPress={() => { }}
+                                            onPress={() => {
+                                                this.props.navigation.navigate(ROUTE.ATTESTATION_TAB.PDF_READER, {uri: item.path});
+                                            }}
                                         >
                                             <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                                                 <Ionicons name={Platform.OS === 'ios' ? "ios-paper" : 'md-paper'} size={30} color='gray' />
