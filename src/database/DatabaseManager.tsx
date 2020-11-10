@@ -201,7 +201,7 @@ export default class DatabaseManager {
             } as IAttestationObject);
         }
 
-        return result;
+        return result.reverse();
     }
 
 
@@ -234,51 +234,6 @@ export default class DatabaseManager {
                 user.postalCode
             ]);
     }
-
-
-    /* 
-
-    A SUPPRIMER OLD
-
-
-    static insertUser(user: IUserObject): void {
-        db.transaction(
-            tx => {
-                tx.executeSql(
-                    "insert into\
-                        user(\
-                            prenom,\
-                            nom,\
-                            date_naissance,\
-                            lieu_naissance,\
-                            adresse,\
-                            ville,\
-                            code_postal\
-                            )\
-                        values(\
-                            ?,\
-                            ?,\
-                            ?,\
-                            ?,\
-                            ?,\
-                            ?,\
-                            ?)",
-                    [
-                        user.firstName,
-                        user.lastName,
-                        user.birthdate,
-                        user.birthplace,
-                        user.adress,
-                        user.city,
-                        user.postalCode
-                    ]
-                )
-            },
-            (e) => { console.log("ERREUR + " + e) },
-            () => { console.log("OK + ") }
-        )
-    }
-    */
 
 
 }
