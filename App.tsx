@@ -18,7 +18,8 @@ export default function App() {
     });
 
 
-    genPdf();
+    //genPdf().then((result) => console.log(result));
+
     initializeAllAsyncStorage();
     //AsyncStorage.clear();
     DatabaseManager.initializeDatabase();

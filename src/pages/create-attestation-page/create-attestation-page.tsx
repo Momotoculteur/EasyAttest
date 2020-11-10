@@ -82,6 +82,8 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             }
         });
 
+        
+
         DatabaseManager.createAttestation(dateNow, timeNow, Number(this.state.connectedUser?.id), reasons)
             .then(() => {
                 let message: string = "Attestation générée";
@@ -93,11 +95,8 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             });
         this.resetAllCheckbox();
 
+        // AJOUTER PDF CREATION GENEATION
 
-        //DatabaseManager.maurice(dateNow, timeNow, Number(this.state.connectedUser?.id), "1")
-        //let list: IAttestation = [];
-        //DatabaseManager.insertAttest(dateNow, timeNow, Number(this.state.connectedUser?.id), "1");
-        //DatabaseManager.getAllAttestationByUserId(5);
     }
 
 

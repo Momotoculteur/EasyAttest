@@ -1,9 +1,30 @@
 import * as Print from 'expo-print';
-import * as Sharing from 'expo-sharing';
 import { Alert, Platform } from "react-native";
 import { IAttestationType } from "../components/shared/interface/general/IAttestationType";
-import {ALL_ATTESTATIONS_TYPE} from '../components/shared/constant/CAttestationType'
+import { ALL_ATTESTATIONS_TYPE } from '../components/shared/constant/CAttestationType'
 import { IUserObject } from '../components/shared/interface/object/IUserObject';
+import * as FileSystem from 'expo-file-system';
+import QRCode from 'qrcode';
+
+
+
+
+function getQRCodeData() {
+
+    /*
+    return [
+      `Cree le: ${createdAt.toFormat(DATE_FMT)} a ${createdAt.toFormat(TIME_FMT)}`,
+      `Nom: ${cert.profile.lastName}`,
+      `Prenom: ${cert.profile.firstName}`,
+      `Naissance: ${DateTime.fromISO(cert.profile.dateOfBirth).toFormat(DATE_FMT)} a ${
+        cert.profile.placeOfBirth
+      }`,
+      `Adresse: ${cert.profile.address} ${cert.profile.zip} ${cert.profile.city}`,
+      `Sortie: ${leaveAt.toFormat(DATE_FMT)} a ${leaveAt.toFormat(TIME_FMT)}`,
+      `Motifs: ${cert.reasons.join(", ")}`,
+    ].join(";\n");
+    */
+  }
 
 
 export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestationType[]) {
@@ -25,9 +46,17 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
 
     let attestList: IAttestationType[] = [];
 
-    let QRCODE= "";
 
+    let qrCodeTiny: string = '';
+    let qrCodeLarge: string = '';
 
+    QRCode.toString('I am a pony!', { width: 160, color:{light: '#0000'} }, function (err, url) {
+        qrCodeTiny = url;
+    });
+
+    QRCode.toString('I am a pony!', function (err, url) {
+        qrCodeLarge = url;
+    });
 
     let html = `<style>
     @page {
@@ -57,16 +86,16 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
 
 
     ALL_ATTESTATIONS_TYPE.forEach((reason: IAttestationType) => {
-        html +=`<tr>`;
+        html += `<tr>`;
         // Checkbox
-        html +=`<td style="width: 45px;">`
+        html += `<td style="width: 45px;">`
         html += `<div style="height: 25px;width: 25px;border: solid 2px;"><div style="text-align:center;vertical-align:center;font-size: 1.4em">X<div/></div>`;
         html += `</td>`;
 
         //Description
-        html +=`<td style="width: 700px;">${reason.description}</td>`;
+        html += `<td style="width: 700px;">${reason.description}</td>`;
 
-        html +=`</tr>`;
+        html += `</tr>`;
     })
 
 
@@ -74,7 +103,7 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
 
     html += `</tbody></table>`
 
-    html += `<p><img style="background-image: url('img/object.gif'); float: right;" width="100" height="100" /></p>
+    html += `<p style="position: absolute; left:550px; bottom: 143px;">${qrCodeTiny}</p>
     <table style="width: 386.851px;">
     <tbody>
     <tr>
@@ -103,20 +132,30 @@ export async function genPdf(user?: IUserObject, attestationsTypes?: IAttestatio
     <td style="width: 675px;">Y compris les acquisitions à titre gratuit (distribution de denrées alimentaires...) et les déplacements liés à la perception de prestations sociales et au retrait d'espèces.</td>
     </tr>
     </tbody>
-    </table>`;
+    </table>${qrCodeLarge}`;
 
+    
+    await Print.printToFileAsync({ html })
+    .then((result) => {
+        return result.numberOfPages;
+    }).catch((err) => console.log(err));
 
-    //const { uri } = await Print.printToFileAsync({ html });
 
     /*
+    const data = await FileSystem.readAsStringAsync('file://' + uri, {
+        encoding: FileSystem.EncodingType.Base64,
+    });*/
 
+    /*
     const promise = await Print.printAsync({
         orientation: Print.Orientation.portrait,
-        // markupFormatterIOS: `
-        html: html,
+        //markupFormatterIOS: '`',
+        html: html
     });
-    
     */
+
+
+
 
 
     //console.log(uri)

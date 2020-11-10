@@ -4,7 +4,7 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
     {
         id: 1,
         label: "DEPLACEMENT_PRO",
-        shortLabel: 'Pro',
+        shortLabel: 'Travail',
         shortDescription: "Déplacement professionel",
         description: "Déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle ou un établissement\
         d’enseignement ou de formation, déplacements professionnels ne pouvant être différés, déplacements pour un concours ou un examen."
@@ -24,13 +24,13 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
         label: "DEPLACEMENT_MEDICAL",
         shortDescription: "Déplacement médical",
         description: "Consultations, examens et soins ne pouvant être assurés à distance et l’achat de médicaments.",
-        shortLabel: 'Medical',
+        shortLabel: 'Santé',
 
     },
     {
         id: 4,
         label: "DEPLACEMENT_FAMILIAL",
-        shortLabel: 'Familial',
+        shortLabel: 'Famille',
         shortDescription: "Déplacement familial",
         description: "Déplacements pour motif familial impérieux, pour l'assistance aux personnes vulnérables et \
             précaires ou la garde d'enfants."
@@ -45,7 +45,7 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
     {
         id: 6,
         label: "DEPLACEMENT_SPORTIF",
-        shortLabel: 'Marche',
+        shortLabel: 'Sport & Animaux',
         shortDescription: "Déplacement sportif",
         description: "Déplacements brefs, dans la limite d'une heure quotidienne et dans un rayon maximal d'un kilomètre\
         autour du domicile, liés soit à l'activité physique individuelle des personnes, à l'exclusion de toute pratique sportive \
@@ -55,21 +55,21 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
     {
         id: 7,
         label: "DEPLACEMENT_JUDICIAIRE",
-        shortLabel: 'Judiciaire',
+        shortLabel: 'Convocation',
         shortDescription: "Déplacement judiciaire",
         description: "Convocation judiciaire ou administrative et pour se rendre dans un service public."
     },
     {
         id: 8,
         label: "DEPLACEMENT_MISSION_INTERET_GENERAL",
-        shortLabel: 'Mission',
+        shortLabel: 'Missions',
         shortDescription: "Déplacement mission d'intérêt général",
         description: "Participation à des missions d'intérêt général sur demande de l'autorité administrative."
     },
     {
         id: 9,
         label: "DEPLACEMENT_ENFANTS",
-        shortLabel: 'Enfant',
+        shortLabel: 'Enfants',
         shortDescription: "Déplacement enfants",
         description: "Déplacement pour chercher les enfants à l’école et à l’occasion de leurs activités périscolaires."
     },
