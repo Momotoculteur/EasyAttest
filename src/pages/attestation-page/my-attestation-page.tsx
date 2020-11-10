@@ -9,6 +9,8 @@ import { IUserObject } from '../../components/shared/interface/object/IUserObjec
 import DatabaseManager from '../../database/DatabaseManager';
 import { getCurrentUser } from '../../services/storage/userAsyncStorage';
 import { styles } from './style'
+import * as FileSystem from 'expo-file-system';
+
 
 interface IProps {
 }
@@ -122,12 +124,16 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
                     onPress: () => {
                         DatabaseManager.deleteAttestationWithId(attestation.id)
                         .then(() => {
+                            FileSystem.deleteAsync(attestation.path);
+                        })
+                        .then(() => {
                             let message: string = "Attestation supprimée";
                             this.setState({ popupActive: true, popupMessage: message })
-                        }).catch( (err) => {
+                        }).
+                        catch( (err) => {
                             let message: string = "ERREUR : " + err;
                             this.setState({ popupActive: true, popupMessage: message })
-                        });
+                        })
                         this.updateListAttestations();
                     }
                 }
