@@ -2,16 +2,13 @@ import * as React from 'react';
 import { Alert, Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { styles } from './style'
 import { ALL_ATTESTATIONS_TYPE } from '../../components/shared/constant/CAttestationType';
-import { IAttestationType } from '../../components/shared/interface/general/IAttestationType';
 import MomotoculteurModal from '../../components/atoms/momotoculteur-modal/momotoculteurModal';
 import { getCurrentUser } from '../../services/storage/userAsyncStorage';
 import { IUserObject } from '../../components/shared/interface/object/IUserObject';
-import MomotoculteurCheckbox from '../../components/atoms/momotoculteur-checkbox/momotoculteurCheckbox';
 import DatabaseManager from '../../database/DatabaseManager';
 import { ICheckboxList } from '../../components/shared/interface/general/ICheckboxList';
 import { Checkbox, Snackbar } from 'react-native-paper';
 import { generateAttestationPdfFile } from '../../services/pdfFileGeneratorService';
-import { IAttestationObject } from '../../components/shared/interface/object/IAttestationObject';
 
 
 
@@ -25,7 +22,6 @@ interface IProps {
 
 }
 export default class CreateAttestionPage extends React.Component<IProps, iState> {
-
     constructor(props: IProps) {
         super(props);
         this.state = {
@@ -43,6 +39,8 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             popupActive: false,
             popupMessage: ''
         }
+
+        
     }
 
     componentDidMount() {
@@ -86,32 +84,25 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                 reasonsLabelsList.push(checkbox.attestation.shortLabel)
             }
         });
-        
+
 
         generateAttestationPdfFile(this.state.connectedUser, reasonsIdsList, reasonsLabelsList, dateNow, timeNow, dateNow, timeNow)
             .then((path: string) => {
-                console.log('id' + Number(this.state.connectedUser?.id))
-                console.log('reason ' + reasonsIds)
-                console.log('path' + path)
-
-
                 DatabaseManager.createAttestation(Number(this.state.connectedUser?.id), reasonsIds, path, dateNow, timeNow, timeNow, dateNow)
-                .then(() => {
-                    let message: string = "Attestation générée";
-                                this.setState({ popupActive: true, popupMessage: message })
-                })
-                .catch((err) => {
-                    const message: string = "ERREUR : " + err;
-                    this.setState({ popupActive: true, popupMessage: message })
-                });
+                    .then(() => {
+                        let message: string = "Attestation générée";
+                        this.setState({ popupActive: true, popupMessage: message })
+                    })
+                    .catch((err) => {
+                        const message: string = "ERREUR : " + err;
+                        this.setState({ popupActive: true, popupMessage: message })
+                    });
             })
             .catch((err) => console.log(err))
 
-        /*
-       */
+   
         this.resetAllCheckbox();
 
-        // AJOUTER PDF CREATION GENEATION
 
     }
 
@@ -123,44 +114,46 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
 
     render() {
-        return (
-            <View style={styles.container}>
+               return (
+                <View style={styles.container}>
 
-                <View style={styles.viewCreateAttestation}>
-
-
-                    {(() => {
-                        return (this.renderCheckboxList())
-                    })()}
+                    <View style={{ ...styles.viewCreateAttestation}}>
 
 
+                        {(() => {
+                                   
 
+                            return (this.renderCheckboxList())
+                        })()}
+
+
+
+                    </View>
+                    <View style={styles.viewButtonSection}>
+                        <TouchableOpacity activeOpacity={0.7}
+                            disabled={this.canGenerate()}
+                            onPress={() => this.generateAttestation()}
+                            style={{ ...styles.buttonStyle, backgroundColor: (this.canGenerate() ? 'gray' : '#e50d54') }} >
+                            <Text style={styles.textStyle}>Générer attestation</Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+                    <Snackbar
+                        visible={this.state.popupActive}
+                        onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
+                        duration={2500}
+                        theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                        action={{
+                            label: 'OK',
+                            onPress: () => {
+                                this.setState({ popupActive: !this.state.popupActive });
+                            }
+                        }}
+                    >
+                        {this.state.popupMessage}
+                    </Snackbar>
                 </View>
-                <View style={styles.viewButtonSection}>
-                    <TouchableOpacity activeOpacity={0.7}
-                        disabled={this.canGenerate()}
-                        onPress={() => this.generateAttestation()}
-                        style={{ ...styles.buttonStyle, backgroundColor: (this.canGenerate() ? 'gray' : '#e50d54') }} >
-                        <Text style={styles.textStyle}>Générer attestation</Text>
-                    </TouchableOpacity>
-
-
-                </View>
-                <Snackbar
-                    visible={this.state.popupActive}
-                    onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
-                    duration={2500}
-                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white'} }}
-                    action={{
-                        label: 'OK',
-                        onPress: () => {
-                            this.setState({ popupActive: !this.state.popupActive });
-                        }
-                    }}
-                >
-                    {this.state.popupMessage}
-                </Snackbar>
-            </View>
         );
     }
 
@@ -195,7 +188,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                                     this.updateCheckboxList(index);
                                 }}>
                                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                                        <Text style={{color: this.state.checkboxList[index].isChecked ? 'black' : 'gray'}}>
+                                        <Text style={{ color: this.state.checkboxList[index].isChecked ? 'black' : 'gray' }}>
                                             {item.attestation.shortDescription}
                                         </Text>
                                     </View>

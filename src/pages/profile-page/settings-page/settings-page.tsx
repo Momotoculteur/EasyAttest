@@ -8,7 +8,6 @@ interface iState {
     toggleAutoDate: boolean;
     toggleAutoHour: boolean;
     toggleDarkTheme: boolean;
-    toggleAutoTitle: boolean
 
 }
 interface IProps {
@@ -20,10 +19,10 @@ export default class SettingsPage extends React.Component<IProps, iState> {
         this.state = {
             toggleAutoDate: true,
             toggleAutoHour: true,
-            toggleDarkTheme: false,
-            toggleAutoTitle: true
+            toggleDarkTheme: false
         }
     }
+
 
     
 
@@ -31,6 +30,7 @@ export default class SettingsPage extends React.Component<IProps, iState> {
 
     }
 
+  
 
 
 
@@ -84,25 +84,6 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                             </TouchableOpacity>
                         </View>
 
-
-                        <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
-
-                            <Switch
-                                value={this.state.toggleAutoTitle}
-                                onValueChange={() => {
-                                    this.setState({ toggleAutoTitle: !this.state.toggleAutoTitle });
-                                }}
-                                trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
-                                ios_backgroundColor="gray"
-                            />
-                            <TouchableOpacity style={{ flex: 1 }} onPress={() => {
-                                this.setState({ toggleAutoTitle: !this.state.toggleAutoTitle });
-                            }}>
-                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                                    <Text>Remplissage titre attestation</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
                     </View>
 
 
@@ -123,6 +104,7 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                                     onValueChange={
                                         () => {
                                             this.setState({ toggleDarkTheme: !this.state.toggleDarkTheme })
+                                            setTheme(undefined)
                                         }}
                                 />
                                 <TouchableOpacity style={{ flex: 1 }} onPress={() => {

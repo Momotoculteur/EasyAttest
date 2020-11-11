@@ -7,7 +7,7 @@
   
 Générez, stockez & partagez vos attestations de déplacement dérogatoire en un clic !  
   
-Application mobile pour la génération d’attestations de déplacement dérogatoire durant le confinement en France. Attestation crée à partir du document officiel, évitant tout contact lors d’un contrôle afin de respecter les gestes barrière.   
+Application mobile Android & iOS pour la génération d’attestations de déplacement dérogatoire durant le confinement en France. Attestation crée à partir du document officiel, évitant tout contact lors d’un contrôle afin de respecter les gestes barrière.   
   
 EasyCovid, c’est simple :  
 
@@ -28,19 +28,20 @@ Le code source de l’application est visible pour tous. Vous pouvez y contribue
 
 ## Installation  
 
-### Android  
+### Google Play Store  
 
-### iOS   
-
-### Divers  
-Article complet sur l'intégration disponible sur mon blog :  
-**https://deeplylearning.fr/projets/easycovid/**  
+### APK   
   
-## Génerer build 
+## Génerer .apk
 1. Lancez la commance :  
 `$ bash ./scripts/buildApk.sh`
-2. Récuperez votre fichier .apk dans le dossier racine du projet
+2. Récuperez votre fichier .apk dans le dossier racine du projet  
 
+## Technos & Framework  
+| Type  | Nom |
+| ------------- | ------------- |
+| Langage  | Typescript |
+| Framework  | ReactNative & Expo  |
 ## Licence
 Copyright (c) 2020 Bastien MAURICE
 

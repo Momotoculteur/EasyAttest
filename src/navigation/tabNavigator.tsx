@@ -11,8 +11,11 @@ import StackNavigatorAttestation from './stackNavigatorAttestation'
 
 const Tab = createBottomTabNavigator()
 
+
+
 export default function MainTabNavigator() {
     return (
+        
         <NavigationContainer>
             <Tab.Navigator
                 tabBarOptions={
@@ -20,7 +23,7 @@ export default function MainTabNavigator() {
                         activeTintColor: '#e50d54',
                         inactiveTintColor: 'gray',
                         labelPosition: 'below-icon',
-                        showLabel: true,
+                        showLabel: true
                     }
                 }
                 

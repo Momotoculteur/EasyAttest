@@ -44,7 +44,6 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
     updateListAttestations(): void {
         DatabaseManager.getAllAttestationByUserId(this.state.connectedUser?.id)
             .then((result: IAttestationObject[]) => {
-                console.log(result)
                 this.setState({
                     myAttestionList: result
                 })
@@ -199,13 +198,13 @@ export default class MyAttestionPage extends React.Component<IProps, iState> {
                                         if ((this.state.myAttestionList.length - 1) !== index) {
                                             return (
                                                 <View style={{ flexDirection: 'row', flex: 1 }}>
-                                                    <View style={{ flex: 4, alignItems: 'center', paddingTop: 10 }}>
+                                                    <View style={{ flex: 3, alignItems: 'center', paddingTop: 10 }}>
                                                         <View style={{ borderBottomWidth: 3, borderBottomColor: '#e50d54', width: '30%' }}>
 
                                                         </View>
                                                     </View>
 
-                                                    <View style={{ flex: 2 }}></View>
+                                                    <View style={{ flex: 1 }}></View>
                                                 </View>
                                             )
                                         }

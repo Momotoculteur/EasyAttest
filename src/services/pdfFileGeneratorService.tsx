@@ -122,7 +122,8 @@ export async function generateAttestationPdfFile(user?: IUserObject, reasonsIdsL
     <td>Y compris les acquisitions à titre gratuit (distribution de denrées alimentaires...) et les déplacements liés à la perception de prestations sociales et au retrait d'espèces.</td>
     </tr>
     </tbody>
-    </table>${qrCodeLarge}`;
+    </table></br></br></br></br></br></br>
+    ${qrCodeLarge}`;
 
 
     return (await Print.printToFileAsync({

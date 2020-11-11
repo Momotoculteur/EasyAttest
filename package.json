@@ -39,7 +39,8 @@
     "react-native-web": "~0.13.12",
     "react-native-webview": "10.7.0",
     "rn-pdf-reader-js": "^4.1.1",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "react-native-appearance": "~0.3.3"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

@@ -219,7 +219,7 @@ export default class SwitchProfilePage extends React.Component<IProps, iState> {
 
     render(): JSX.Element {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
                 {(() => {
                     if (this.state.listAllUsers.length === 0) {
                         return (this.renderEmptyProfilList());

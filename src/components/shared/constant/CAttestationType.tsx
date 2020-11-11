@@ -62,8 +62,8 @@ export const ALL_ATTESTATIONS_TYPE: IAttestationType[] = [
     {
         id: 8,
         label: "DEPLACEMENT_MISSION_INTERET_GENERAL",
-        shortLabel: 'Missions int. gen.',
-        shortDescription: "Déplacement mission d'intérêt général",
+        shortLabel: 'Missions',
+        shortDescription: "Déplacement missions",
         description: "Participation à des missions d'intérêt général sur demande de l'autorité administrative."
     },
     {
