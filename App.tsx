@@ -8,21 +8,6 @@ import DatabaseManager from './src/database/DatabaseManager'
 import { initializeAllAsyncStorage } from './src/services/storage/initializeAsyncStorage';
 
 
-export const themes = {
-    light: {
-        foreground: '#000000',
-        background: '#eeeeee',
-    },
-    dark: {
-        foreground: '#ffffff',
-        background: '#222222',
-    },
-};
-
-export const ThemeContext = React.createContext({
-    toggleTheme: () => { },
-    theme: themes.dark, // valeur par défaut
-});
 
 let customFonts = {
     'Arial': require('./src/assets/fonts/arial.ttf'),
@@ -30,31 +15,25 @@ let customFonts = {
 
 interface iState {
     fontsLoaded: boolean;
-    theme: any;
-    toggleTheme: any;
 }
 interface IProps {
 
 }
 export default class App extends React.Component<IProps, iState> {
 
+  
     constructor(props: IProps) {
-        super(props);
-
-
-
+        super(props);      
 
         this.state = {
             fontsLoaded: false,
-            theme: themes.light,
-            toggleTheme: this.toggleTheme
         }
 
 
-        initializeAllAsyncStorage();
-        DatabaseManager.initializeDatabase();
+
 
     }
+
 
 
 
@@ -65,28 +44,24 @@ export default class App extends React.Component<IProps, iState> {
 
     componentDidMount() {
         this._loadFontsAsync();
+        initializeAllAsyncStorage();
+        DatabaseManager.initializeDatabase();
     }
 
 
     render() {
-        if (this.state.fontsLoaded) {
+        if (!this.state.fontsLoaded) {
             return <AppLoading />;
         } else {
 
             return (
 
                 <SafeAreaView style={styles.container}>
-                    <ThemeContext.Provider value={this.state}>
                         <MainTabNav />
-                    </ThemeContext.Provider>
                 </SafeAreaView >
             )
         }
     }
-
-
-
-
 
 
 
