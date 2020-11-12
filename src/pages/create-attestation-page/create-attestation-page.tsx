@@ -71,8 +71,9 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
     generateAttestation() {
 
         const fullDatetime = new Date();
-        const dateNow: string = new Date().toLocaleDateString('fr-FR');
-        const timeNow: string = new Date().getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
+        //const dateNow: string = new Date().toLocaleDateString('fr-FR');
+        const dateNow: string = fullDatetime.getDate().toString().padStart(2, '0') + "/" + (fullDatetime.getMonth()+1).toString().padStart(2, '0') + "/" + fullDatetime.getFullYear().toString();
+        const timeNow: string = fullDatetime.getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
         let reasonsIds: string = '';
         let reasonsIdsList: number[] = [];
         let reasonsLabelsList: string[] = [];
