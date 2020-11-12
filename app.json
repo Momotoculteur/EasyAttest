@@ -20,10 +20,11 @@
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "momotoculteur.easycovid",
-            "buildNumber": "1.0.0"
+            "buildNumber": "1"
         },
         "android": {
             "package": "com.momotoculteur.easycovid",
+            "permissions": [],
             "adaptiveIcon": {
                 "foregroundImage": "./src/assets/adaptive-icon.png",
                 "backgroundColor": "#FFFFFF"
