@@ -10,8 +10,6 @@ interface IState {
 export default class PdfReaderPage extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
-        console.log('ADRESSE ' + this.props.route.params.uri)
-
         /*
         <PDFReader
                 source={{
