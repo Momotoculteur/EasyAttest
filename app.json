@@ -19,7 +19,7 @@
         ],
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "momotoculteur.easycovid",
+            "bundleIdentifier": "com.momotoculteur.easycovid",
             "buildNumber": "1"
         },
         "android": {
