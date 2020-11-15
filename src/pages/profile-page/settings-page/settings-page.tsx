@@ -1,12 +1,15 @@
 import { styles } from './style'
 import * as React from 'react'
 import { View, Text, Switch } from 'react-native';
-import { Checkbox } from 'react-native-paper';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { getAutoDateSetting, getAutoTimeSetting } from '../../../services/storage/settingsAsyncStorage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 interface iState {
-    toggleAutoDate: boolean;
-    toggleAutoHour: boolean;
+    toggleAutoDate?: boolean;
+    toggleAutoTime?: boolean;
     toggleDarkTheme: boolean;
 
 }
@@ -17,20 +20,42 @@ export default class SettingsPage extends React.Component<IProps, iState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            toggleAutoDate: true,
-            toggleAutoHour: true,
             toggleDarkTheme: false
         }
     }
 
 
-    
 
     initializeSettings() {
-
+        getAutoDateSetting()
+            .then((toggle) => {
+                if (toggle !== undefined) {
+                    this.setState({ toggleAutoDate: toggle });
+                    console.log(toggle)
+                }
+            });
+        getAutoTimeSetting()
+            .then((toggle) => {
+                if (toggle !== undefined) {
+                    this.setState({ toggleAutoTime: toggle });
+                }
+            });
     }
 
-  
+    componentDidMount() {
+        this.initializeSettings()
+    }
+
+    persistAutoDate() {
+        this.setState({ toggleAutoDate: !this.state.toggleAutoDate });
+        AsyncStorage.setItem('@settings_AutoDate', JSON.stringify(!this.state.toggleAutoDate))
+    }
+
+    persistAutoTime() {
+        this.setState({ toggleAutoTime: !this.state.toggleAutoTime });
+        AsyncStorage.setItem('@settings_AutoTime', JSON.stringify(!this.state.toggleAutoTime))
+    }
+
 
 
 
@@ -51,7 +76,7 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                             <Switch
                                 value={this.state.toggleAutoDate}
                                 onValueChange={() => {
-                                    this.setState({ toggleAutoDate: !this.state.toggleAutoDate });
+                                    this.persistAutoDate();
                                 }}
                                 trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
                                 ios_backgroundColor="gray" />
@@ -68,15 +93,15 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                         <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
 
                             <Switch
-                                value={this.state.toggleAutoHour}
+                                value={this.state.toggleAutoTime}
                                 onValueChange={() => {
-                                    this.setState({ toggleAutoHour: !this.state.toggleAutoHour });
+                                    this.persistAutoTime();
                                 }}
                                 trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
                                 ios_backgroundColor="gray"
                             />
                             <TouchableOpacity style={{ flex: 1 }} onPress={() => {
-                                this.setState({ toggleAutoHour: !this.state.toggleAutoHour });
+                                this.setState({ toggleAutoTime: !this.state.toggleAutoTime });
                             }}>
                                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                                     <Text>Remplissage auto Heure</Text>
@@ -98,16 +123,16 @@ export default class SettingsPage extends React.Component<IProps, iState> {
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
 
                                 <Switch
+                                    disabled
                                     value={this.state.toggleDarkTheme}
                                     trackColor={{ true: '#e50d54', false: "gray" }} thumbColor={this.state.toggleDarkTheme ? "white" : "white"}
                                     ios_backgroundColor="gray"
                                     onValueChange={
                                         () => {
                                             this.setState({ toggleDarkTheme: !this.state.toggleDarkTheme })
-                                            setTheme(undefined)
                                         }}
                                 />
-                                <TouchableOpacity style={{ flex: 1 }} onPress={() => {
+                                <TouchableOpacity style={{ flex: 1 }} disabled onPress={() => {
                                     this.setState({ toggleDarkTheme: !this.state.toggleDarkTheme });
                                 }}>
                                     <View style={{ flex: 1, paddingLeft: 10, flexDirection: 'column', justifyContent: 'center' }}>
