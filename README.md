@@ -1,6 +1,6 @@
 # EasyCovid
 <div style="text-align:center">
-    <img src="./hs/icon_template.png" width="400"/>
+    <img src="./hs/icon_template.jpg" width=""/>
 </div>
 
 ## Description  
