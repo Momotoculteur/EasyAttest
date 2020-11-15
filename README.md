@@ -24,24 +24,48 @@ Affichez vos attestations selon la date et le profil.
 Aucune donnée ne transite hors de votre téléphone ou sur le réseau. Vos données sont stockées en local au sein de votre smartphone et peuvent être supprimées à tout moment.
 
 ✔ Gratuit, sans pub & Open source  
-Le code source de l’application est visible pour tous. Vous pouvez y contribuer via : 
-
-## Installation  
-
-### Google Play Store  
-
-### APK   
-  
-## Génerer .apk
-1. Lancez la commance :  
-`$ bash ./scripts/buildApk.sh`
-2. Récuperez votre fichier .apk dans le dossier racine du projet  
+Le code source de l’application est visible pour tous.
 
 ## Technos & Framework  
 | Type  | Nom |
 | ------------- | ------------- |
 | Langage  | Typescript |
 | Framework  | ReactNative & Expo  |
+
+
+## Build  
+  
+### Génerer .apk
+Disposez des certificats nécessaires (fichier .jks) dans le dossier './certif/android'.
+1. Lancez la commande :  
+`$ bash ./scripts/android/buildApk.sh`
+2. Récuperez votre fichier .apk dans le dossier './build/android'.
+
+### Génerer .ipa
+Disposez des certificats nécessaires (fichier .p12 et .mobileprovision) dans le dossier './certif/ios'.
+1. Lancez la commande :  
+`$ bash ./scripts/ios/buildIpa.sh`
+2. Récuperez votre fichier .ipa dans le dossier './build/ios'.
+
+## Engagement de confidentialité
+### Technologies utilisés
+#### SQLite  
+Cette techno permet de créer une base de données. Celle-ci est utilisé au sein de Easycovid pour la gestion de profils et d’attestations au sein de l’application.  
+
+
+#### Asyncstorage
+Cette techno permet de stocker des couples <clé, valeur>. Celle-ci est utilisé au sein de Easycovid pour le stockage et lecture de simple donnée, comme l’utilisateur connecté ou encore les paramètres de l’application.  
+
+ 
+
+### Utilisation des données
+Nous utilisons des technologies et framework assurant la totalité des données crée ou utilisé par EasyCovid, en local sur votre smartphone.  
+Aucune donnée ne sort de votre smartphone par quelconque moyen, assurant un fonctionnement de l’application en mode avion.  
+
+
+### Suppression des données
+Vous pouvez à n’importe quel moment supprimer vos données en désinstallant EasyCovid de votre smartphone.
+
 ## Licence
 Copyright (c) 2020 Bastien MAURICE
 
