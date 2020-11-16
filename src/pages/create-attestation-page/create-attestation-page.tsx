@@ -7,16 +7,23 @@ import { getCurrentUser } from '../../services/storage/userAsyncStorage';
 import { IUserObject } from '../../components/shared/interface/object/IUserObject';
 import DatabaseManager from '../../database/DatabaseManager';
 import { ICheckboxList } from '../../components/shared/interface/general/ICheckboxList';
-import { Checkbox, Snackbar } from 'react-native-paper';
+import { Checkbox, Snackbar, TextInput } from 'react-native-paper';
 import { generateAttestationPdfFile } from '../../services/pdfFileGeneratorService';
+import { getAutoDateSetting, getAutoTimeSetting } from '../../services/storage/settingsAsyncStorage';
+import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 
 interface iState {
     connectedUser?: IUserObject,
     checkboxList: ICheckboxList[],
-    popupActive: boolean
-    popupMessage: string
+    popupActive: boolean,
+    popupMessage: string,
+    toggleAutoDate: boolean,
+    toggleAutoTime: boolean,
+    customDate: string,
+    customTime: string
 }
 interface IProps {
 
@@ -37,24 +44,48 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                 { isChecked: false, attestation: ALL_ATTESTATIONS_TYPE[8] }
             ],
             popupActive: false,
-            popupMessage: ''
+            popupMessage: '',
+            customTime: '',
+            customDate: '',
+            toggleAutoDate: false,
+            toggleAutoTime: false
         }
 
-        
+
     }
 
     componentDidMount() {
         // Init l'user courrant
         this.initializeAndProvideCurrentUser();
+        this.initializeCustomDateTimeToggle();
     }
 
-    componentWillUnmount() {
-    }
+
+
+
 
     initializeAndProvideCurrentUser(): void {
         this.props.navigation.addListener('focus', () => {
             getCurrentUser().then(result => this.setState({ connectedUser: result }));
         });
+    }
+
+    initializeCustomDateTimeToggle() {
+        this.props.navigation.addListener('focus', () => {
+            getAutoDateSetting()
+                .then((toggle) => {
+                    if (toggle !== undefined) {
+                        this.setState({ toggleAutoDate: toggle });
+                    }
+                });
+            getAutoTimeSetting()
+                .then((toggle) => {
+                    if (toggle !== undefined) {
+                        this.setState({ toggleAutoTime: toggle });
+                    }
+                });
+        });
+
     }
 
 
@@ -68,12 +99,25 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
     }
 
+    getCustomDate(newDate: string): void {
+        this.setState({ customDate: newDate });
+    }
+
+    getCustomTime(newTime: string): void {
+        this.setState({ customTime: newTime });
+    }
+
+
+
     generateAttestation() {
 
         const fullDatetime = new Date();
-        //const dateNow: string = new Date().toLocaleDateString('fr-FR');
-        const dateNow: string = fullDatetime.getDate().toString().padStart(2, '0') + "/" + (fullDatetime.getMonth()+1).toString().padStart(2, '0') + "/" + fullDatetime.getFullYear().toString();
-        const timeNow: string = fullDatetime.getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
+
+        const createdAtDate: string = fullDatetime.getDate().toString().padStart(2, '0') + "/" + (fullDatetime.getMonth() + 1).toString().padStart(2, '0') + "/" + fullDatetime.getFullYear().toString();
+        const createdAtTime: string = fullDatetime.getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
+        let leavedAtDate: string;
+        let leavedAtTime: string;
+
         let reasonsIds: string = '';
         let reasonsIdsList: number[] = [];
         let reasonsLabelsList: string[] = [];
@@ -86,10 +130,22 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             }
         });
 
+        if (this.state.toggleAutoDate) {
+            leavedAtDate = createdAtDate;
+        } else {
+            leavedAtDate = this.state.customDate;
+        }
 
-        generateAttestationPdfFile(this.state.connectedUser, reasonsIdsList, reasonsLabelsList, dateNow, timeNow, dateNow, timeNow)
+        if (this.state.toggleAutoTime) {
+            leavedAtTime = createdAtTime;
+        } else {
+            leavedAtTime = this.state.customTime;
+        }
+
+
+        generateAttestationPdfFile(this.state.connectedUser, reasonsIdsList, reasonsLabelsList, leavedAtDate, leavedAtTime, createdAtDate, createdAtTime)
             .then((path: string) => {
-                DatabaseManager.createAttestation(Number(this.state.connectedUser?.id), reasonsIds, path, dateNow, timeNow, timeNow, dateNow)
+                DatabaseManager.createAttestation(Number(this.state.connectedUser?.id), reasonsIds, path, createdAtDate, createdAtTime, leavedAtTime, leavedAtDate)
                     .then(() => {
                         let message: string = "Attestation générée";
                         this.setState({ popupActive: true, popupMessage: message })
@@ -101,7 +157,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             })
             .catch((err) => console.log(err))
 
-   
+
         this.resetAllCheckbox();
 
 
@@ -110,51 +166,123 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
 
     canGenerate(): boolean {
-        return (this.state.connectedUser === undefined) || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0);
+        if (!this.state.toggleAutoDate && this.state.toggleAutoTime) {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                    || this.state.customDate === ""
+                );
+        } else if (this.state.toggleAutoDate === true && !this.state.toggleAutoTime) {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                    || this.state.customTime === ""
+                );
+        } else if (!this.state.toggleAutoDate && !this.state.toggleAutoTime) {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                    || this.state.customDate === ""
+                    || this.state.customTime === ""
+                );
+        } else {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                );
+        }
     }
 
 
     render() {
-               return (
-                <View style={styles.container}>
+        return (
+            <View style={styles.container}>
 
-                    <View style={{ ...styles.viewCreateAttestation}}>
+                <View style={styles.viewCreateAttestation}>
 
+                    {
+                        (() => {
+                            if (this.state.toggleAutoDate && this.state.toggleAutoTime) {
+                                return (this.renderCheckboxList())
+                            } else {
+                                return (
+                                    <KeyboardAwareScrollView style={{ flex: 1 }}>
+                                        <ScrollView
+                                            style={{ flexGrow: 1 }}
+                                            keyboardShouldPersistTaps="handled">
+                                            <View style={{ flex: 1, flexDirection: 'column' }}>
+                                                {(() => {
+                                                    return (this.renderCheckboxList());
+                                                })()}
 
-                        {(() => {
-                                   
+                                                <View style={{ flex: 1, padding: '5%', flexDirection: 'column' }}>
 
-                            return (this.renderCheckboxList())
-                        })()}
+                                                    {(() => {
+                                                        if (!this.state.toggleAutoTime) {
+                                                            return (
+                                                                <TextInput
+                                                                    theme={{ colors: { primary: 'red', placeholder: 'gray', background: 'white', text: 'black' } }}
+                                                                    label="Heure sortie"
+                                                                    mode="outlined"
+                                                                    keyboardType="default"
+                                                                    value={this.state.customTime}
+                                                                    onChangeText={(newText) => this.setState({ customTime: newText })}
+                                                                />);
 
+                                                        }
+                                                    })()}
 
+                                                    {(() => {
+                                                        if (!this.state.toggleAutoDate) {
+                                                            return (
+                                                                <TextInput
+                                                                    theme={{ colors: { primary: 'red', placeholder: 'gray', background: 'white', text: 'black' } }}
+                                                                    label="Date sortie"
+                                                                    mode="outlined"
+                                                                    keyboardType="default"
+                                                                    value={this.state.customDate}
+                                                                    onChangeText={(newText) => this.setState({ customDate: newText })}
+                                                                />);
+                                                        }
+                                                    })()}
+                                                </View>
 
-                    </View>
-                    <View style={styles.viewButtonSection}>
-                        <TouchableOpacity activeOpacity={0.7}
-                            disabled={this.canGenerate()}
-                            onPress={() => this.generateAttestation()}
-                            style={{ ...styles.buttonStyle, backgroundColor: (this.canGenerate() ? 'gray' : '#e50d54') }} >
-                            <Text style={styles.textStyle}>Générer attestation</Text>
-                        </TouchableOpacity>
+                                            </View>
 
-
-                    </View>
-                    <Snackbar
-                        visible={this.state.popupActive}
-                        onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
-                        duration={2500}
-                        theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
-                        action={{
-                            label: 'OK',
-                            onPress: () => {
-                                this.setState({ popupActive: !this.state.popupActive });
+                                        </ScrollView>
+                                    </KeyboardAwareScrollView  >
+                                )
                             }
-                        }}
-                    >
-                        {this.state.popupMessage}
-                    </Snackbar>
+                        })()
+                    }
+
                 </View>
+
+                <View style={styles.viewButtonSection}>
+                    <TouchableOpacity activeOpacity={0.7}
+                        disabled={this.canGenerate()}
+                        onPress={() => this.generateAttestation()}
+                        style={{ ...styles.buttonStyle, backgroundColor: (this.canGenerate() ? 'gray' : '#e50d54') }} >
+                        <Text style={styles.textStyle}>Générer attestation</Text>
+                    </TouchableOpacity>
+
+
+                </View>
+                <Snackbar
+                    visible={this.state.popupActive}
+                    onDismiss={() => { this.setState({ popupActive: !this.state.popupActive }) }}
+                    duration={2500}
+                    theme={{ colors: { accent: '#e50d54', surface: '#e50d54', onSurface: 'white' } }}
+                    action={{
+                        label: 'OK',
+                        onPress: () => {
+                            this.setState({ popupActive: !this.state.popupActive });
+                        }
+                    }}
+                >
+                    {this.state.popupMessage}
+                </Snackbar>
+            </View>
         );
     }
 
