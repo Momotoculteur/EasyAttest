@@ -160,13 +160,13 @@ export default class CreateProfilePage extends React.Component<IProps, iState> {
                             style={{ flexGrow: 1 }}
                             keyboardShouldPersistTaps="handled">
                             <View style={{ flex: 1, flexDirection: 'column', padding: '5%' }}>
-                                <MomotoculteurTextInput getData={this.getFirstname.bind(this)} label="Prénom" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getLastname.bind(this)} label="Nom" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getBirthdate.bind(this)} label="Date de naissance" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getBirthplace.bind(this)} label="Lieu de naissance" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getAdress.bind(this)} label="Adresse" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getPostalcode.bind(this)} label="Code postal" mode="outlined" />
-                                <MomotoculteurTextInput getData={this.getCity.bind(this)} label="Ville" mode="outlined" />
+                                <MomotoculteurTextInput getData={this.getFirstname.bind(this)} label="Prénom" mode="outlined" keyboardType="default"/>
+                                <MomotoculteurTextInput getData={this.getLastname.bind(this)} label="Nom" mode="outlined" keyboardType="default"/>
+                                <MomotoculteurTextInput getData={this.getBirthdate.bind(this)} label="Date de naissance" mode="outlined" keyboardType="default" />
+                                <MomotoculteurTextInput getData={this.getBirthplace.bind(this)} label="Lieu de naissance" mode="outlined" keyboardType="default"/>
+                                <MomotoculteurTextInput getData={this.getAdress.bind(this)} label="Adresse" mode="outlined" keyboardType="default"/>
+                                <MomotoculteurTextInput getData={this.getPostalcode.bind(this)} label="Code postal" mode="outlined" keyboardType="numeric" maxLength={5} />
+                                <MomotoculteurTextInput getData={this.getCity.bind(this)} label="Ville" mode="outlined" keyboardType="default" />
 
 
 
