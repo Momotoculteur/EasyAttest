@@ -107,14 +107,17 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
         this.setState({ customTime: newTime });
     }
 
-    
+
 
     generateAttestation() {
 
         const fullDatetime = new Date();
-        //const dateNow: string = new Date().toLocaleDateString('fr-FR');
-        const dateNow: string = fullDatetime.getDate().toString().padStart(2, '0') + "/" + (fullDatetime.getMonth() + 1).toString().padStart(2, '0') + "/" + fullDatetime.getFullYear().toString();
-        const timeNow: string = fullDatetime.getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
+
+        const createdAtDate: string = fullDatetime.getDate().toString().padStart(2, '0') + "/" + (fullDatetime.getMonth() + 1).toString().padStart(2, '0') + "/" + fullDatetime.getFullYear().toString();
+        const createdAtTime: string = fullDatetime.getHours().toString().padStart(2, '0') + ":" + fullDatetime.getMinutes().toString().padStart(2, '0');
+        let leavedAtDate: string;
+        let leavedAtTime: string;
+
         let reasonsIds: string = '';
         let reasonsIdsList: number[] = [];
         let reasonsLabelsList: string[] = [];
@@ -127,10 +130,22 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
             }
         });
 
+        if (this.state.toggleAutoDate) {
+            leavedAtDate = createdAtDate;
+        } else {
+            leavedAtDate = this.state.customDate;
+        }
 
-        generateAttestationPdfFile(this.state.connectedUser, reasonsIdsList, reasonsLabelsList, dateNow, timeNow, dateNow, timeNow)
+        if (this.state.toggleAutoTime) {
+            leavedAtTime = createdAtTime;
+        } else {
+            leavedAtTime = this.state.customTime;
+        }
+
+
+        generateAttestationPdfFile(this.state.connectedUser, reasonsIdsList, reasonsLabelsList, leavedAtDate, leavedAtTime, createdAtDate, createdAtTime)
             .then((path: string) => {
-                DatabaseManager.createAttestation(Number(this.state.connectedUser?.id), reasonsIds, path, dateNow, timeNow, timeNow, dateNow)
+                DatabaseManager.createAttestation(Number(this.state.connectedUser?.id), reasonsIds, path, createdAtDate, createdAtTime, leavedAtTime, leavedAtDate)
                     .then(() => {
                         let message: string = "Attestation générée";
                         this.setState({ popupActive: true, popupMessage: message })
@@ -151,16 +166,30 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
 
     canGenerate(): boolean {
-        if(this.state.toggleAutoDate === true && this.state.toggleAutoTime === false) {
-            return (this.state.connectedUser === undefined) || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0 || this.state.customDate === "");
-
-        } else if (this.state.toggleAutoDate === false && this.state.toggleAutoTime === true) {
-            console.log("BITE")
-            return (this.state.connectedUser === undefined) || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0 || this.state.customTime === "");
-        } else if (this.state.toggleAutoDate === true && this.state.toggleAutoTime === true) {
-            return (this.state.connectedUser === undefined) || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0 || this.state.customDate === "" || this.state.customTime === "");
+        if (!this.state.toggleAutoDate && this.state.toggleAutoTime) {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                    || this.state.customDate === ""
+                );
+        } else if (this.state.toggleAutoDate === true && !this.state.toggleAutoTime) {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                    || this.state.customTime === ""
+                );
+        } else if (!this.state.toggleAutoDate && !this.state.toggleAutoTime) {
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                    || this.state.customDate === ""
+                    || this.state.customTime === ""
+                );
         } else {
-            return (this.state.connectedUser === undefined) || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0);
+            return (
+                this.state.connectedUser === undefined)
+                || (this.state.checkboxList.filter((item: ICheckboxList) => item.isChecked === true).length === 0
+                );
         }
     }
 
@@ -171,19 +200,9 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
 
                 <View style={styles.viewCreateAttestation}>
 
-
-
-
-
-
-
-
-
-
-
                     {
                         (() => {
-                            if (this.state.toggleAutoDate === false && this.state.toggleAutoTime === false) {
+                            if (this.state.toggleAutoDate && this.state.toggleAutoTime) {
                                 return (this.renderCheckboxList())
                             } else {
                                 return (
@@ -199,7 +218,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                                                 <View style={{ flex: 1, padding: '5%', flexDirection: 'column' }}>
 
                                                     {(() => {
-                                                        if (this.state.toggleAutoTime) {
+                                                        if (!this.state.toggleAutoTime) {
                                                             return (
                                                                 <TextInput
                                                                     theme={{ colors: { primary: 'red', placeholder: 'gray', background: 'white', text: 'black' } }}
@@ -207,14 +226,14 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                                                                     mode="outlined"
                                                                     keyboardType="default"
                                                                     value={this.state.customTime}
-                                                                    onChangeText={(newText)=> this.setState({customTime: newText})}
+                                                                    onChangeText={(newText) => this.setState({ customTime: newText })}
                                                                 />);
 
                                                         }
                                                     })()}
 
                                                     {(() => {
-                                                        if (this.state.toggleAutoDate) {
+                                                        if (!this.state.toggleAutoDate) {
                                                             return (
                                                                 <TextInput
                                                                     theme={{ colors: { primary: 'red', placeholder: 'gray', background: 'white', text: 'black' } }}
@@ -222,7 +241,7 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                                                                     mode="outlined"
                                                                     keyboardType="default"
                                                                     value={this.state.customDate}
-                                                                    onChangeText={(newText)=> this.setState({customDate: newText})}
+                                                                    onChangeText={(newText) => this.setState({ customDate: newText })}
                                                                 />);
                                                         }
                                                     })()}
@@ -236,8 +255,6 @@ export default class CreateAttestionPage extends React.Component<IProps, iState>
                             }
                         })()
                     }
-
-
 
                 </View>
 
