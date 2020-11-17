@@ -3,7 +3,7 @@
         "name": "EasyAttest",
         "slug": "EasyAttest",
         "description": "Application Android & iOS permettant la génération d'attestation de sortie durant le confinement de la pandémie mondiale COVID-19.",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "orientation": "portrait",
         "icon": "./src/assets/icon.png",
         "splash": {
