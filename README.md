@@ -1,4 +1,4 @@
-# EasyCovid
+# EasyAttest
 <div style="text-align:center">
     <img src="./hs/template.jpg" width=""/>
 </div>
