@@ -1,7 +1,7 @@
 {
     "expo": {
-        "name": "EasyCovid",
-        "slug": "EasyCovid",
+        "name": "EasyAttest",
+        "slug": "EasyAttest",
         "description": "Application Android & iOS permettant la génération d'attestation de sortie durant le confinement de la pandémie mondiale COVID-19.",
         "version": "1.0.0",
         "orientation": "portrait",
@@ -19,14 +19,14 @@
         ],
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "momotoculteur.easycovid",
-            "buildNumber": "2",
+            "bundleIdentifier": "com.momotoculteur.easyattest",
+            "buildNumber": "1",
             "config": {
                 "usesNonExemptEncryption": false
             }
         },
         "android": {
-            "package": "com.momotoculteur.easycovid",
+            "package": "com.momotoculteur.easyattest",
             "permissions": [],
             "adaptiveIcon": {
                 "foregroundImage": "./src/assets/adaptive-icon.png",

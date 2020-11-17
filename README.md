@@ -9,7 +9,7 @@ Générez, stockez & partagez vos attestations de déplacement dérogatoire en u
   
 Application mobile Android & iOS pour la génération d’attestations de déplacement dérogatoire durant le confinement en France. Attestation crée à partir du document officiel, évitant tout contact lors d’un contrôle afin de respecter les gestes barrière.   
   
-EasyCovid, c’est simple :  
+EasyAttest, c’est simple :  
 
 ✔ Création de profil  
 Vous pouvez créer puis gérer un profil pour chacun des membres de votre famille.
