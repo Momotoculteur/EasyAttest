@@ -35,7 +35,7 @@ EXPO_ANDROID_KEY_PASSWORD="" \
 turtle build:android \
 --type apk \
 --keystore-path ./certif/android/keystore.jks \
---keystore-alias "easycovid" \
+--keystore-alias "easyattest" \
 --allow-non-https-public-url \
 --public-url http://127.0.0.1:8000/android-index.json
 
