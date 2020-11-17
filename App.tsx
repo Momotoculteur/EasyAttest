@@ -5,7 +5,7 @@ import { AppLoading } from 'expo';
 import { useFonts } from 'expo-font';
 import * as Font from 'expo-font';
 import DatabaseManager from './src/database/DatabaseManager'
-import { initializeAllAsyncStorage } from './src/services/storage/initializeAsyncStorage';
+import { initializeAllSettings } from './src/services/storage/settingsAsyncStorage';
 
 
 
@@ -35,8 +35,6 @@ export default class App extends React.Component<IProps, iState> {
     }
 
 
-
-
     async _loadFontsAsync() {
         await Font.loadAsync(customFonts);
         this.setState({ fontsLoaded: true });
@@ -44,7 +42,7 @@ export default class App extends React.Component<IProps, iState> {
 
     componentDidMount() {
         this._loadFontsAsync();
-        initializeAllAsyncStorage();
+        initializeAllSettings();
         DatabaseManager.initializeDatabase();
     }
 

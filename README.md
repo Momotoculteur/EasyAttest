@@ -1,6 +1,6 @@
 # EasyCovid
 <div style="text-align:center">
-    <img src="./hs/icon_template.jpg" width=""/>
+    <img src="./hs/template.jpg" width=""/>
 </div>
 
 ## Description  
@@ -9,7 +9,7 @@ Générez, stockez & partagez vos attestations de déplacement dérogatoire en u
   
 Application mobile Android & iOS pour la génération d’attestations de déplacement dérogatoire durant le confinement en France. Attestation crée à partir du document officiel, évitant tout contact lors d’un contrôle afin de respecter les gestes barrière.   
   
-EasyCovid, c’est simple :  
+EasyAttest, c’est simple :  
 
 ✔ Création de profil  
 Vous pouvez créer puis gérer un profil pour chacun des membres de votre famille.
@@ -50,21 +50,21 @@ Disposez des certificats nécessaires (fichier .p12 et .mobileprovision) dans le
 ## Engagement de confidentialité
 ### Technologies utilisés
 #### SQLite  
-Cette techno permet de créer une base de données. Celle-ci est utilisé au sein de Easycovid pour la gestion de profils et d’attestations au sein de l’application.  
+Cette techno permet de créer une base de données. Celle-ci est utilisé au sein de EasyAttest pour la gestion de profils et d’attestations au sein de l’application.  
 
 
 #### Asyncstorage
-Cette techno permet de stocker des couples <clé, valeur>. Celle-ci est utilisé au sein de Easycovid pour le stockage et lecture de simple donnée, comme l’utilisateur connecté ou encore les paramètres de l’application.  
+Cette techno permet de stocker des couples <clé, valeur>. Celle-ci est utilisé au sein de EasyAttest pour le stockage et lecture de simple donnée, comme l’utilisateur connecté ou encore les paramètres de l’application.  
 
  
 
 ### Utilisation des données
-Nous utilisons des technologies et framework assurant la totalité des données crée ou utilisé par EasyCovid, en local sur votre smartphone.  
+Nous utilisons des technologies et framework assurant la totalité des données crée ou utilisé par EasyAttest, en local sur votre smartphone.  
 Aucune donnée ne sort de votre smartphone par quelconque moyen, assurant un fonctionnement de l’application en mode avion.  
 
 
 ### Suppression des données
-Vous pouvez à n’importe quel moment supprimer vos données en désinstallant EasyCovid de votre smartphone.
+Vous pouvez à n’importe quel moment supprimer vos données en désinstallant EasyAttest de votre smartphone.
 
 ## Licence
 Copyright (c) 2020 Bastien MAURICE

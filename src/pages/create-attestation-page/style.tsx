@@ -18,15 +18,11 @@ export const styles = StyleSheet.create({
 
     // CREER ATTESTATION SECTION
     viewCreateAttestation: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
         flex: 5,
     },
     viewCreateAttestationContener:{
         flex: 1,
-        flexDirection: 'row',
-        
-        
+        flexDirection: 'row'        
     },
     buttonStyle: {
         borderRadius: 20,

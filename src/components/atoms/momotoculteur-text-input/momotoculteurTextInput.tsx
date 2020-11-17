@@ -1,25 +1,22 @@
 import * as React from "react";
 import {
-    NativeSyntheticEvent,
-    StyleSheet,
-    TextInputFocusEventData,
-    TextInputProps,
     View,
-    Text
 } from "react-native";
-import { HelperText, TextInput } from 'react-native-paper';
+import { HelperText, TextInput, } from 'react-native-paper';
 import { styles } from './style'
 import { validateCreateProfilFormService } from '../../../services/validateCreateProfilFormService'
 import { Observable, Observer } from "rxjs";
-
+import {TextInputMask} from 'react-native-text-input-mask';
 
 interface IProps {
-    mode: string;
-    label: string;
-    getData: any;
+    mode: string,
+    label: string,
+    getData: any,
+    keyboardType: string,
+    maxLength?: number,
 }
 interface IState {
-    inputTextValue: string;
+    inputTextValue: string,
     errorInForm: boolean
 }
 
@@ -29,9 +26,10 @@ export default class MomotoculteurTextInput extends React.Component<IProps, ISta
 
     constructor(props: any) {
         super(props);
+
         this.state = {
             inputTextValue: '',
-            errorInForm: false
+            errorInForm: false,
         };
         this.updateUi = this.updateUi.bind(this);
     }
@@ -81,6 +79,8 @@ export default class MomotoculteurTextInput extends React.Component<IProps, ISta
                     //underlineColor={this.props.color}
                     theme={{ colors: { primary: 'red', placeholder: 'gray', background: 'white', text: 'black' } }}
                     mode={this.props.mode}
+                    keyboardType={this.props.keyboardType}
+                    maxLength={this.props.maxLength}
                 />
 
                 {(() => {
