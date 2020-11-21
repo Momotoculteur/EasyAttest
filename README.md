@@ -4,12 +4,15 @@
 </div>
 
 ## Téléchargement
-<div style="text-align:center">
-    <img src="./hs/playstore.png" width=""/>
-</div>
+<p align="center">
+    <a href="https://play.google.com/store/apps/details?id=com.momotoculteur.easyattest&hl=fr" target="_blank">
+        <img src="./hs/playstore.png" width=""/>
+    </a>
+</p>
+
+
 
 ## Description  
-  
 Générez, stockez & partagez vos attestations de déplacement dérogatoire en un clic !  
   
 Application mobile Android & iOS pour la génération d’attestations de déplacement dérogatoire durant le confinement en France. Attestation crée à partir du document officiel, évitant tout contact lors d’un contrôle afin de respecter les gestes barrière.   
