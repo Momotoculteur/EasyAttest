@@ -43,7 +43,7 @@ turtle build:android \
 echo ""
 echo "~~~ MOVE"
 echo ""
-mv /root/expo-apps/* ./apk/
+mv /home/momotoculteur/expo-apps/* ./apk/
 
 
 
